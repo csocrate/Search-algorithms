@@ -1,0 +1,16 @@
+{
+  "name": "search-algorithms",
+  "version": "1.0.0",
+  "description": "Les Petits Plats - Front-end prototype",
+  "main": "index.js",
+  "scripts": {
+    "build:dev": "sass --watch ./assets/scss/main.scss:./assets/css/style.css",
+    "build:prod": "sass --no-source-map --style compressed ./assets/scss/main.scss:./assets/css/style.css"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "sass": "^1.63.4"
+  }
+}
