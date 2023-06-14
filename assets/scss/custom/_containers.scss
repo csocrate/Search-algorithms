@@ -1,0 +1,24 @@
+/* --------------------------------------------------
+   DEFAULT BOOTSTRAP CONTAINERS OVERRIDES + MIXIN
+   -------------------------------------------------- */
+
+// Container mixins
+//
+// @see '../../node_modules/bootstrap/scss/mixins/container'
+@mixin make-container($gutter: $container-padding-x) {
+  --#{$prefix}gutter-x: #{$gutter};
+  --#{$prefix}gutter-y: 0;
+  width: 90%;
+  padding-right: calc(var(--#{$prefix}gutter-x) * .5);
+  padding-left: calc(var(--#{$prefix}gutter-x) * .5);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+// Container widths
+//
+// @see '../../node_modules/bootstrap/scss/containers'
+.container,
+.container-fluid {
+  @include make-container();
+}

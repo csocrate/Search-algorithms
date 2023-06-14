@@ -1,2 +1,13 @@
-// Import all of Bootstrap's CSS
-@import "../../node_modules/bootstrap/scss/bootstrap";
+@import
+  'layout/banner';
+
+@import
+  'custom/variables';
+
+// Imports all of Bootstrap's CSS
+@import
+  '../../node_modules/bootstrap/scss/bootstrap';
+
+// Overrides bootstrap's CSS
+ @import
+ 'custom/containers';
