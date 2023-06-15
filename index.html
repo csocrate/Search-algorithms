@@ -13,10 +13,10 @@
 </head>
 <body>
   <!-- Header -->
-  <header class="position-absolute w-100">
-    <div class="container-fluid bg-transparent">
+  <header class="header-site position-absolute top-0 start-0 w-100">
+    <div class="container-xxl bg-transparent">
       <nav class="navbar navbar-expand-lg py-0"  aria-label="Navigation principale">
-        <a href="/" class="navbar-brand">
+        <a href="/" class="navbar-brand ms-6">
           <img src="./assets/images/logo.png" alt="Les Petits Plats, page d'accueil">
         </a>
       </nav>
@@ -25,20 +25,45 @@
   <!-- Main -->
   <main>
     <!-- Banner section -->
-    <section class="banner pt-6">
-      <div class="container d-flex justify-content-center align-items-center h-100">
-        <h1 class="d-flex flex-column align-items-center font-monospace display-6 text-uppercase text-primary">
-          <span class="d-inline-block">           
-            Cherchez parmi plus de 1500 recettes
-          </span>
-          <span class="d-inline-block">
-            du quotidien, simples et délicieuses
-          </span>
-        </h1>
-        <div class="row">
-          <div class="col-md-10 col-lg-8 mx-auto">
+    <section class="banner">
+      <div class="d-flex justify-content-center position-relative w-100 pt-6">
+        <div class="container position-relative d-flex flex-column justify-content-center align-items-center">
+          <h1 class="d-flex flex-column align-items-center font-monospace text-uppercase text-primary mb-4">
+            <span class="d-inline-block">           
+              Cherchez parmi plus de 1500 recettes
+            </span>
+            <span class="d-inline-block">
+              du quotidien, simples et délicieuses
+            </span>
+          </h1>
+          <form action="#" class="position-relative w-100">
+            <label 
+              for="recipes_search"
+              class="position-absolute bottom-50 end-0 me-2">
 
-          </div>
+            </label>
+            <input
+              id="recipes_search"
+              class="form-control form-control-lg fs-6 ps-4 p-3 text-tertiary bg-white" 
+              type="search" 
+              placeholder="Rechercher une recette, un ingrédient..." 
+              aria-label="Rechercher une recette, un ingrédient">
+          </form>
+        </div>
+        <div class="position-absolute top-0 start-0 z-n1 w-100">
+          <img
+            decoding="async"
+            width="1400"
+            height="1120"
+            class="object-fit-cover w-100"
+            srcset="
+              ./assets/images/showcase/vedette.jpg 576w,
+              ./assets/images/showcase/vedette_768.jpg 768w,
+              ./assets/images/showcase/vedette_992.jpg 992w,
+              ./assets/images/showcase/vedette_1400.jpg 1400w"
+            sizes="(max-width: 1400px) 100vw, 1400px"
+            src="./assets/images/showcase/vedette_1400.jpg" 
+            alt="">
         </div>
       </div>
     </section>

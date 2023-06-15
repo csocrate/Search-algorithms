@@ -1,3 +1,21 @@
 .banner {
-  height: 70vh;
+  > div {
+    min-height: 70vh;
+
+    .container {
+      max-width: 900px;
+
+      input::placeholder {
+        color: $tertiary;
+      }
+    }
+  
+    > div:last-child {
+      height: 70vh;
+  
+      img {
+        max-height: 100%;
+      }
+    }    
+  }
 }

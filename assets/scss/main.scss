@@ -1,6 +1,9 @@
-@import
-  'layout/banner';
+/**
+  * Customizes Bootstrap
+  * 
+  */
 
+// Overrides bootstrap's variables CSS
 @import
   'custom/variables';
 
@@ -8,6 +11,10 @@
 @import
   '../../node_modules/bootstrap/scss/bootstrap';
 
-// Overrides bootstrap's CSS
- @import
- 'custom/containers';
+/**
+  * Standard style
+  * 
+  */
+
+@import
+'layout/banner';

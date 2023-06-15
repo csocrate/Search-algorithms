@@ -2,38 +2,53 @@
    DEFAULT BOOTSTRAP VARIABLES OVERRIDES
    -------------------------------------------------- */
 
-  // @see '../../node_modules/bootstrap/scss/variables'
+// @see '../../node_modules/bootstrap/scss/variables'
 
-  // Grid containers
-  $container-max-widths: (
-    sm: 540px,
-    md: 720px,
-    lg: 960px,
-    xl: 1140px,
-    xxl: 1600px
-  ) !default;
+//== Grid containers ==
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1440px
+);
 
-  // Font variables
-  $font-family-sans-serif: 'Manrope', sans-serif;
-  $font-family-monospace:  'Anton', sans-serif;
+//== Font ==
+$font-family-sans-serif: 'Manrope', sans-serif;
+$font-family-monospace:  'Anton', sans-serif;
+$font-size-base:         .875rem;
 
-  // Body style
-  $body-bg:              #EDEDED;
-  $body-color:           #1B1B1B;
+//== Heading ==
+$headings-line-height:   1.5;
 
-  // Theme colors
-  $theme-colors: (
-    'primary':           #FFD15B
-  );
+/**
+  * Colors
+  * 
+  */
 
-  // Spacing
-  $spacer: 1rem !default;
-  $spacers: (
-    0: 0,
-    1: $spacer * .25,
-    2: $spacer * .5,
-    3: $spacer,
-    4: $spacer * 1.5,
-    5: $spacer * 3,
-    6: $spacer * 5
-  ) !default;
+//== Color variables ==
+$golden:               #FFD15B;
+$black-night:          #1B1B1B;
+$grey:                 #7A7A7A;
+$grey-light:           #EDEDED;
+
+//== Theme colors ==
+$primary:                $golden;
+$secondary:              $black-night;
+$tertiary:               $grey;
+
+//== Body style ==
+$body-color:             $secondary;
+$body-bg:                $grey-light;
+
+//== Spacing ==
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * .25,
+  2: $spacer * .5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 5
+);
