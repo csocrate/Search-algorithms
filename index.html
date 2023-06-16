@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/bed4092e49.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <!-- Header -->
@@ -36,15 +37,17 @@
               du quotidien, simples et délicieuses
             </span>
           </h1>
-          <form action="#" class="position-relative w-100">
+          <form action="#" class="position-relative d-flex align-items-center w-100">
             <label 
               for="recipes_search"
-              class="position-absolute bottom-50 end-0 me-2">
-
+              class="position-absolute end-0 me-2 p-3 btn btn-secondary btn-outline-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#EDEDED" class="bi bi-search" viewBox="0 0 16 16">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
             </label>
             <input
               id="recipes_search"
-              class="form-control form-control-lg fs-6 ps-4 p-3 text-tertiary bg-white" 
+              class="form-control form-control-lg fs-6 ps-4 p-4 text-tertiary bg-white" 
               type="search" 
               placeholder="Rechercher une recette, un ingrédient..." 
               aria-label="Rechercher une recette, un ingrédient">

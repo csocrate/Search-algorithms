@@ -5,6 +5,14 @@
     .container {
       max-width: 900px;
 
+      label {
+        &:hover {
+          svg {
+            fill: $secondary;
+          }
+        }
+      }
+
       input::placeholder {
         color: $tertiary;
       }
