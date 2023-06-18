@@ -1,0 +1,58 @@
+/* --------------------------------------------------
+   DEFAULT BOOTSTRAP UTILITIES OVERRIDES
+   -------------------------------------------------- */
+
+// @see '../../node_modules/bootstrap/scss/utilities'
+
+$utilities: (
+  // Sizing utilities
+  // scss-docs-start utils-sizing
+  "width": (
+    property: width,
+    class: w,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      85: 85%,
+      100: 100%,
+      auto: auto
+    )
+  ),
+  "max-width": (
+    property: max-width,
+    class: mw,
+    values: (
+      100: 100%,
+      900px: 900px
+    )
+  ),
+  "height": (
+    property: height,
+    class: h,
+    values: (
+      25: 25%,
+      50: 50%,
+      75: 75%,
+      100: 100%,
+      auto: auto,
+      70vh: 70vh
+    )
+  )
+);
+
+$utilities: ()!default;
+
+$utilities: map-merge(
+  $utilities,
+  (
+    // Utils-sizing
+    "min-height": (
+      property: min-height,
+      class: mh,
+      values: (
+        70vh: 70vh
+      )
+    )
+  )
+);

@@ -3,11 +3,12 @@
   * 
   */
 
-// Overrides bootstrap's variables CSS
+// Overrides bootstrap's CSS
 @import
+  'custom/utilities',
   'custom/variables';
 
-// Imports all of Bootstrap's CSS
+// // Imports all of Bootstrap's CSS
 @import
   '../../node_modules/bootstrap/scss/bootstrap';
 

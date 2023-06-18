@@ -1,29 +1,13 @@
 .banner {
-  > div {
-    min-height: 70vh;
-
-    .container {
-      max-width: 900px;
-
-      label {
-        &:hover {
-          svg {
-            fill: $secondary;
-          }
-        }
-      }
-
-      input::placeholder {
-        color: $tertiary;
+  label {
+    &:hover {
+      svg {
+        fill: $secondary;
       }
     }
-  
-    > div:last-child {
-      height: 70vh;
-  
-      img {
-        max-height: 100%;
-      }
-    }    
+  }
+
+  input::placeholder {
+    color: $tertiary;
   }
 }
