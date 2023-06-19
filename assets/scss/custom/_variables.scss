@@ -13,6 +13,15 @@ $container-max-widths: (
   xxl: 1440px
 );
 
+//== position-map ==
+$position-values: (
+  0: 0,
+  5: 5%,
+  35: 35%,
+  50: 50%,
+  100: 100%
+);
+
 //== Font ==
 $font-family-sans-serif: 'Manrope', sans-serif;
 $font-family-monospace:  'Anton', sans-serif;
@@ -20,6 +29,9 @@ $font-size-base:         .875rem;
 
 //== Heading ==
 $headings-line-height:   1.5;
+
+//== Close button ==
+$btn-close-opacity: 1;
 
 /**
   * Colors
