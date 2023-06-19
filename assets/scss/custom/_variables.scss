@@ -4,6 +4,21 @@
 
 // @see '../../node_modules/bootstrap/scss/variables'
 
+//== Color variables ==
+$golden:               #FFD15B;
+$black-night:          #1B1B1B;
+$grey:                 #7A7A7A;
+$grey-light:           #EDEDED;
+
+//== Theme colors ==
+$primary:                $golden;
+$secondary:              $black-night;
+$tertiary:               $grey;
+
+//== Body style ==
+$body-color:             $secondary;
+$body-bg:                $grey-light;
+
 //== Grid containers ==
 $container-max-widths: (
   sm: 540px,
@@ -30,28 +45,13 @@ $font-size-base:         .875rem;
 //== Heading ==
 $headings-line-height:   1.5;
 
+//== Card ==
+$card-border-radius:     1.5rem;
+$enable-shadows:         true;
+$card-box-shadow:        0 8px 22px 0 rgba(0,0,0,.15);
+
 //== Close button ==
-$btn-close-opacity: 1;
-
-/**
-  * Colors
-  * 
-  */
-
-//== Color variables ==
-$golden:               #FFD15B;
-$black-night:          #1B1B1B;
-$grey:                 #7A7A7A;
-$grey-light:           #EDEDED;
-
-//== Theme colors ==
-$primary:                $golden;
-$secondary:              $black-night;
-$tertiary:               $grey;
-
-//== Body style ==
-$body-color:             $secondary;
-$body-bg:                $grey-light;
+$btn-close-opacity:      1;
 
 //== Spacing ==
 $spacer: 1rem;
