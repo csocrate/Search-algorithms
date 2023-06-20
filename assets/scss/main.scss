@@ -5,8 +5,8 @@
 
 // Overrides bootstrap's CSS
 @import
-  'custom/utilities',
-  'custom/variables';
+  'bootstrap-override/utilities',
+  'bootstrap-override/variables';
 
 // // Imports all of Bootstrap's CSS
 @import
@@ -16,6 +16,9 @@
   * Standard style
   * 
   */
+
+@import
+'base/typography';
 
 @import
 'layout/banner';

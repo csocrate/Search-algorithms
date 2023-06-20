@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -41,8 +41,17 @@
             <label 
               for="recipes_search"
               class="position-absolute end-0 me-2 p-3 btn btn-secondary btn-outline-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#EDEDED" class="bi bi-search" viewBox="0 0 16 16">
-                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                <svg 
+                  role="img" 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="25" 
+                  height="25" 
+                  fill="#EDEDED" 
+                  class="bi bi-search" 
+                  viewBox="0 0 16 16" 
+                  aria-labelledby="search_label">
+                    <title id="search_label">Rechercher une recette, un ingrédient</title>
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                 </svg>
             </label>
             <input
@@ -93,16 +102,43 @@
                       Ingrédients
                       <span class="fa-solid fa-chevron-down mt-1" aria-hidden="true"></span>
                   </button>
-                  <ul id="ingredients_list" class="dropdown-menu w-100 m-auto border-top-0 bg-white border-white">
-                    <li class="display-inline pb-3">
-                      <input 
-                      type="search" 
-                      class="form-control w-90 mx-auto bg-white" 
-                      aria-label="Text input with dropdown button">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                  <ul 
+                    id="ingredients_list" 
+                    role="listbox" 
+                    class="dropdown-menu w-100 m-auto border-top-0 bg-white border-white">
+                      <li class="display-inline pb-3 position-relative">
+                        <label 
+                          for="search_ingredient" 
+                          class="position-absolute z-n1 opacity-0">
+                            Recherche par ingrégrient
+                        </label>
+                        <input
+                          id="search_ingredient"
+                          type="search"
+                          class="form-control w-90 mx-auto bg-white" 
+                          aria-label="Text input with dropdown button">
+                      </li>
+                      <li>
+                        <a 
+                          role="option" 
+                          class="dropdown-item">
+                            Menu item
+                        </a>
+                      </li>
+                      <li>
+                        <a 
+                          role="option" 
+                          class="dropdown-item">
+                            Menu item
+                        </a>
+                      </li>
+                      <li>
+                        <a 
+                          role="option" 
+                          class="dropdown-item">
+                            Menu item
+                        </a>
+                      </li>
                   </ul>
                 </div>
               </div>  <!-- End Ingredients dropdown -->
@@ -110,8 +146,7 @@
               <div class="col-12 col-md-4 col-lg-2">
                 <div class="position-relative mb-3 ">
                   <button
-                    class="btn btn-lg d-flex justify-content-between w-100 py-3 border-white bg-white" 
-                    type="button"
+                    class="btn btn-lg d-flex justify-content-between w-100 py-3 border-white bg-white"
                     data-bs-toggle="dropdown"
                     role="combobox"
                     aria-haspopup="listbox"
@@ -121,16 +156,37 @@
                       Appareils
                       <span class="fa-solid fa-chevron-down mt-1" aria-hidden="true"></span>
                   </button>
-                  <ul id="devices_list" class="dropdown-menu w-100 m-auto border-top-0 bg-white border-white">
-                    <li class="display-inline pb-3">
-                      <input 
-                      type="search" 
-                      class="form-control w-90 mx-auto bg-white" 
-                      aria-label="Text input with dropdown button">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                  <ul 
+                    id="devices_list" 
+                    role="listbox" 
+                    class="dropdown-menu w-100 m-auto border-top-0 bg-white border-white">
+                      <li class="display-inline pb-3">
+                        <label 
+                          for="search_device" 
+                          class="position-absolute z-n1 opacity-0">
+                            Recherche par appareil
+                        </label>
+                        <input
+                          id="search_device"
+                          type="search" 
+                          class="form-control w-90 mx-auto bg-white" 
+                          aria-label="Text input with dropdown button">
+                      </li>
+                      <li>
+                        <a role="option" class="dropdown-item">
+                          Menu item
+                        </a>
+                      </li>
+                      <li>
+                        <a role="option" class="dropdown-item">
+                          Menu item
+                        </a>
+                      </li>
+                      <li>
+                        <a role="option" class="dropdown-item">
+                          Menu item
+                        </a>
+                      </li>
                   </ul>
                 </div>
               </div> <!-- End Devices dropdown -->
@@ -138,8 +194,7 @@
               <div class="col-12 col-md-4 col-lg-2">
                 <div class="position-relative mb-3 ">
                   <button
-                    class="btn btn-lg d-flex justify-content-between w-100 py-3 border-white bg-white" 
-                    type="button"
+                    class="btn btn-lg d-flex justify-content-between w-100 py-3 border-white bg-white"
                     data-bs-toggle="dropdown"
                     role="combobox"
                     aria-haspopup="listbox"
@@ -149,16 +204,43 @@
                       Ustensiles
                       <span class="fa-solid fa-chevron-down mt-1" aria-hidden="true"></span>
                   </button>
-                  <ul id="tools_list" class="dropdown-menu w-100 m-auto border-top-0 bg-white border-white">
-                    <li class="display-inline pb-3">
-                      <input 
-                      type="search"
-                      class="form-control w-90 mx-auto bg-white" 
-                      aria-label="Text input with dropdown button">
-                    </li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                  <ul 
+                    id="tools_list" 
+                    role="listbox" 
+                    class="dropdown-menu w-100 m-auto border-top-0 bg-white border-white">
+                      <li class="display-inline pb-3">
+                        <label 
+                          for="search_tool" 
+                          class="position-absolute z-n1 opacity-0">
+                            Recherche par ustensile
+                        </label>
+                        <input
+                          id="search_tool"
+                          type="search"
+                          class="form-control w-90 mx-auto bg-white" 
+                          aria-label="Text input with dropdown button">
+                      </li>
+                      <li>
+                        <a 
+                          role="option" 
+                          class="dropdown-item">
+                            Menu item
+                        </a>
+                      </li>
+                      <li>
+                        <a 
+                          role="option" 
+                          class="dropdown-item">
+                            Menu item
+                        </a>
+                      </li>
+                      <li>
+                        <a 
+                          role="option" 
+                          class="dropdown-item">
+                            Menu item
+                        </a>
+                      </li>
                   </ul>
                 </div>
               </div> <!-- End Tools dropdown -->  
@@ -169,15 +251,27 @@
                 <ul class="list-group list-group-horizontal d-flex flex-wrap gap-3">
                   <li class="list-group-item d-flex justify-content-between flex-wrap align-items-center rounded col-6 col-md-3 col-lg-2 py-3 bg-primary">
                     An item
-                    <button type="button" class="btn-close" aria-label="Supprimer cet ingrédient"></button>
+                    <button 
+                      type="button" 
+                      class="btn-close" 
+                      aria-label="Supprimer cet ingrédient">
+                    </button>
                   </li>
                   <li class="list-group-item d-flex justify-content-between flex-wrap align-items-center rounded col-6 col-md-3 col-lg-2 py-3 bg-primary">
                     An item
-                    <button type="button" class="btn-close" aria-label="Supprimer cet appareil"></button>
+                    <button 
+                      type="button" 
+                      class="btn-close" 
+                      aria-label="Supprimer cet appareil">
+                    </button>
                   </li>
                   <li class="list-group-item d-flex justify-content-between flex-wrap align-items-center rounded col-6 col-md-3 col-lg-2 py-3 bg-primary">
                     An item
-                    <button type="button" class="btn-close" aria-label="Supprimer cet ustensile"></button>
+                    <button 
+                      type="button" 
+                      class="btn-close" 
+                      aria-label="Supprimer cet ustensile">
+                    </button>
                   </li>
                 </ul>
               </div>             
@@ -189,77 +283,53 @@
           </div> <!-- End Total number of recipes -->
         </div> <!-- End Filters -->
         <!-- Cards -->
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5 pb-7">
+          <!-- Card -->
           <div class="col">
             <div class="card rounded-bottom-4 border-0">
               <div class="h-300px position-relative">
-                <img src="./assets/images/showcase/vedette_768.jpg" class="card-img-top object-fit-cover mh-100" alt="">
+                <img 
+                  src="./assets/images/showcase/vedette_768.jpg" 
+                  class="card-img-top object-fit-cover mh-100" 
+                  alt="">
                 <p class="position-absolute top-5 end-5 rounded-4 px-3 py-1 bg-primary">
                   10min
                 </p>
               </div>
               <div class="card-body bg-white rounded-bottom-4">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card rounded-bottom-4 border-0">
-              <div class="h-300px position-relative">
-                <img src="./assets/images/showcase/vedette_768.jpg" class="card-img-top object-fit-cover mh-100" alt="">
-                <p class="position-absolute top-5 end-5 rounded-4 px-3 py-1 bg-primary">
-                  10min
+                <h2 class="card-title font-monospace fs-5">
+                  Limonade de Coco
+                </h2>
+                <h3 class="card-subtitle fs-6 fw-semibold text-uppercase py-3">
+                  Recette
+                </h3>
+                <p class="card-text">
+                  This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.
                 </p>
-              </div>
-              <div class="card-body bg-white rounded-bottom-4">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card rounded-bottom-4 border-0">
-              <div class="h-300px position-relative">
-                <img src="./assets/images/showcase/vedette_768.jpg" class="card-img-top object-fit-cover mh-100" alt="">
-                <p class="position-absolute top-5 end-5 rounded-4 px-3 py-1 bg-primary">
-                  10min
-                </p>
-              </div>
-              <div class="card-body bg-white rounded-bottom-4">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card rounded-bottom-4 border-0">
-              <div class="h-300px position-relative">
-                <img src="./assets/images/showcase/vedette_768.jpg" class="card-img-top object-fit-cover mh-100" alt="">
-                <p class="position-absolute top-5 end-5 rounded-4 px-3 py-1 bg-primary">
-                  10min
-                </p>
-              </div>
-              <div class="card-body bg-white rounded-bottom-4">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <h3 class="card-subtitle fs-6 fw-semibold text-uppercase mt-3 py-3">
+                  Ingrédients
+                </h3>
+                <div class="d-flex flex-wrap justify-content-between">
+                  <div class="w-50">
+                    <p class="mb-0_1">
+                      Lait de coco
+                    </p>
+                    <p class="text-body-tertiary fw-medium">
+                      400ml
+                    </p>
+                  </div>
+                  <div class="w-50">
+                    <p class="mb-0_1">
+                      Jus de citron
+                    </p>
+                    <p class="text-body-tertiary fw-medium">
+                      2
+                    </p>
+                  </div>             
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col">
-            <div class="card rounded-bottom-4 border-0">
-              <div class="h-300px position-relative">
-                <img src="./assets/images/showcase/vedette_768.jpg" class="card-img-top object-fit-cover mh-100" alt="">
-                <p class="position-absolute top-5 end-5 rounded-4 px-3 py-1 bg-primary">
-                  10min
-                </p>
-              </div>
-              <div class="card-body bg-white rounded-bottom-4">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              </div>
-            </div>
-          </div>
+          </div> <!-- End Card -->
         </div> <!-- End Cards -->
       </div>
     </section> <!-- End Recipes wrapper section -->

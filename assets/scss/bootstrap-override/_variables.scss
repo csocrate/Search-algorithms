@@ -19,7 +19,22 @@ $tertiary:               $grey;
 $body-color:             $secondary;
 $body-bg:                $grey-light;
 
-//== Grid containers ==
+//== Typography ==
+//
+// Font, line-height
+
+$font-family-sans-serif: 'Manrope', sans-serif;
+$font-family-monospace:  'Anton', sans-serif;
+
+$font-size-base:         .875rem;
+$h6-font-size:           $font-size-base * .85;
+
+$headings-line-height:   1.5;
+
+//== Layout ==
+//
+// Grid containers
+
 $container-max-widths: (
   sm: 540px,
   md: 720px,
@@ -28,7 +43,24 @@ $container-max-widths: (
   xxl: 1440px
 );
 
-//== position-map ==
+//== Components ==
+//
+// Card, close button
+
+$card-border-radius:     1.5rem;
+$enable-shadows:         true;
+$card-box-shadow:        0 8px 22px 0 rgba(0,0,0,.15);
+$card-spacer-y:          2.25rem;
+$card-spacer-x:          1.5rem;
+$card-title-spacer-y:    2rem;
+$card-subtitle-color:    $tertiary;
+
+$btn-close-opacity:      1;
+
+//== Utilities ==
+//
+// Position, spacing
+
 $position-values: (
   0: 0,
   5: 5%,
@@ -37,30 +69,15 @@ $position-values: (
   100: 100%
 );
 
-//== Font ==
-$font-family-sans-serif: 'Manrope', sans-serif;
-$font-family-monospace:  'Anton', sans-serif;
-$font-size-base:         .875rem;
-
-//== Heading ==
-$headings-line-height:   1.5;
-
-//== Card ==
-$card-border-radius:     1.5rem;
-$enable-shadows:         true;
-$card-box-shadow:        0 8px 22px 0 rgba(0,0,0,.15);
-
-//== Close button ==
-$btn-close-opacity:      1;
-
-//== Spacing ==
 $spacer: 1rem;
 $spacers: (
   0: 0,
+0_1: $spacer * .1,
   1: $spacer * .25,
   2: $spacer * .5,
   3: $spacer,
   4: $spacer * 1.5,
   5: $spacer * 3,
-  6: $spacer * 5
+  6: $spacer * 5,
+  7: $spacer * 8
 );
