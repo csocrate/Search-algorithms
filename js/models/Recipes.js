@@ -41,54 +41,6 @@ class Recipes {
     return this._ingredients;
   }
 
-  // get ingredientsDom() {
-
-  //   this._ingredients
-  //     .map(ingredient => {
-
-  //       let content = ingredient.ingredient;
-  //       let quantity = ingredient.quantity;
-  //       let unit = ingredient.unit;
-        
-  //       const all = `
-  //       <div class="w-50">
-  //         <p class="mb-0_1">
-  //         ${content}
-  //         </p>
-  //         <p class="text-body-tertiary fw-medium">
-  //         ${quantity}${unit}
-  //         </p>
-  //       </div>`;
-    
-  //       const ingredientAndQuantity = `
-  //       <div class="w-50">
-  //         <p class="mb-0_1">
-  //         ${content}
-  //         </p>
-  //         <p class="text-body-tertiary fw-medium">
-  //         ${quantity}
-  //         </p>
-  //       </div>`;
-    
-  //       const ingredientOnly = `
-  //       <div class="w-50">
-  //         <p class="mb-0_1">
-  //         ${content}
-  //         </p>
-  //       </div>`;
-
-  //       if (content && quantity) {
-  //         if (unit) {
-  //           return ingredients.innerHTML = all;
-  //         } else {
-  //           return ingredients.innerHTML = ingredientAndQuantity;
-  //         }
-  //       } else {
-  //         return ingredients.innerHTML = ingredientOnly;
-  //       }
-  //     });
-  // }
-
   get time() {
     return this._time
   }

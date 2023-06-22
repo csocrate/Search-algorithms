@@ -10,6 +10,7 @@ class RecipesApp {
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
     this.recipesPage = new RecipesPage();
+    this.$recipeCards = document.querySelector('.recipe-cards');
   }
 
   async init() {
@@ -22,9 +23,6 @@ class RecipesApp {
         // Display card
         const card = recipeCard.createRecipeCard();
         this.recipesPage.displayRecipeCard(card);
-        
-        // Display Ingredients
-        recipeCard.displayIngredients();
       });
   }
 }
