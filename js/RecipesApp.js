@@ -10,7 +10,6 @@ class RecipesApp {
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
     this.recipesPage = new RecipesPage();
-    this.$recipeCards = document.querySelector('.recipe-cards');
   }
 
   async init() {
@@ -18,9 +17,18 @@ class RecipesApp {
 
     recipesData
       .forEach(recipe => {
-        const recipeCard = new RecipeCard(recipe);
 
-        // Display card
+        // Display ingredients dropdown
+        this.recipesPage.displayIngredientDropdown(recipe);
+
+        // Display appliances dropdown
+        this.recipesPage.displayApplianceDropdown(recipe);
+
+        // Display ustensils dropdown
+        this.recipesPage.displayUstensilDropdown(recipe);
+
+        // Display recipes card
+        const recipeCard = new RecipeCard(recipe);
         const card = recipeCard.createRecipeCard();
         this.recipesPage.displayRecipeCard(card);
       });

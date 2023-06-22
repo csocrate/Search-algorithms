@@ -1,6 +1,6 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats templates/Card.js
+ * Les Petits Plats templates/RecipeCard.js
  * ------------------------------------------------------------
  */
 
@@ -62,6 +62,10 @@
     return article;
   }
 
+  /**
+   * Returns ingredients template
+   * @returns {HTMLElement} - ingredientsDom
+   */
   createIngredientsDom() {
 
     const ingredientsDom = this._recipes.ingredients

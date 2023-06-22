@@ -105,7 +105,7 @@
                   <ul 
                     id="ingredients_list" 
                     role="listbox" 
-                    class="dropdown-menu w-100 m-auto border-top-0 bg-white border-white">
+                    class="dropdown-menu w-100 h-300px m-auto border-top-0 bg-white border-white">
                       <li class="display-inline pb-3 position-relative">
                         <label 
                           for="search_ingredient" 
@@ -118,31 +118,10 @@
                           class="form-control w-90 mx-auto bg-white" 
                           aria-label="Text input with dropdown button">
                       </li>
-                      <li>
-                        <a 
-                          role="option" 
-                          class="dropdown-item">
-                            Menu item
-                        </a>
-                      </li>
-                      <li>
-                        <a 
-                          role="option" 
-                          class="dropdown-item">
-                            Menu item
-                        </a>
-                      </li>
-                      <li>
-                        <a 
-                          role="option" 
-                          class="dropdown-item">
-                            Menu item
-                        </a>
-                      </li>
                   </ul>
                 </div>
               </div>  <!-- End Ingredients dropdown -->
-              <!-- Devices dropdown -->
+              <!-- Appliances dropdown -->
               <div class="col-12 col-md-4 col-lg-2">
                 <div class="position-relative mb-3 ">
                   <button
@@ -151,15 +130,15 @@
                     role="combobox"
                     aria-haspopup="listbox"
                     aria-expanded="false"
-                    aria-controls="devices_list"
+                    aria-controls="appliances_list"
                     aria-label="Trier par appareil">
                       Appareils
                       <span class="fa-solid fa-chevron-down mt-1" aria-hidden="true"></span>
                   </button>
                   <ul 
-                    id="devices_list" 
+                    id="appliances_list" 
                     role="listbox" 
-                    class="dropdown-menu w-100 m-auto border-top-0 bg-white border-white">
+                    class="dropdown-menu w-100 h-300px m-auto border-top-0 bg-white border-white">
                       <li class="display-inline pb-3">
                         <label 
                           for="search_device" 
@@ -172,25 +151,10 @@
                           class="form-control w-90 mx-auto bg-white" 
                           aria-label="Text input with dropdown button">
                       </li>
-                      <li>
-                        <a role="option" class="dropdown-item">
-                          Menu item
-                        </a>
-                      </li>
-                      <li>
-                        <a role="option" class="dropdown-item">
-                          Menu item
-                        </a>
-                      </li>
-                      <li>
-                        <a role="option" class="dropdown-item">
-                          Menu item
-                        </a>
-                      </li>
                   </ul>
                 </div>
-              </div> <!-- End Devices dropdown -->
-              <!-- Tools dropdown -->
+              </div> <!-- End Appliances dropdown -->
+              <!-- Ustensils dropdown -->
               <div class="col-12 col-md-4 col-lg-2">
                 <div class="position-relative mb-3 ">
                   <button
@@ -199,15 +163,15 @@
                     role="combobox"
                     aria-haspopup="listbox"
                     aria-expanded="false"
-                    aria-controls="tools_list"
+                    aria-controls="ustensils_list"
                     aria-label="Trier par ustensile">
                       Ustensiles
                       <span class="fa-solid fa-chevron-down mt-1" aria-hidden="true"></span>
                   </button>
                   <ul 
-                    id="tools_list" 
+                    id="ustensils_list" 
                     role="listbox" 
-                    class="dropdown-menu w-100 m-auto border-top-0 bg-white border-white">
+                    class="dropdown-menu w-100 h-300px m-auto border-top-0 bg-white border-white">
                       <li class="display-inline pb-3">
                         <label 
                           for="search_tool" 
@@ -220,30 +184,9 @@
                           class="form-control w-90 mx-auto bg-white" 
                           aria-label="Text input with dropdown button">
                       </li>
-                      <li>
-                        <a 
-                          role="option" 
-                          class="dropdown-item">
-                            Menu item
-                        </a>
-                      </li>
-                      <li>
-                        <a 
-                          role="option" 
-                          class="dropdown-item">
-                            Menu item
-                        </a>
-                      </li>
-                      <li>
-                        <a 
-                          role="option" 
-                          class="dropdown-item">
-                            Menu item
-                        </a>
-                      </li>
                   </ul>
                 </div>
-              </div> <!-- End Tools dropdown -->  
+              </div> <!-- End Ustensils dropdown -->  
             </div> <!-- End Custom select boxes -->
             <!-- Filtered tags -->
             <div class="row">
@@ -297,6 +240,7 @@
   <script src="js/api/Api.js"></script>
   <script src="js/api/DataApi.js"></script>
   <!-- Templates -->
+  <script src="js/templates/ItemsDropdown.js"></script>
   <script src="js/templates/RecipeCard.js"></script>
   <!-- Pages -->
   <script src="js/pages/RecipesPage.js"></script>
