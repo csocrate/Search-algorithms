@@ -10,33 +10,14 @@
   }
 
   /**
-   * Displays ingredients dropdown
+   * Displays item for dropdown
    * With data
-   * @param {HTMLElement} data
+   * @param {string} data 
+   * @param {HTMLElement} list 
    */
-  async displayIngredientDropdown(data) {
-    const itemsDropdown = new ItemsDropdown(data);
-    itemsDropdown.createIngredientDropdown();
-  }
-
-  /**
-   * Displays appliances dropdown
-   * With data
-   * @param {HTMLElement} data
-   */
-  async displayApplianceDropdown(data) {
-    const itemsDropdown = new ItemsDropdown(data);
-    itemsDropdown.createApplianceDropdown();
-  }
-
-  /**
-   * Displays ustensils dropdown
-   * With data
-   * @param {HTMLElement} data
-   */
-  async displayUstensilDropdown(data) {
-    const itemsDropdown = new ItemsDropdown(data);
-    itemsDropdown.createUstensilDropdown();
+  async displayItemForDropdown(data, list) {
+    const itemDropdown = new ItemDropdown();
+    itemDropdown.createItemForDropdown(data, list);
   }
 
   /**
