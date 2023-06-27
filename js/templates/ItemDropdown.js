@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
- class ItemDropdown {
+class ItemDropdown {
   /**
    * @param {Object} recipes - list of objects from .json file
    */
@@ -22,20 +22,18 @@
    * @param {string} data 
    * @param {HTMLElement} list
    */
-   createItemForDropdown(data, list) {
+  createItemForDropdown(data, list) {
 
     const li = document.createElement('li');
 
     if (data !== undefined) {
 
       li.innerHTML = `
-        <li>
-          <a class="dropdown-item" role="option">
+        <a class="dropdown-item" role="option">
           ${data}
-          </a>
-        </li>`;
+        </a>`;
     }
 
     list.appendChild(li);
   }
- }
+}

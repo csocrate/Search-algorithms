@@ -10,6 +10,7 @@ class RecipesApp {
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
     this.recipesPage = new RecipesPage();
+    this.tags = new Array();
 
     this.$ingredientsList = document.querySelector('#ingredients_list');
     this.$appliancesList = document.querySelector('#appliances_list');
@@ -28,6 +29,11 @@ class RecipesApp {
 
     // Cards
     this.displayRecipeCardsWithData();
+
+    // Tags
+    this.tags.push('item 1', 'item 2', 'item 3');
+    const tags = this.tags;
+    this.displayActiveTags(tags);
   }
 
   displayRecipeCardsWithData() {
@@ -94,6 +100,19 @@ class RecipesApp {
 
         // Displays ustensils dropdown
         this.recipesPage.displayItemForDropdown(ustensil, this.$ustensilsList);
+      });
+  }
+
+  /**
+   * @type {(string|Array)}
+   * @param {Object} items 
+   */
+  displayActiveTags(items) {    
+    items
+      .forEach(item => {
+        const activeTag = new ActiveTag();
+        const tag = activeTag.createActivetag(item);
+        this.recipesPage.displayActiveTag(tag);
       });
   }
 }

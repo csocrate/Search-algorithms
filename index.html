@@ -191,31 +191,7 @@
             <!-- Filtered tags -->
             <div class="row">
               <div class="col-12">
-                <ul class="list-group list-group-horizontal d-flex flex-wrap gap-3">
-                  <li class="list-group-item d-flex justify-content-between flex-wrap align-items-center rounded col-6 col-md-3 col-lg-2 py-3 bg-primary">
-                    An item
-                    <button 
-                      type="button" 
-                      class="btn-close" 
-                      aria-label="Supprimer cet ingrédient">
-                    </button>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between flex-wrap align-items-center rounded col-6 col-md-3 col-lg-2 py-3 bg-primary">
-                    An item
-                    <button 
-                      type="button" 
-                      class="btn-close" 
-                      aria-label="Supprimer cet appareil">
-                    </button>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between flex-wrap align-items-center rounded col-6 col-md-3 col-lg-2 py-3 bg-primary">
-                    An item
-                    <button 
-                      type="button" 
-                      class="btn-close" 
-                      aria-label="Supprimer cet ustensile">
-                    </button>
-                  </li>
+                <ul id="active_tags" class="list-group list-group-horizontal d-flex flex-wrap gap-3">
                 </ul>
               </div>             
             </div> <!-- End Filtered tags -->
@@ -241,6 +217,7 @@
   <script src="js/api/DataApi.js"></script>
   <!-- Templates -->
   <script src="js/templates/ItemDropdown.js"></script>
+  <script src="js/templates/ActiveTag.js"></script>
   <script src="js/templates/RecipeCard.js"></script>
   <!-- Pages -->
   <script src="js/pages/RecipesPage.js"></script>

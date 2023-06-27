@@ -7,6 +7,7 @@
  class RecipesPage {
   constructor() {
     this.$recipeCards = document.querySelector('.recipe-cards');
+    this.$activeTags = document.querySelector('#active_tags');
   }
 
   /**
@@ -18,6 +19,14 @@
   async displayItemForDropdown(data, list) {
     const itemDropdown = new ItemDropdown();
     itemDropdown.createItemForDropdown(data, list);
+  }
+  
+  /**
+   * Displays active tag
+   * @param {HTMLElement} item 
+   */
+  async displayActiveTag(item) {
+    this.$activeTags.appendChild(item);
   }
 
   /**
