@@ -15,6 +15,10 @@ class RecipesApp {
     this.$ingredientsList = document.querySelector('#ingredients_list');
     this.$appliancesList = document.querySelector('#appliances_list');
     this.$ustensilsList = document.querySelector('#ustensils_list');
+
+    this.$ingredientsSelect = document.querySelector('select#ingredients');
+    this.$appliancesSelect = document.querySelector('#appliances');
+    this.$ustensilsSelect = document.querySelector('#ustensils');
   }
 
   async init() {
@@ -62,8 +66,11 @@ class RecipesApp {
 
         const ingredient = type.ingredient;
 
-        // Displays ustensils dropdown
+        // Displays ingredients dropdown
         this.recipesPage.displayItemForDropdown(ingredient, this.$ingredientsList);
+
+        // Displays ingredients option
+        this.recipesPage.displayOptionForDropdown(ingredient, this.$ingredientsSelect);
       });
   }
 
@@ -80,8 +87,11 @@ class RecipesApp {
       }, [])
       .forEach(appliance => {
 
-        // Displays ustensils dropdown
+        // Displays appliances dropdown
         this.recipesPage.displayItemForDropdown(appliance, this.$appliancesList);
+
+        // Displays appliances option
+        this.recipesPage.displayOptionForDropdown(appliance, this.$appliancesSelect);
       });
   }
 
@@ -98,8 +108,11 @@ class RecipesApp {
       }, [])
       .forEach(ustensil => {
 
-        // Displays ustensils dropdown
+        // Displays ustensil dropdown
         this.recipesPage.displayItemForDropdown(ustensil, this.$ustensilsList);
+
+        // Displays ustensil option
+        this.recipesPage.displayOptionForDropdown(ustensil, this.$ustensilsSelect);
       });
   }
 

@@ -81,7 +81,7 @@
       </div>
     </section> <!-- End Banner section -->
     <!-- Recipes wrapper section -->
-    <section class="recipes-wrapper">
+    <div class="recipes-wrapper">
       <div class="container-xxl py-4">
         <!-- Filters -->
         <div class="row d-flex align-items-center mb-5">
@@ -90,7 +90,7 @@
             <div class="row">
               <!-- Ingredients dropdown -->
               <div class="col-12 col-md-4 col-lg-2">
-                <div class="position-relative mb-3 ">
+                <div class="position-relative mb-3">
                   <button
                     class="btn btn-lg d-flex justify-content-between w-100 py-3 border-white bg-white" 
                     data-bs-toggle="dropdown"
@@ -102,28 +102,31 @@
                       Ingrédients
                       <span class="fa-solid fa-chevron-down mt-1" aria-hidden="true"></span>
                   </button>
+                  <select id="ingredients" name="ingredients"  class="form-select position-absolute top-0 start-50 z-n1 w-1 h-100 p-0 opacity-0" title="Sélectionner" aria-label="Tri par ingrédient">
+                  </select>
                   <ul 
                     id="ingredients_list" 
                     role="listbox" 
                     class="dropdown-menu w-100 h-300px m-auto border-top-0 overflow-hidden bg-white border-white">
-                      <li class="display-inline pb-3 position-relative">
-                        <label 
-                          for="search_ingredient" 
-                          class="position-absolute z-n1 opacity-0">
-                            Recherche par ingrégrient
-                        </label>
-                        <input
-                          id="search_ingredient"
-                          type="search"
-                          class="form-control w-90 mx-auto bg-white" 
-                          aria-label="Text input with dropdown button">
-                      </li>
+                    <li class="display-inline position-relative pb-3">
+                      <label 
+                        for="search_ingredient" 
+                        class="position-absolute z-n1 opacity-0">
+                        Tri par ingrégrient
+                      </label>
+                      <input
+                        id="search_ingredient"
+                        type="search"
+                        class="form-control w-90 mx-auto rounded-0 opacity-50 bg-white"
+                        aria-label="Filtrer par ingrégrient">
+                        <span class="fa-solid fa-magnifying-glass position-absolute bottom-50 end-10 opacity-25" aria-hidden="true"></span>
+                    </li>
                   </ul>
                 </div>
               </div>  <!-- End Ingredients dropdown -->
               <!-- Appliances dropdown -->
               <div class="col-12 col-md-4 col-lg-2">
-                <div class="position-relative mb-3 ">
+                <div class="position-relative mb-3">
                   <button
                     class="btn btn-lg d-flex justify-content-between w-100 py-3 border-white bg-white"
                     data-bs-toggle="dropdown"
@@ -135,21 +138,24 @@
                       Appareils
                       <span class="fa-solid fa-chevron-down mt-1" aria-hidden="true"></span>
                   </button>
+                  <select id="appliances" name="appliances"  class="form-select position-absolute top-0 start-50 z-n1 w-1 h-100 p-0 opacity-0" title="Sélectionner" aria-label="Tri par appareil">
+                  </select>
                   <ul 
                     id="appliances_list" 
                     role="listbox" 
                     class="dropdown-menu w-100 h-300px m-auto border-top-0 overflow-hidden bg-white border-white">
-                      <li class="display-inline pb-3">
+                      <li class="display-inline position-relative pb-3">
                         <label 
-                          for="search_device" 
+                          for="search_appliance" 
                           class="position-absolute z-n1 opacity-0">
-                            Recherche par appareil
+                            Tri par appareil
                         </label>
                         <input
-                          id="search_device"
+                          id="search_appliance"
                           type="search" 
-                          class="form-control w-90 mx-auto bg-white" 
-                          aria-label="Text input with dropdown button">
+                          class="form-control w-90 mx-auto rounded-0 opacity-50 bg-white"
+                          aria-label="Filtrer par appareil">
+                          <span class="fa-solid fa-magnifying-glass position-absolute bottom-50 end-10 opacity-25" aria-hidden="true"></span>
                       </li>
                   </ul>
                 </div>
@@ -168,21 +174,24 @@
                       Ustensiles
                       <span class="fa-solid fa-chevron-down mt-1" aria-hidden="true"></span>
                   </button>
+                  <select id="ustensils" name="ustensils"  class="form-select position-absolute top-0 start-50 z-n1 w-1 h-100 p-0 opacity-0"  title="Sélectionner" aria-label="Tri par ustensile">
+                  </select>
                   <ul 
                     id="ustensils_list" 
                     role="listbox" 
                     class="dropdown-menu w-100 h-300px m-auto border-top-0 overflow-hidden bg-white border-white">
-                      <li class="display-inline pb-3">
+                      <li class="display-inline position-relative pb-3">
                         <label 
-                          for="search_tool" 
+                          for="search_ustensil" 
                           class="position-absolute z-n1 opacity-0">
-                            Recherche par ustensile
+                            Tri par ustensile
                         </label>
                         <input
-                          id="search_tool"
+                          id="search_ustensil"
                           type="search"
-                          class="form-control w-90 mx-auto bg-white" 
-                          aria-label="Text input with dropdown button">
+                          class="form-control w-90 mx-auto rounded-0 opacity-50 bg-white"
+                          aria-label="Filtrer par ustensile">
+                          <span class="fa-solid fa-magnifying-glass position-absolute bottom-50 end-10 opacity-25" aria-hidden="true"></span>
                       </li>
                   </ul>
                 </div>
@@ -205,7 +214,7 @@
         <div class="recipe-cards row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5 pb-7">
         </div> <!-- End Cards -->
       </div>
-    </section> <!-- End Recipes wrapper section -->
+    </div> <!-- End Recipes wrapper section -->
   </main>
   <!-- Bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

@@ -17,7 +17,7 @@ class ItemDropdown {
   }
 
   /**
-   * Create item for dropdown
+   * Create item for custom select
    * With data
    * @param {string} data 
    * @param {HTMLElement} list
@@ -35,5 +35,23 @@ class ItemDropdown {
     }
 
     list.appendChild(li);
+  }
+
+  /**
+   * Create option for select
+   * With data
+   * @param {string} data
+   * @param {HTMLElement} select
+   */
+  createOptionForDropdown(data, select) {
+
+    const option = document.createElement('option');
+
+    if (data !== undefined) {
+
+      option.innerHTML = data;
+    }
+
+    select.appendChild(option);
   }
 }

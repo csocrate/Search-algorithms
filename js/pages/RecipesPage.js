@@ -11,7 +11,7 @@
   }
 
   /**
-   * Displays item for dropdown
+   * Displays item for dropdown custom select
    * With data
    * @param {string} data 
    * @param {HTMLElement} list 
@@ -20,7 +20,18 @@
     const itemDropdown = new ItemDropdown();
     itemDropdown.createItemForDropdown(data, list);
   }
-  
+
+  /**
+   * Displays option for dropdown select
+   * With data
+   * @param {string} data 
+   * @param {HTMLElement} select 
+   */
+  async displayOptionForDropdown(data, select) {
+    const itemDropdown = new ItemDropdown();
+    itemDropdown.createOptionForDropdown(data, select);
+  }
+
   /**
    * Displays active tag
    * @param {HTMLElement} item 

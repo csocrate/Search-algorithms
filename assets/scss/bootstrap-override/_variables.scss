@@ -45,7 +45,7 @@ $container-max-widths: (
 
 //== Components ==
 //
-// Card, close button
+// Card, close button, form input
 
 $card-border-radius:     1.5rem;
 $enable-shadows:         true;
@@ -57,6 +57,9 @@ $card-subtitle-color:    $tertiary;
 
 $btn-close-opacity:      1;
 
+$input-focus-border-color: $grey;
+$input-focus-box-shadow: transparent;
+
 //== Utilities ==
 //
 // Position, spacing
@@ -64,6 +67,7 @@ $btn-close-opacity:      1;
 $position-values: (
   0: 0,
   5: 5%,
+  10: 10%,
   35: 35%,
   50: 50%,
   100: 100%
