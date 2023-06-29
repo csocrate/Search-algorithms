@@ -57,14 +57,13 @@ class RecipesApp {
       .map( recipe => recipe.ingredients)
       .flat()
       .reduce((acc, el) => { // avoids duplicated item
-        if (acc.indexOf(el) < 0) {
-          acc.push(el);
+        const ingredient = el.ingredient.charAt(0).toUpperCase() + el.ingredient.slice(1);
+        if (acc.indexOf(ingredient) < 0) {
+          acc.push(ingredient);
         }
         return acc;
       }, [])
-      .forEach(type => {
-
-        const ingredient = type.ingredient;
+      .forEach(ingredient => {
 
         // Displays ingredients dropdown
         this.recipesPage.displayItemForDropdown(ingredient, this.$ingredientsList);
@@ -80,8 +79,9 @@ class RecipesApp {
       .map( recipe => recipe.appliance)
       .flat()
       .reduce((acc, el) => { // avoids duplicated item
-        if (acc.indexOf(el) < 0) {
-          acc.push(el);
+        const appliance = el.charAt(0).toUpperCase() + el.slice(1);
+        if (acc.indexOf(appliance) < 0) {
+          acc.push(appliance);
         }
         return acc;
       }, [])
@@ -101,8 +101,9 @@ class RecipesApp {
       .map( recipe => recipe.ustensils)
       .flat()
       .reduce((acc, el) => { // avoids duplicated item
-        if (acc.indexOf(el) < 0) {
-          acc.push(el);
+        const ustensil = el.charAt(0).toUpperCase() + el.slice(1);
+        if (acc.indexOf(ustensil) < 0) {
+          acc.push(ustensil);
         }
         return acc;
       }, [])
