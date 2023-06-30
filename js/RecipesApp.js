@@ -51,18 +51,37 @@ class RecipesApp {
       });
   }
 
-  displayIngredientsDropdownWithData() {
-
-    this.recipesData
-      .map( recipe => recipe.ingredients)
+  /**
+   * Returns an array of not duplicated data with first letter as uppercase
+   * Data for ingredients, appliances and ustensils dropdowns
+   * @param {string} key 
+   * @param {string | undefined} value 
+   * @returns Array - acc
+   */
+  recipesDataForDropdown(key, value) {
+    return this.recipesData
+      .map( recipe => recipe[`${key}`])
       .flat()
       .reduce((acc, el) => { // avoids duplicated item
-        const ingredient = el.ingredient.charAt(0).toUpperCase() + el.ingredient.slice(1);
-        if (acc.indexOf(ingredient) < 0) {
-          acc.push(ingredient);
+        let data;
+        if (value) {          
+          data = el[`${value}`].charAt(0).toUpperCase() + el[`${value}`].slice(1);
+        } else {
+          data = el.charAt(0).toUpperCase() + el.slice(1);
+        }
+        if (acc.indexOf(data) < 0) {
+          acc.push(data);
         }
         return acc;
-      }, [])
+      }, []);
+  }
+
+  /**
+   * @see recipesDataForDropdown
+   */
+  displayIngredientsDropdownWithData() {
+
+    this.recipesDataForDropdown('ingredients', 'ingredient')
       .forEach(ingredient => {
 
         // Displays ingredients dropdown
@@ -73,18 +92,12 @@ class RecipesApp {
       });
   }
 
-  displayAppliancesDropdownWithData() {
+  /**
+   * @see recipesDataForDropdown
+   */
+    displayAppliancesDropdownWithData() {
 
-    this.recipesData
-      .map( recipe => recipe.appliance)
-      .flat()
-      .reduce((acc, el) => { // avoids duplicated item
-        const appliance = el.charAt(0).toUpperCase() + el.slice(1);
-        if (acc.indexOf(appliance) < 0) {
-          acc.push(appliance);
-        }
-        return acc;
-      }, [])
+    this.recipesDataForDropdown('appliance', undefined)
       .forEach(appliance => {
 
         // Displays appliances dropdown
@@ -95,18 +108,12 @@ class RecipesApp {
       });
   }
 
-  displayUstensilsDropdownWithData() {
+  /**
+   * @see recipesDataForDropdown
+   */
+    displayUstensilsDropdownWithData() {
 
-    this.recipesData
-      .map( recipe => recipe.ustensils)
-      .flat()
-      .reduce((acc, el) => { // avoids duplicated item
-        const ustensil = el.charAt(0).toUpperCase() + el.slice(1);
-        if (acc.indexOf(ustensil) < 0) {
-          acc.push(ustensil);
-        }
-        return acc;
-      }, [])
+    this.recipesDataForDropdown('ustensils', undefined)
       .forEach(ustensil => {
 
         // Displays ustensil dropdown
