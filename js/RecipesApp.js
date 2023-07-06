@@ -28,6 +28,7 @@ class RecipesApp {
       .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
     // Search form data
+    new MainSearchBar;
     this.recipesDataForMainSearchBar();
 
     // Select boxes
