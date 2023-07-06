@@ -12,6 +12,9 @@ class RecipesApp {
     this.recipesPage = new RecipesPage();
     this.tags = new Array();
 
+    
+    this.$input = document.querySelector('#recipes_search');
+
     this.$ingredientsList = document.querySelector('#ingredients_list');
     this.$appliancesList = document.querySelector('#appliances_list');
     this.$ustensilsList = document.querySelector('#ustensils_list');
@@ -28,8 +31,10 @@ class RecipesApp {
       .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
     // Search form data
-    new MainSearchBar;
-    this.recipesDataForMainSearchBar();
+    const recipesDataForMainSearchBar = this.recipesDataForMainSearchBar();
+    const linearSearch = new LinearSearch;
+    const inputValue = this.$input.value;
+    linearSearch.searchIncludeValue(inputValue, recipesDataForMainSearchBar);
 
     // Select boxes
     this.displayIngredientsDropdownWithData();
