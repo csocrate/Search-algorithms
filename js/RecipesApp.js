@@ -24,7 +24,11 @@ class RecipesApp {
   async init() {
     const recipesData = await this.dataApi.recipesFetch();
 
-    this.recipesData = recipesData;
+    this.recipesData = recipesData
+      .map(recipe => new RecipeFactories(recipe, 'recipe'));
+
+    // Search form data
+    this.recipesDataForMainSearchBar();
 
     // Select boxes
     this.displayIngredientsDropdownWithData();
@@ -40,6 +44,38 @@ class RecipesApp {
     this.displayActiveTags(tags);
   }
 
+  /**
+   * Returns an array of not duplicated data for search form 
+   * Data about name, description and ingredients of recipes
+   * @returns Array - recipesDataForMainSearchBar
+   */
+  recipesDataForMainSearchBar() {
+
+    let array = [];
+
+    // Ingredient data
+    this.recipesData
+      .map(el => el.ingredients)
+      .flat()
+      .forEach(type => array.push(type.ingredient));
+
+    // Name and description data
+    this.recipesData
+      .map(recipe => array.push(recipe.name, recipe.description));
+
+    // Avoids duplicated data
+    const recipesDataForMainSearchBar = array
+      .reduce((acc, el) => {
+        const word = el.charAt(0).toLowerCase() + el.slice(1);
+        if (acc.indexOf(word) < 0) {
+          acc.push(word);
+        }
+        return acc;
+      }, []);
+
+    return recipesDataForMainSearchBar;
+  }
+
   displayRecipeCardsWithData() {
     this.recipesData
       .forEach(recipe => {
@@ -52,8 +88,8 @@ class RecipesApp {
   }
 
   /**
-   * Returns an array of not duplicated data with first letter as uppercase
-   * Data for ingredients, appliances and ustensils dropdowns
+   * Returns an array of not duplicated data with first letter as uppercase for dropdowns
+   * Data about ingredients, appliances and ustensils of recipes
    * @param {string} key 
    * @param {string | undefined} value 
    * @returns Array - acc

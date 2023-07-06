@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
-class Recipes {
+class Recipe {
   /**
    * To create getters of recipes properties
    * @param {Object} data - list of objects from .json file
