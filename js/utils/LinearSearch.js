@@ -9,21 +9,38 @@ class LinearSearch extends MainSearchBar {
     super();
   }
 
-  searchIncludeValue(inputValue, recipesData) {
+  isUserValueMatchesByRegex(userInputValue, recipesData) {
+    
+    let result = [];
 
-    let matches = false;
+    const regExp = new RegExp(userInputValue, 'gmi');
+
+    for (let i = 0; i < recipesData.length; i++) {
+
+      const matches = recipesData[i].match(regExp);
+      if (matches) {
+        result.push(recipesData[i]);
+      }
+    }
+    // console.log(result)
+  }
+
+  isUserValueMatchesByIncludes(userInputValue, recipesData) {
+
+    let matches;
 
     let result = [];
 
     for (let i = 0; i < recipesData.length; i++) {
-      //  if (cupcake[i].toLowerCase().charCodeAt() == input.charCodeAt()) {
-      //    newArray.push(cupcake[i])
-      //    matches = true;
-      //  }
 
-      if (recipesData[i].toLowerCase().includes(inputValue)) {
-        result.push(recipesData[i]);
+      if (!recipesData[i].toLowerCase().includes(userInputValue)) {
+        matches = false;
+      } else {
         matches = true;
+      }
+
+      if (matches) {
+        result.push(recipesData[i]);
       }
     }
     // console.log(result)

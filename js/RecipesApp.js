@@ -33,8 +33,9 @@ class RecipesApp {
     // Search form data
     const recipesDataForMainSearchBar = this.recipesDataForMainSearchBar();
     const linearSearch = new LinearSearch;
-    const inputValue = this.$input.value;
-    linearSearch.searchIncludeValue(inputValue, recipesDataForMainSearchBar);
+    const userInputValue = 'chocolat';
+    linearSearch.isUserValueMatchesByRegex(userInputValue, recipesDataForMainSearchBar);
+    linearSearch.isUserValueMatchesByIncludes(userInputValue, recipesDataForMainSearchBar);
 
     // Select boxes
     this.displayIngredientsDropdownWithData();
