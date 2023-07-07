@@ -12,13 +12,11 @@ class RecipesApp {
     this.recipesPage = new RecipesPage();
     this.tags = new Array();
 
-    
-    this.$input = document.querySelector('#recipes_search');
-
+    // DOM    
+    this.$userInput = document.querySelector('#recipes_search');
     this.$ingredientsList = document.querySelector('#ingredients_list');
     this.$appliancesList = document.querySelector('#appliances_list');
     this.$ustensilsList = document.querySelector('#ustensils_list');
-
     this.$ingredientsSelect = document.querySelector('select#ingredients');
     this.$appliancesSelect = document.querySelector('#appliances');
     this.$ustensilsSelect = document.querySelector('#ustensils');
@@ -31,11 +29,7 @@ class RecipesApp {
       .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
     // Search form data
-    const recipesDataForMainSearchBar = this.recipesDataForMainSearchBar();
-    const linearSearch = new LinearSearch;
-    const userInputValue = 'chocolat';
-    linearSearch.isUserValueMatchesByRegex(userInputValue, recipesDataForMainSearchBar);
-    linearSearch.isUserValueMatchesByIncludes(userInputValue, recipesDataForMainSearchBar);
+    this.getMatchingUserInputValue();
 
     // Select boxes
     this.displayIngredientsDropdownWithData();
@@ -50,6 +44,18 @@ class RecipesApp {
     const tags = this.tags;
     this.displayActiveTags(tags);
   }
+
+  getMatchingUserInputValue() {
+
+    this.$userInput.addEventListener('input', (e) => {
+      const recipesDataForMainSearchBar = this.recipesDataForMainSearchBar();
+      const linearSearch = new LinearSearch;
+      const userInputValue = e.target.value;
+
+      linearSearch.isUserValueMatchesByRegex(userInputValue, recipesDataForMainSearchBar);
+      linearSearch.isUserValueMatchesByIncludes(userInputValue, recipesDataForMainSearchBar);
+    });
+  } 
 
   /**
    * Returns an array of not duplicated data for search form 

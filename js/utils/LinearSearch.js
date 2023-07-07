@@ -7,7 +7,7 @@
 class LinearSearch extends MainSearchBar {
   constructor() {
     super();
-  }
+  }  
 
   isUserValueMatchesByRegex(userInputValue, recipesData) {
     
