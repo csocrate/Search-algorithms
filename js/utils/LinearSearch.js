@@ -9,6 +9,13 @@ class LinearSearch extends MainSearchBar {
     super();
   }  
 
+  /**
+   * Returns an array of user value matching
+   * By match() method
+   * @param {*} userInputValue
+   * @param {*} recipesData
+   * @returns {Array} result
+   */
   isUserValueMatchesByRegex(userInputValue, recipesData) {
     
     let result = [];
@@ -22,9 +29,16 @@ class LinearSearch extends MainSearchBar {
         result.push(recipesData[i]);
       }
     }
-    // console.log(result)
+    return result;
   }
 
+  /**
+   * Returns an array of user value matching
+   * By include() method
+   * @param {*} userInputValue 
+   * @param {*} recipesData
+   * @returns {Array} result
+   */
   isUserValueMatchesByIncludes(userInputValue, recipesData) {
 
     let matches;
@@ -43,6 +57,6 @@ class LinearSearch extends MainSearchBar {
         result.push(recipesData[i]);
       }
     }
-    // console.log(result)
+    return result;
   }
 }

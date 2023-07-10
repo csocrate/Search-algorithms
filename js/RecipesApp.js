@@ -28,9 +28,6 @@ class RecipesApp {
     this.recipesData = recipesData
       .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
-    // Search form data
-    this.getMatchingUserInputValue();
-
     // Select boxes
     this.displayIngredientsDropdownWithData();
     this.displayAppliancesDropdownWithData();
@@ -39,23 +36,83 @@ class RecipesApp {
     // Cards
     this.displayRecipeCardsWithData();
 
+    // Main search bar
+    this.isUserInputValueMatches();
+
     // Tags
     this.tags.push('item 1', 'item 2', 'item 3');
     const tags = this.tags;
     this.displayActiveTags(tags);
   }
 
-  getMatchingUserInputValue() {
+  isUserInputValueMatches() {
 
     this.$userInput.addEventListener('input', (e) => {
-      const recipesDataForMainSearchBar = this.recipesDataForMainSearchBar();
-      const linearSearch = new LinearSearch;
-      const userInputValue = e.target.value;
 
-      linearSearch.isUserValueMatchesByRegex(userInputValue, recipesDataForMainSearchBar);
-      linearSearch.isUserValueMatchesByIncludes(userInputValue, recipesDataForMainSearchBar);
+      this.displayMatchingRecipe(e);
+
+      this.sortRecipeByDescendingMatching();
     });
-  } 
+  }
+
+  sortRecipeByDescendingMatching() {
+    const cardsContainer =  document.querySelector('.recipe-cards');
+    const containerArray = Array.from(cardsContainer.children);
+
+    const sorted = containerArray
+      .filter(child => {
+        if (child.hasAttribute('data-matches')) {
+          const matches = child.dataset.matches > parseInt(0);
+          if (matches) {
+            return child;
+          }
+        }
+      })
+      .sort((a,b) => {
+        return b.dataset.matches - a.dataset.matches;
+      });
+      sorted
+        .forEach(el => cardsContainer.append(el));
+  }
+
+  /**
+   * Displays matching recipe
+   * By main search bar
+   * @param {Event & {target: HTMLInputElement}} e 
+   */
+  displayMatchingRecipe(e) {
+    const cards =  Array.from(document.querySelectorAll('.recipe-cards article'));
+
+    cards
+      .forEach(card => {
+        const recipesDataForMainSearchBar = this.recipesDataForMainSearchBar();
+        const linearSearch = new LinearSearch;
+        const userInputValue = e.target.value;
+        const cardTextContent = card.textContent.toLowerCase();
+
+        const userInputMatchingList = linearSearch.isUserValueMatchesByRegex(userInputValue, recipesDataForMainSearchBar);
+
+        const isUserInputMatching = userInputMatchingList
+          .some(element => card.textContent.includes(element));
+      
+        if (isUserInputMatching) {
+          card.style.display = 'block';
+
+          let position = cardTextContent.indexOf(userInputValue);
+          let count = 0;
+
+          while (position !== -1) {
+            count++;
+            position = cardTextContent.indexOf(userInputValue, position + 1);
+          }
+          // Number of occurrences of user input value matching
+          card.dataset.matches = count;
+        } else {
+          card.dataset.matches = 0;
+          card.style.display = 'none';
+        }
+      });   
+  }
 
   /**
    * Returns an array of not duplicated data for search form 
