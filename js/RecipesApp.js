@@ -27,10 +27,6 @@ class RecipesApp {
     this.recipesData = recipesData
       .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
-    // Search form data
-    new MainSearchBar;
-    this.recipesDataForMainSearchBar();
-
     // Select boxes
     this.displayIngredientsDropdownWithData();
     this.displayAppliancesDropdownWithData();
@@ -38,6 +34,11 @@ class RecipesApp {
 
     // Cards
     this.displayRecipeCardsWithData();
+    this.recipesPage.displayRecipesCounter(this.recipesData);
+
+    // Search form data
+    new MainSearchBar;
+    this.recipesDataForMainSearchBar();
 
     // Tags
     this.tags.push('item 1', 'item 2', 'item 3');
