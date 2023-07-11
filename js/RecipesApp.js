@@ -12,10 +12,11 @@ class RecipesApp {
     this.recipesPage = new RecipesPage();
     this.tags = new Array();
 
+    // DOM
+    this.$userInput = document.querySelector('#recipes_search');
     this.$ingredientsList = document.querySelector('#ingredients_list');
     this.$appliancesList = document.querySelector('#appliances_list');
     this.$ustensilsList = document.querySelector('#ustensils_list');
-
     this.$ingredientsSelect = document.querySelector('select#ingredients');
     this.$appliancesSelect = document.querySelector('#appliances');
     this.$ustensilsSelect = document.querySelector('#ustensils');
@@ -27,10 +28,6 @@ class RecipesApp {
     this.recipesData = recipesData
       .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
-    // Search form data
-    new MainSearchBar;
-    this.recipesDataForMainSearchBar();
-
     // Select boxes
     this.displayIngredientsDropdownWithData();
     this.displayAppliancesDropdownWithData();
@@ -39,10 +36,83 @@ class RecipesApp {
     // Cards
     this.displayRecipeCardsWithData();
 
+    // Main search bar
+    this.isUserInputValueMatches();
+
     // Tags
     this.tags.push('item 1', 'item 2', 'item 3');
     const tags = this.tags;
     this.displayActiveTags(tags);
+  }
+
+  isUserInputValueMatches() {
+
+    this.$userInput.addEventListener('input', (e) => {
+
+      this.displayMatchingRecipe(e);
+
+      this.sortRecipeByDescendingMatching();
+    });
+  }
+
+  sortRecipeByDescendingMatching() {
+    const cardsContainer = document.querySelector('.recipe-cards');
+    const containerArray = Array.from(cardsContainer.children);
+
+    const sorted = containerArray
+      .filter(child => {
+        if (child.hasAttribute('data-matches')) {
+          const matches = child.dataset.matches > parseInt(0);
+          if (matches) {
+            return child;
+          }
+        }
+      })
+      .sort((a, b) => {
+        return b.dataset.matches - a.dataset.matches;
+      });
+
+    sorted
+      .forEach(el => cardsContainer.append(el));
+  }
+
+  /**
+   * Displays matching recipe
+   * By main search bar
+   * @param {Event & {target: HTMLInputElement}} e 
+   */
+  displayMatchingRecipe(e) {
+    const cards = Array.from(document.querySelectorAll('.recipe-cards article'));
+
+    cards
+      .forEach(card => {
+        const recipesDataForMainSearchBar = this.recipesDataForMainSearchBar().sort();
+        const binarySearch = new BinarySearch();
+        const userInputValue = e.target.value;
+        const cardTextContent = card.textContent.toLowerCase();
+
+        const userInputMatchingList = binarySearch.isUserValueMatches(userInputValue, recipesDataForMainSearchBar);
+
+        const isUserInputMatching = userInputMatchingList
+          .some(element => card.textContent.includes(element));
+      
+        if (isUserInputMatching) {
+          card.style.display = 'block';
+
+          let position = cardTextContent.indexOf(userInputValue);
+          let count = 0;
+
+          while (position !== -1) {
+            count++;
+            position = cardTextContent.indexOf(userInputValue, position + 1);
+          }
+          // Number of occurrences of user input value matching
+          card.dataset.matches = count;
+        } else {
+          card.dataset.matches = 0;
+          card.style.display = 'none';
+        }
+      });   
   }
 
   /**
