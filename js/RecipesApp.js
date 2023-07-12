@@ -24,8 +24,20 @@ class RecipesApp {
   async init() {
     const recipesData = await this.dataApi.recipesFetch();
 
+    // this.recipesData = recipesData
+    //   .map(recipe => new RecipeFactories(recipe, 'recipe'));
+
     this.recipesData = recipesData
-      .map(recipe => new RecipeFactories(recipe, 'recipe'));
+    .map(recipe => {
+      const ingredient = recipe.ingredients
+        .map(el => el.ingredient)
+        .flat()
+
+      return {
+        ...recipe,
+        search: `${recipe.name} ${recipe.description} ${ingredient}`
+      }
+    });
 
     // Select boxes
     this.displayIngredientsDropdownWithData();
@@ -34,48 +46,11 @@ class RecipesApp {
 
     // Cards
     this.displayRecipeCardsWithData();
-    this.recipesPage.displayRecipesCounter(this.recipesData);
-
-    // Search form data
-    new MainSearchBar;
-    this.recipesDataForMainSearchBar();
 
     // Tags
     this.tags.push('item 1', 'item 2', 'item 3');
     const tags = this.tags;
     this.displayActiveTags(tags);
-  }
-
-  /**
-   * Returns an array of not duplicated data for search form 
-   * Data about name, description and ingredients of recipes
-   * @returns Array - recipesDataForMainSearchBar
-   */
-  recipesDataForMainSearchBar() {
-
-    let array = [];
-
-    // Ingredient data
-    this.recipesData
-      .map(el => el.ingredients)
-      .flat()
-      .forEach(type => array.push(type.ingredient));
-
-    // Name and description data
-    this.recipesData
-      .map(recipe => array.push(recipe.name, recipe.description));
-
-    // Avoids duplicated data
-    const recipesDataForMainSearchBar = array
-      .reduce((acc, el) => {
-        const word = el.charAt(0).toLowerCase() + el.slice(1);
-        if (acc.indexOf(word) < 0) {
-          acc.push(word);
-        }
-        return acc;
-      }, []);
-
-    return recipesDataForMainSearchBar;
   }
 
   displayRecipeCardsWithData() {
@@ -87,6 +62,8 @@ class RecipesApp {
         const card = recipeCard.createRecipeCard();
         this.recipesPage.displayRecipeCard(card);
       });
+      
+      this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
   /**
