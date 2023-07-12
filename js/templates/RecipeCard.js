@@ -24,9 +24,9 @@
 
     const article = document.createElement('article');
     article.classList.add('col');
+    article.dataset.matches = 0;
 
     const recipeCard = `
-      <!-- Cards -->
       <div class="card rounded-bottom-4 border-0">
       <div class="h-300px position-relative">
         <img 
@@ -54,8 +54,7 @@
           ${this.createIngredientsDom()}
         </div>
       </div>
-    </div>
-    <!-- End Cards -->`;
+    </div>`;
 
     article.innerHTML = recipeCard;
 

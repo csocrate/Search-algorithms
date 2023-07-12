@@ -35,6 +35,11 @@ class RecipesApp {
 
     // Cards
     this.displayRecipeCardsWithData();
+    this.recipesPage.displayRecipesCounter(this.recipesData);
+
+    // Search form data
+    new MainSearchBar;
+    this.recipesDataForMainSearchBar();
 
     // Main search bar
     this.isUserInputValueMatches();

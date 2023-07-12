@@ -1,6 +1,6 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats utils/LinearSearch.js
+ * Les Petits Plats components/LinearSearch.js
  * ------------------------------------------------------------
  */
 

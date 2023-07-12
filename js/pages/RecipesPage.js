@@ -48,4 +48,14 @@
   async displayRecipeCard(data) {
     this.$recipeCards.appendChild(data);
   }
+
+  /**
+   * Displays recipes counter
+   * by data
+   * @param {string} cards
+   */
+  async displayRecipesCounter(cards) {
+    const recipesCounter = new RecipesCounter(cards);
+    recipesCounter.addNumberOfRecipes();
+  }
  }
