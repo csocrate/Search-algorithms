@@ -1,6 +1,6 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats utils/MainSearchBar.js
+ * Les Petits Plats components/MainSearchBar.js
  * ------------------------------------------------------------
  */
 

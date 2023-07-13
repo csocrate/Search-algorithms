@@ -1,6 +1,6 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats utils/BinarySearch.js
+ * Les Petits Plats components/BinarySearch.js
  * ------------------------------------------------------------
  */
 
