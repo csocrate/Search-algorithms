@@ -4,32 +4,29 @@
  * ------------------------------------------------------------
  */
 
-class LinearSearch extends MainSearchBar {
+ class LinearSearch extends MainSearchBar {
   constructor() {
     super();
-  }  
+  }
 
   /**
-   * Returns an array of user value matching
+   * Returns an array of objects
+   * Matching with user input value
    * By match() method
-   * @param {*} userInputValue
-   * @param {*} recipesData
-   * @returns {Array} result
+   * @param {string} userInputValue
+   * @param {Object} recipesData
+   * @returns {Array} isMatches
    */
   isUserValueMatchesByRegex(userInputValue, recipesData) {
     
-    let result = [];
+    const isMatches =  recipesData.filter(el => {
+  
+      const regExp = new RegExp(userInputValue, 'gmi');
 
-    const regExp = new RegExp(userInputValue, 'gmi');
+      return el.search.match(regExp);
+    });
 
-    for (let i = 0; i < recipesData.length; i++) {
-
-      const matches = recipesData[i].match(regExp);
-      if (matches) {
-        result.push(recipesData[i]);
-      }
-    }
-    return result;
+    return isMatches;
   }
 
   /**
@@ -40,23 +37,12 @@ class LinearSearch extends MainSearchBar {
    * @returns {Array} result
    */
   isUserValueMatchesByIncludes(userInputValue, recipesData) {
+    
+    const isMatches =  recipesData.filter(el => {
 
-    let matches;
+      return el.search.includes(userInputValue);
+    });
 
-    let result = [];
-
-    for (let i = 0; i < recipesData.length; i++) {
-
-      if (!recipesData[i].toLowerCase().includes(userInputValue)) {
-        matches = false;
-      } else {
-        matches = true;
-      }
-
-      if (matches) {
-        result.push(recipesData[i]);
-      }
-    }
-    return result;
+    return isMatches;
   }
 }
