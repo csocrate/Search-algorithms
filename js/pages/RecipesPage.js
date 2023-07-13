@@ -58,4 +58,14 @@
     const recipesCounter = new RecipesCounter(cards);
     recipesCounter.addNumberOfRecipes();
   }
+
+  /**
+   * Displays matching recipes counter
+   * by data
+   * @param {string} cards
+   */
+  async displayMatchingRecipesCounter(cards) {
+    const recipesCounter = new RecipesCounter(cards);
+    recipesCounter.addNumberOfMatchingRecipes();
+  }
  }

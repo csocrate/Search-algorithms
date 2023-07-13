@@ -29,4 +29,20 @@ class RecipesCounter {
     return this.recipesCounter.textContent;
     
   }
+
+  addNumberOfMatchingRecipes() {
+
+    this.recipesCounter.textContent = '';
+
+    let count = 0;
+
+    for (let i = 0; i < this.cards.length; i++) {
+      const matches = this.cards[i].dataset.matches > parseInt(0);
+      if (matches) {
+        count++;
+      }
+    }
+
+    this.recipesCounter.textContent = `${count} recettes`;    
+  }
 }

@@ -20,6 +20,7 @@ class RecipesApp {
     this.$ingredientsSelect = document.querySelector('select#ingredients');
     this.$appliancesSelect = document.querySelector('#appliances');
     this.$ustensilsSelect = document.querySelector('#ustensils');
+    this.$recipeCards = document.querySelector('.recipe-cards');
   }
 
   async init() {
@@ -57,16 +58,91 @@ class RecipesApp {
     this.displayActiveTags(tags);
   }
 
+  displayRecipeCardsWithData() {
+    this.recipesData
+      .forEach(recipe => {
+
+        // Displays recipe card
+        const recipeCard = new RecipeCard(recipe);
+        const card = recipeCard.createRecipeCard();
+        this.recipesPage.displayRecipeCard(card);
+      });
+      
+      this.recipesPage.displayRecipesCounter(this.recipesData);
+  }
+
   isUserInputValueMatches() {
 
     this.$userInput.addEventListener('input', (e) => {
+      const userInputValue = e.target.value;
 
-      this.displayMatchingRecipe(e);
+      this.displayMatchingRecipeBySearchBar(e);
+
+      this.addCounterOnMachtingRecipe(userInputValue);
 
       this.sortRecipeByDescendingMatching();
+
+      this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
     });
   }
 
+  /**
+   * Displays matching recipe
+   * By main search bar
+   * @param {Event & {target: HTMLInputElement}} e 
+   */
+  displayMatchingRecipeBySearchBar(e) {
+
+    const binarySearch = new BinarySearch();
+    const userInputValue = e.target.value;    
+
+    const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData);
+
+    this.$recipeCards.innerHTML = '';
+
+    userInputMatchingData
+      .forEach(recipe => {
+
+        // Displays recipe card
+        const recipeCard = new RecipeCard(recipe);
+        const card = recipeCard.createRecipeCard();
+        this.recipesPage.displayRecipeCard(card);
+      });
+  }
+
+  /**
+   * 
+   * @param {string} target 
+   */
+  addCounterOnMachtingRecipe(target) {
+
+    this.$recipeCards.querySelectorAll('article')
+      .forEach(card => {
+
+        const cardTextContent = card.textContent.toLowerCase();
+        console.log(cardTextContent.includes(target))
+
+        if (cardTextContent.includes(target)) {
+
+          let position = cardTextContent.indexOf(target);
+          let count = 0;
+
+          while (position !== -1) {
+            count++;
+            position = cardTextContent.indexOf(target, position + 1);
+          }
+          // Number of occurrences of user input value matching
+          card.dataset.matches = count;
+        } else {
+          card.dataset.matches = 0;
+        }
+      });
+  }
+
+  /**
+   * Sorts recipes by descending matching
+   * To allow user to better find the recipe that may suit him
+   */
   sortRecipeByDescendingMatching() {
     const cardsContainer = document.querySelector('.recipe-cards');
     const containerArray = Array.from(cardsContainer.children);
@@ -86,90 +162,6 @@ class RecipesApp {
 
     sorted
       .forEach(el => cardsContainer.append(el));
-  }
-
-  /**
-   * Displays matching recipe
-   * By main search bar
-   * @param {Event & {target: HTMLInputElement}} e 
-   */
-  displayMatchingRecipe(e) {
-    const cards = Array.from(document.querySelectorAll('.recipe-cards article'));
-
-    cards
-      .forEach(card => {
-        const recipesDataForMainSearchBar = this.recipesDataForMainSearchBar().sort();
-        const binarySearch = new BinarySearch();
-        const userInputValue = e.target.value;
-        const cardTextContent = card.textContent.toLowerCase();
-
-        const userInputMatchingList = binarySearch.isUserValueMatches(userInputValue, recipesDataForMainSearchBar);
-
-        const isUserInputMatching = userInputMatchingList
-          .some(element => card.textContent.includes(element));
-      
-        if (isUserInputMatching) {
-          card.style.display = 'block';
-
-          let position = cardTextContent.indexOf(userInputValue);
-          let count = 0;
-
-          while (position !== -1) {
-            count++;
-            position = cardTextContent.indexOf(userInputValue, position + 1);
-          }
-          // Number of occurrences of user input value matching
-          card.dataset.matches = count;
-        } else {
-          card.dataset.matches = 0;
-          card.style.display = 'none';
-        }
-      });   
-  }
-
-  /**
-   * Returns an array of not duplicated data for search form 
-   * Data about name, description and ingredients of recipes
-   * @returns Array - recipesDataForMainSearchBar
-   */
-  recipesDataForMainSearchBar() {
-
-    let array = [];
-
-    // Ingredient data
-    this.recipesData
-      .map(el => el.ingredients)
-      .flat()
-      .forEach(type => array.push(type.ingredient));
-
-    // Name and description data
-    this.recipesData
-      .map(recipe => array.push(recipe.name, recipe.description));
-
-    // Avoids duplicated data
-    const recipesDataForMainSearchBar = array
-      .reduce((acc, el) => {
-        const word = el.charAt(0).toLowerCase() + el.slice(1);
-        if (acc.indexOf(word) < 0) {
-          acc.push(word);
-        }
-        return acc;
-      }, []);
-
-    return recipesDataForMainSearchBar;
-  }
-
-  displayRecipeCardsWithData() {
-    this.recipesData
-      .forEach(recipe => {
-
-        // Displays recipe card
-        const recipeCard = new RecipeCard(recipe);
-        const card = recipeCard.createRecipeCard();
-        this.recipesPage.displayRecipeCard(card);
-      });
-      
-      this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
   /**

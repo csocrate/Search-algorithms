@@ -11,12 +11,13 @@ class BinarySearch extends MainSearchBar {
 
   isUserValueMatches(subtring, array) {
 
-    let result = [];
+    let isMatching = [];
 
-    this.isUserValueMatchesByRegex(subtring, array, result);
+    this.isUserValueMatchesByRegex(subtring, array, isMatching);
 
-    return result;
+    console.log(isMatching)
 
+    return isMatching;
   }
 
   isUserValueMatchesByRegex(substring, array, matchingArray) {
@@ -27,32 +28,36 @@ class BinarySearch extends MainSearchBar {
     while (left <= right) {
       let middle = Math.floor((left + right) / 2);
       let middleElement = array[middle];
+
       const regExp = new RegExp(substring, 'gmi');
 
-      if (middleElement.toLowerCase().match(regExp)) {
+      // Using search property of array
+      if (middleElement.search.match(regExp)) {
         
         matchingArray.push(middleElement);
 
-        // Checks if other elements to the left of middle element match
-        let i = middle - 1;
-        while (i >= left && array[i].toLowerCase().match(regExp)) {
-          matchingArray.push(array[i]);
-          i--;
+        for (let i = middle - 1; i >= left ; i--) {
+
+          if (array[i].search.match(regExp)) {
+            matchingArray.push(array[i]);
+          }
         }
 
-        // Checks if other elements to the right of middle element match
-        let j = middle + 1;
-        while (j < right && array[j].toLowerCase().match(regExp)) {
-          matchingArray.push(array[j]);
-          j++;
+        for (let j = middle + 1; j < right ; j++) {
+
+          if (array[j].search.match(regExp)) {
+            matchingArray.push(array[j]);
+          }
         }
 
         return;
 
-      } else if (middleElement.toLowerCase() < substring.toLowerCase()) {
+      } else if (middleElement.search < substring) {
         left = middle + 1;
+        console.log('First index on right: ' + left)
       } else {
         right = middle - 1;
+        console.log('Last index on left: ' + right)
       }
     }
     // No substring matches
