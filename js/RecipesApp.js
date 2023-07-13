@@ -25,8 +25,20 @@ class RecipesApp {
   async init() {
     const recipesData = await this.dataApi.recipesFetch();
 
+    // this.recipesData = recipesData
+    //   .map(recipe => new RecipeFactories(recipe, 'recipe'));
+
     this.recipesData = recipesData
-      .map(recipe => new RecipeFactories(recipe, 'recipe'));
+    .map(recipe => {
+      const ingredient = recipe.ingredients
+        .map(el => el.ingredient)
+        .flat()
+
+      return {
+        ...recipe,
+        search: `${recipe.name} ${recipe.description} ${ingredient}`
+      }
+    });
 
     // Select boxes
     this.displayIngredientsDropdownWithData();
@@ -35,11 +47,6 @@ class RecipesApp {
 
     // Cards
     this.displayRecipeCardsWithData();
-    this.recipesPage.displayRecipesCounter(this.recipesData);
-
-    // Search form data
-    new MainSearchBar;
-    this.recipesDataForMainSearchBar();
 
     // Main search bar
     this.isUserInputValueMatches();
@@ -160,6 +167,8 @@ class RecipesApp {
         const card = recipeCard.createRecipeCard();
         this.recipesPage.displayRecipeCard(card);
       });
+      
+      this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
   /**
