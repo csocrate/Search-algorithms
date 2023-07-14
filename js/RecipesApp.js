@@ -30,16 +30,15 @@ class RecipesApp {
     //   .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
     this.recipesData = recipesData
-    .map(recipe => {
-      const ingredient = recipe.ingredients
-        .map(el => el.ingredient)
-        .flat()
+      .map(recipe => {
+        const ingredient = recipe.ingredients
+          .map(el => el.ingredient);
 
-      return {
-        ...recipe,
-        search: `${recipe.name} ${recipe.description} ${ingredient}`
-      }
-    });
+        return {
+          ...recipe,
+          search: `${recipe.name} ${recipe.description} ${ingredient}`
+        }
+      });
 
     // Select boxes
     this.displayIngredientsDropdownWithData();
@@ -94,9 +93,9 @@ class RecipesApp {
   displayMatchingRecipeBySearchBar(e) {
 
     const binarySearch = new BinarySearch();
-    const userInputValue = e.target.value;    
+    const userInputValue = e.target.value;
 
-    const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData);
+    const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData, 0, this.recipesData.length - 1);
 
     this.$recipeCards.innerHTML = '';
 
@@ -120,7 +119,6 @@ class RecipesApp {
       .forEach(card => {
 
         const cardTextContent = card.textContent.toLowerCase();
-        console.log(cardTextContent.includes(target))
 
         if (cardTextContent.includes(target)) {
 
