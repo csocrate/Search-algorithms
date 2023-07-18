@@ -12,10 +12,10 @@ class RecipesApp {
     this.recipesPage = new RecipesPage();
     this.tags = new Array();
 
+    // DOM
     this.$ingredientsList = document.querySelector('#ingredients_list');
     this.$appliancesList = document.querySelector('#appliances_list');
     this.$ustensilsList = document.querySelector('#ustensils_list');
-
     this.$ingredientsSelect = document.querySelector('select#ingredients');
     this.$appliancesSelect = document.querySelector('#appliances');
     this.$ustensilsSelect = document.querySelector('#ustensils');
@@ -28,16 +28,16 @@ class RecipesApp {
     //   .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
     this.recipesData = recipesData
-    .map(recipe => {
-      const ingredient = recipe.ingredients
-        .map(el => el.ingredient)
-        .flat()
+      .map(recipe => {
+        const ingredient = recipe.ingredients
+          .map(el => el.ingredient)
+          .flat()
 
-      return {
-        ...recipe,
-        search: `${recipe.name} ${recipe.description} ${ingredient}`
-      }
-    });
+        return {
+          ...recipe,
+          search: `${recipe.name} ${recipe.description} ${ingredient}`
+        }
+      });
 
     // Select boxes
     this.displayIngredientsDropdownWithData();
@@ -46,6 +46,9 @@ class RecipesApp {
 
     // Cards
     this.displayRecipeCardsWithData();
+
+    // Main search bar
+    new MainSearchBar();
 
     // Tags
     this.tags.push('item 1', 'item 2', 'item 3');
@@ -62,8 +65,8 @@ class RecipesApp {
         const card = recipeCard.createRecipeCard();
         this.recipesPage.displayRecipeCard(card);
       });
-      
-      this.recipesPage.displayRecipesCounter(this.recipesData);
+
+    this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
   /**
@@ -75,11 +78,11 @@ class RecipesApp {
    */
   recipesDataForDropdown(key, value) {
     return this.recipesData
-      .map( recipe => recipe[`${key}`])
+      .map(recipe => recipe[`${key}`])
       .flat()
       .reduce((acc, el) => { // avoids duplicated item
         let data;
-        if (value) {          
+        if (value) {
           data = el[`${value}`].charAt(0).toUpperCase() + el[`${value}`].slice(1);
         } else {
           data = el.charAt(0).toUpperCase() + el.slice(1);
@@ -110,7 +113,7 @@ class RecipesApp {
   /**
    * @see recipesDataForDropdown
    */
-    displayAppliancesDropdownWithData() {
+  displayAppliancesDropdownWithData() {
 
     this.recipesDataForDropdown('appliance', undefined)
       .forEach(appliance => {
@@ -126,7 +129,7 @@ class RecipesApp {
   /**
    * @see recipesDataForDropdown
    */
-    displayUstensilsDropdownWithData() {
+  displayUstensilsDropdownWithData() {
 
     this.recipesDataForDropdown('ustensils', undefined)
       .forEach(ustensil => {
@@ -143,7 +146,7 @@ class RecipesApp {
    * @type {(string|Array)}
    * @param {Object} items 
    */
-  displayActiveTags(items) {    
+  displayActiveTags(items) {
     items
       .forEach(item => {
         const activeTag = new ActiveTag();
