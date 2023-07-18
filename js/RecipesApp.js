@@ -32,7 +32,8 @@ class RecipesApp {
     this.recipesData = recipesData
       .map(recipe => {
         const ingredient = recipe.ingredients
-          .map(el => el.ingredient);
+          .map(el => el.ingredient)
+          .flat()
 
         return {
           ...recipe,
@@ -66,8 +67,8 @@ class RecipesApp {
         const card = recipeCard.createRecipeCard();
         this.recipesPage.displayRecipeCard(card);
       });
-      
-      this.recipesPage.displayRecipesCounter(this.recipesData);
+
+    this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
   isUserInputValueMatches() {
@@ -171,11 +172,11 @@ class RecipesApp {
    */
   recipesDataForDropdown(key, value) {
     return this.recipesData
-      .map( recipe => recipe[`${key}`])
+      .map(recipe => recipe[`${key}`])
       .flat()
       .reduce((acc, el) => { // avoids duplicated item
         let data;
-        if (value) {          
+        if (value) {
           data = el[`${value}`].charAt(0).toUpperCase() + el[`${value}`].slice(1);
         } else {
           data = el.charAt(0).toUpperCase() + el.slice(1);
@@ -206,7 +207,7 @@ class RecipesApp {
   /**
    * @see recipesDataForDropdown
    */
-    displayAppliancesDropdownWithData() {
+  displayAppliancesDropdownWithData() {
 
     this.recipesDataForDropdown('appliance', undefined)
       .forEach(appliance => {
@@ -222,7 +223,7 @@ class RecipesApp {
   /**
    * @see recipesDataForDropdown
    */
-    displayUstensilsDropdownWithData() {
+  displayUstensilsDropdownWithData() {
 
     this.recipesDataForDropdown('ustensils', undefined)
       .forEach(ustensil => {
@@ -239,7 +240,7 @@ class RecipesApp {
    * @type {(string|Array)}
    * @param {Object} items 
    */
-  displayActiveTags(items) {    
+  displayActiveTags(items) {
     items
       .forEach(item => {
         const activeTag = new ActiveTag();

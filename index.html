@@ -26,8 +26,8 @@
   <!-- Main -->
   <main>
     <!-- Banner section -->
-    <section class="banner">
-      <div class="d-flex justify-content-center position-relative w-100 mh-70vh pt-6">
+    <section class="banner h-70vh">
+      <div class="d-flex justify-content-center position-relative w-100 h-100 pt-6">
         <div class="container position-relative d-flex flex-column justify-content-center align-items-center mw-900px">
           <h1 class="d-flex flex-column align-items-center font-monospace text-uppercase text-primary mb-4">
             <span class="d-inline-block">           
@@ -38,22 +38,6 @@
             </span>
           </h1>
           <form id="main_search" action="#" role="search" class="position-relative d-flex align-items-center w-100 main-search">
-            <label 
-              for="recipes_search"
-              class="position-absolute end-0 me-2 p-3 btn btn-secondary btn-outline-primary">
-                <svg 
-                  role="img" 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  width="25" 
-                  height="25" 
-                  fill="#EDEDED" 
-                  class="bi bi-search" 
-                  viewBox="0 0 16 16" 
-                  aria-labelledby="search_label">
-                    <title id="search_label">Rechercher une recette, un ingrédient</title>
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                </svg>
-            </label>
             <input
               id="recipes_search"
               name="recipes_search"
@@ -61,12 +45,29 @@
               type="search" 
               placeholder="Rechercher une recette, un ingrédient..." 
               aria-label="Rechercher une recette, un ingrédient">
-            <button type="button" class="btn-close d-none position-absolute end-10" aria-label="Supprimer cet ingrédient">
-            </button>
+              <button type="button" class="btn-close d-none position-absolute end-10" aria-label="Supprimer cet ingrédient">
+              </button>
+              <label 
+                for="recipes_search"
+                tabindex="0"
+                class="position-absolute end-0 me-2 p-3 btn btn-secondary btn-outline-primary">
+                  <svg 
+                    role="img" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="25" 
+                    height="25" 
+                    fill="#EDEDED" 
+                    class="bi bi-search" 
+                    viewBox="0 0 16 16" 
+                    aria-labelledby="search_label">
+                      <title id="search_label">Rechercher une recette, un ingrédient</title>
+                      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                  </svg>
+              </label>
           </form>
-          <span class="error-message d-inline-block fs-5 fw-bold pt-3 text-primary"></span>
+          <span class="error-message d-inline-block fs-7 fw-bold m-2 p-3 rounded-3 text-primary bg-secondary"></span>
         </div>
-        <div class="position-absolute top-0 start-0 z-n1 w-100 h-70vh">
+        <div class="position-absolute top-0 start-0 z-n1 w-100 h-100">
           <img
             decoding="async"
             width="1400"
