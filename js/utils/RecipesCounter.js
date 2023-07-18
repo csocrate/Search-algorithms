@@ -10,8 +10,7 @@ class RecipesCounter {
    */
   constructor(recipes) {
     this._recipes = recipes;
-
-    this.cards = document.querySelectorAll('.recipe-cards article');
+  
     this.recipesCounter = document.querySelector('.recipes-counter');
 
   }

@@ -6,12 +6,12 @@
 
 class MainSearchBar {
   constructor() {
-  this.$form = document.querySelector('#main_search');
-  this.$input = document.querySelector('#recipes_search');
-  this.$closeBtn = document.querySelector('#main_search .btn-close');
-  this.dataRecipe =  new RegExp("^[a-zA-Z]([a-zA-Z\-\s]){2,30}$", "g");
+    this.$form = document.querySelector('#main_search');
+    this.$input = document.querySelector('#recipes_search');
+    this.$closeBtn = document.querySelector('#main_search .btn-close');
+    this.inputRules = new RegExp("^[a-zA-Z]([a-zA-Z\-\s]){2,30}$", "g");
 
-  this.init();
+    this.init();
   }
 
   init() {
@@ -23,80 +23,111 @@ class MainSearchBar {
       this.isInputBlur(e);
     }, false);
 
-    this.$form.addEventListener("submit", (e) => {
-      this.validate(e);
-    }, false);
+    this.$form.addEventListener('submit', (e) => {
+      e.preventDefault(); // Prevent the form being submitted
+    });
 
-    document.querySelector('#main_search').addEventListener("click", () => {
+    this.$form.querySelector('label').addEventListener('click', (e) => {
+      this.isCharacterErrorMessage();
+    });
+
+    this.$form.querySelector('button').addEventListener("click", () => {
       this.closeBtn();
     }, false);
 
     document.addEventListener('keyup', e => {
-      this.onKeyUpAction(e)
+      this.onKeyUpAction(e);
     });
   }
 
+  /**
+   * 
+   * @param {FocusEvent} e 
+   */
   isInputFocus(e) {
     e.target.removeAttribute('placeholder');
   }
 
+  /**
+   * 
+   * @param {BlurEvent} e 
+   */
   isInputBlur(e) {
     e.target.setAttribute('placeholder', 'Rechercher une recette, un ingrédient...');
   }
 
   /**
   * Implement rules - About data main search bar
-  * @param {string} name - Value name of input element
+  * @param {string} inputValue - Input value
   * @param {object} regExpName - Expected data rules
-  * @param {string} errorText - Message
   * @returns {boolean} - If user data is set to true or false that means required field is correct or not
-  * @see inputValidation
   */
-  isValueMatch({name}, regExpName, errorText) {
-    const inputByname = document.querySelector("input[name=" + name + "]");
+  isValueMatch(inputValue, regExpName) {
     const errorMessage = document.querySelector(".error-message");
 
-    if (inputByname.value.match(regExpName)) {
-      errorMessage.textContent= "";
+    if (inputValue.match(regExpName)) {
       errorMessage.dataset.errorVisible = "false";
       return true;
     } else {
-      errorMessage.textContent = errorText;
       errorMessage.dataset.errorVisible = "true";
       return false;
     }
   }
 
   /**
-   * Returns error message with data recipe
-   * @param {string} data - data recipes
+   * Returns error message
+   * @param {string} text
    * @returns errorMessage
-   * @see inputValidation
    */
-  errorMessage() {
-    const errorMessage = `Merci de saisir au moins trois caractères.`;
+  errorMessage(text) {
+    const errorMessage = document.querySelector(".error-message");
+    errorMessage.textContent = text;
     return errorMessage;
   }
-  
-  
+
   /**
-   * Rejects any input that doesn't follow rules
-   * @see {@link errorMessage}
+   * Error message when user input value
+   * Not matches with input validation rules
+   */
+  isCharacterErrorMessage() {
+    const message = `Merci de saisir au moins trois caractères.`;
+
+    const userInputValue = this.$input.value;
+
+    if (!userInputValue.match(this.inputRules)) {
+      this.errorMessage(message);
+    }
+  }
+
+  /**
+   * Rejects input that doesn't follow rules
    * @see {@link isValueMatch}
    */
-  inputValidation() {
+  inputValidation(inputValue) {
     let result = true;
-  
-    if (!this.isValueMatch(recipes_search, this.dataRecipe, this.errorMessage())) {
+
+    if (!this.isValueMatch(inputValue, this.inputRules)) {
+
+      this.$form.dataset.validInput = 'false';
+
+      this.$form.querySelector('label').classList.replace('btn-primary', 'btn-secondary');
+      this.$form.querySelector('label svg').style.fill = '#EDEDED';
+
       result = false;
     }
 
-    if (result === true ) {
-      console.log('success')
+    if (result === true) {
+
+      this.$form.dataset.validInput = 'true';
+
+      this.$form.querySelector('label').classList.replace('btn-secondary', 'btn-primary');
+      this.$form.querySelector('label svg').style.fill = '#000';
       this.$closeBtn.classList.replace('d-none', 'd-inline-block');
     }
+
+    return result;
   }
-  
+
   /**
    * Close form button
    */
@@ -110,25 +141,22 @@ class MainSearchBar {
   }
 
   /**
-   * Closes modal with keyboard event
-   * @see closeModal()
+   * 
+   * @see closeBtn()
    * @param {KeyboardEvent} e 
    */
   onKeyUpAction(e) {
     if (this.$input === document.activeElement) {
+
       if (e.key === 'Escape') {
         this.closeBtn();
         document.querySelector('header .navbar-brand').focus();
+
+      } else if (e.key === 'Enter') {
+        e.preventDefault(); // Prevent the form being submitted
+
+        this.$form.querySelector('label').click();
       }
     }
-  }
-  
-  /**
-   * Handle implementation form input and user response
-   * when submit event is fires
-   */
-  validate(e) {
-    e.preventDefault(); // Prevent the form being submitted
-    this.inputValidation();
   }
 }
