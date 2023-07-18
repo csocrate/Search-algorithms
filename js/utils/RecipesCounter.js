@@ -12,7 +12,10 @@ class RecipesCounter {
     this._recipes = recipes;
   
     this.recipesCounter = document.querySelector('.recipes-counter');
-
+    this.cards = document.querySelectorAll('.recipe-cards article');
+    this.$userInput = document.querySelector('#recipes_search');
+    this.$form = document.querySelector('#main_search');
+    this.errorMessage = this.$form.nextElementSibling;
   }
 
   get recipes() {
@@ -40,8 +43,22 @@ class RecipesCounter {
       if (matches) {
         count++;
       }
-    }
+    }  
 
-    this.recipesCounter.textContent = `${count} recettes`;    
+    if (count == 0) {
+      this.errorMessage.textContent = `
+      Aucune recette ne contient "${this.$userInput.value}", 
+      vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
+
+      this.recipesCounter.textContent = `${count} recette`;
+      
+    } else if (count == 1) {
+      this.recipesCounter.textContent = `${count} recette`;
+
+    } else {
+      this.errorMessage.textContent = '';
+
+      this.recipesCounter.textContent = `${count} recettes`; 
+    }
   }
 }

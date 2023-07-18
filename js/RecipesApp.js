@@ -13,6 +13,7 @@ class RecipesApp {
     this.tags = new Array();
 
     // DOM
+    this.$form = document.querySelector('#main_search');
     this.$userInput = document.querySelector('#recipes_search');
     this.$ingredientsList = document.querySelector('#ingredients_list');
     this.$appliancesList = document.querySelector('#appliances_list');
@@ -78,11 +79,14 @@ class RecipesApp {
 
       this.displayMatchingRecipeBySearchBar(e);
 
-      this.addCounterOnMachtingRecipe(userInputValue);
+      if (this.$form.dataset.validInput === 'true') {
 
-      this.sortRecipeByDescendingMatching();
-
-      this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
+        this.addCounterOnMachtingRecipe(userInputValue);
+  
+        this.sortRecipesByDescendingMatching();
+  
+        this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
+      }
     });
   }
 
@@ -96,18 +100,25 @@ class RecipesApp {
     const binarySearch = new BinarySearch();
     const userInputValue = e.target.value;
 
-    const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData, 0, this.recipesData.length - 1);
+    const isInputValid = binarySearch.inputValidation(userInputValue);
 
-    this.$recipeCards.innerHTML = '';
+    if (isInputValid) {
 
-    userInputMatchingData
-      .forEach(recipe => {
-
-        // Displays recipe card
-        const recipeCard = new RecipeCard(recipe);
-        const card = recipeCard.createRecipeCard();
-        this.recipesPage.displayRecipeCard(card);
-      });
+      const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData, 0, this.recipesData.length - 1);
+  
+      this.$recipeCards.innerHTML = '';
+  
+      userInputMatchingData
+        .forEach(recipe => {
+  
+          // Displays recipe card
+          const recipeCard = new RecipeCard(recipe);
+          const card = recipeCard.createRecipeCard();
+          this.recipesPage.displayRecipeCard(card);
+        });
+    } else {
+      return;
+    }
   }
 
   /**
@@ -142,7 +153,7 @@ class RecipesApp {
    * Sorts recipes by descending matching
    * To allow user to better find the recipe that may suit him
    */
-  sortRecipeByDescendingMatching() {
+   sortRecipesByDescendingMatching() {
     const cardsContainer = document.querySelector('.recipe-cards');
     const containerArray = Array.from(cardsContainer.children);
 
