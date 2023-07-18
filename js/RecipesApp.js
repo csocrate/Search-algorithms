@@ -12,7 +12,8 @@ class RecipesApp {
     this.recipesPage = new RecipesPage();
     this.tags = new Array();
 
-    // DOM    
+    // DOM
+    this.$form = document.querySelector('#main_search');
     this.$userInput = document.querySelector('#recipes_search');
     this.$ingredientsList = document.querySelector('#ingredients_list');
     this.$appliancesList = document.querySelector('#appliances_list');
@@ -78,11 +79,14 @@ class RecipesApp {
 
       this.displayMatchingRecipeBySearchBar(e);
 
-      this.addCounterOnMachtingRecipe(userInputValue);
+      if (this.$form.dataset.validInput === 'true') {
 
-      this.sortRecipesByDescendingMatching();
-
-      this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
+        this.addCounterOnMachtingRecipe(userInputValue);
+  
+        this.sortRecipesByDescendingMatching();
+  
+        this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
+      }
     });
   }
 
@@ -96,18 +100,24 @@ class RecipesApp {
     const linearSearch = new LinearSearch();
     const userInputValue = e.target.value;
 
-    const userInputMatchingData = linearSearch.isUserValueMatchesByRegex(userInputValue, this.recipesData);
+    const isInputValid = linearSearch.inputValidation(userInputValue);
 
-    this.$recipeCards.innerHTML = '';
-
-    userInputMatchingData
-      .forEach(recipe => {
-
-        // Displays recipe card
-        const recipeCard = new RecipeCard(recipe);
-        const card = recipeCard.createRecipeCard();
-        this.recipesPage.displayRecipeCard(card);
-      });
+    if (isInputValid) {
+      const userInputMatchingData = linearSearch.isUserValueMatchesByRegex(userInputValue, this.recipesData);
+  
+      this.$recipeCards.innerHTML = '';
+  
+      userInputMatchingData
+        .forEach(recipe => {
+  
+          // Displays recipe card
+          const recipeCard = new RecipeCard(recipe);
+          const card = recipeCard.createRecipeCard();
+          this.recipesPage.displayRecipeCard(card);
+        });
+    } else {
+      return;
+    }
   }
 
   /**
@@ -120,7 +130,6 @@ class RecipesApp {
       .forEach(card => {
 
         const cardTextContent = card.textContent.toLowerCase();
-        console.log(cardTextContent.includes(target))
 
         if (cardTextContent.includes(target)) {
 
