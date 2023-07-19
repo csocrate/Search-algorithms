@@ -6,6 +6,9 @@
 
 class RecipesApp {
   recipesData = undefined;
+  matchingIngredients = undefined;
+  matchingAppliances = undefined;
+  matchingUstensils = undefined;
 
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
@@ -15,12 +18,6 @@ class RecipesApp {
     // DOM
     this.$form = document.querySelector('#main_search');
     this.$userInput = document.querySelector('#recipes_search');
-    this.$ingredientsList = document.querySelector('#ingredients_list');
-    this.$appliancesList = document.querySelector('#appliances_list');
-    this.$ustensilsList = document.querySelector('#ustensils_list');
-    this.$ingredientsSelect = document.querySelector('select#ingredients');
-    this.$appliancesSelect = document.querySelector('#appliances');
-    this.$ustensilsSelect = document.querySelector('#ustensils');
     this.$recipeCards = document.querySelector('.recipe-cards');
   }
 
@@ -37,6 +34,7 @@ class RecipesApp {
 
         return {
           ...recipe,
+          ingredientOnly: ingredient,
           search: `${recipe.name} ${recipe.description} ${ingredient}`
         }
       });
@@ -90,7 +88,8 @@ class RecipesApp {
 
   /**
    * Displays matching recipe
-   * By main search bar
+   * And matching ingredients, appliances and ustensils on select boxes
+   * from main search bar
    * @param {Event & {target: HTMLInputElement}} e 
    */
   displayMatchingRecipeBySearchBar(e) {
@@ -101,9 +100,14 @@ class RecipesApp {
     const isInputValid = linearSearch.inputValidation(userInputValue);
 
     if (isInputValid) {
+
       const userInputMatchingData = linearSearch.isUserValueMatchesByRegex(userInputValue, this.recipesData);
   
       this.$recipeCards.innerHTML = '';
+
+      let matchingIngredients = [];
+      let matchingAppliances = [];
+      let matchingUstensils = [];   
   
       userInputMatchingData
         .forEach(recipe => {
@@ -112,7 +116,24 @@ class RecipesApp {
           const recipeCard = new RecipeCard(recipe);
           const card = recipeCard.createRecipeCard();
           this.recipesPage.displayRecipeCard(card);
+
+          // Pushes matching item into dropdown list
+          matchingIngredients.push(recipe.ingredientOnly)
+          matchingAppliances.push(recipe.appliance)
+          matchingUstensils.push(recipe.ustensils)
         });
+
+        this.matchingIngredients = matchingIngredients.flat();
+        this.matchingAppliances = matchingAppliances;
+        this.matchingUstensils = matchingUstensils.flat()
+  
+        // Updates select boxes with matching data
+        const dropdownList = new DropdownList();
+        dropdownList.displayMatchingItemsOnSelectBoxes(
+          this.matchingIngredients,
+          this.matchingAppliances,
+          this.matchingUstensils);
+
     } else {
       return;
     }
@@ -154,7 +175,7 @@ class RecipesApp {
     const cardsContainer = document.querySelector('.recipe-cards');
     const containerArray = Array.from(cardsContainer.children);
 
-    const sorted = containerArray
+    const sortedRecipes = containerArray
       .filter(child => {
         if (child.hasAttribute('data-matches')) {
           const matches = child.dataset.matches > parseInt(0);
@@ -166,7 +187,8 @@ class RecipesApp {
       .sort((a, b) => {
         return b.dataset.matches - a.dataset.matches;
       });
-    sorted
+
+    sortedRecipes
       .forEach(el => cardsContainer.append(el));
   }
 

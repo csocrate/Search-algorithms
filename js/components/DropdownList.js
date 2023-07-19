@@ -92,4 +92,71 @@ class DropdownList {
         return acc;
       }, []);
   }
+
+  /**
+   * @see displayMatchingItemsDropdownWithData
+   */
+  displayMatchingItemsOnSelectBoxes(matchingIngredients, matchingAppliances, matchingUstensils){
+
+    this.displayMatchingItemsDropdownWithData(
+      matchingIngredients,
+      this.$ingredientsCustomSelect,
+      this.$ingredientsSelect);
+
+    this.displayMatchingItemsDropdownWithData(
+      matchingAppliances,
+      this.$appliancesCustomSelect,
+      this.$appliancesSelect);
+
+    this.displayMatchingItemsDropdownWithData(
+      matchingUstensils,
+      this.$ustensilsCustomSelect,
+      this.$ingredientsSelect);
+  }
+
+  /**
+   * 
+   * @param {Array} matchingRecipesDataItem
+   * @param {HTMLElement} customSelect
+   * @param {HTMLElement} select
+   * @see matchingRecipesDataForDropdown
+   */
+  displayMatchingItemsDropdownWithData(matchingRecipesDataItem, customSelect, select) {
+
+    customSelect.innerHTML = '';
+    select.innerHTML = '';
+
+    this.matchingRecipesDataForDropdown(matchingRecipesDataItem)
+      .forEach(item => {
+
+        // Displays ingredients dropdown
+        this.recipesPage.displayItemForDropdown(item, customSelect);
+
+        // Displays ingredients option
+        this.recipesPage.displayOptionForDropdown(item, select);
+      });
+  }
+
+  /**
+   * Returns an array of not duplicated data with first letter as uppercase for dropdowns
+   * Data about matching ingredients, appliances and ustensils 
+   * About matching recipes from main search bar
+   * @param {Array} dataArray
+   * @returns dataArray - acc
+   */
+  matchingRecipesDataForDropdown(matchingRecipesDataItem) {
+    return matchingRecipesDataItem
+      .reduce((acc, el) => { // avoids duplicated item
+
+        let data;
+
+        data = el.charAt(0).toUpperCase() + el.slice(1);
+
+        if (acc.indexOf(data) < 0) {
+          acc.push(data);
+        }
+        return acc;
+
+      }, []);
+  }
 }
