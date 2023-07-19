@@ -9,7 +9,7 @@ class MainSearchBar {
     this.$form = document.querySelector('#main_search');
     this.$input = document.querySelector('#recipes_search');
     this.$closeBtn = document.querySelector('#main_search .btn-close');
-    this.inputRules = new RegExp("^[a-zA-Z]([a-zA-Z\-\s]){2,30}$", "g");
+    this.inputRules = new RegExp('^[a-zA-Z]([a-zA-Z\-\s]){2,30}$', 'g');
 
     this.init();
   }
