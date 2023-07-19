@@ -33,8 +33,7 @@ class RecipesApp {
     this.recipesData = recipesData
       .map(recipe => {
         const ingredient = recipe.ingredients
-          .map(el => el.ingredient)
-          .flat()
+          .map(el => el.ingredient);
 
         return {
           ...recipe,
@@ -43,9 +42,8 @@ class RecipesApp {
       });
 
     // Select boxes
-    this.displayIngredientsDropdownWithData();
-    this.displayAppliancesDropdownWithData();
-    this.displayUstensilsDropdownWithData();
+    const dropdownList = new DropdownList();
+    dropdownList.displaySelectBoxesWithData(this.recipesData);
 
     // Cards
     this.displayRecipeCardsWithData();
@@ -170,79 +168,6 @@ class RecipesApp {
       });
     sorted
       .forEach(el => cardsContainer.append(el));
-  }
-
-  /**
-   * Returns an array of not duplicated data with first letter as uppercase for dropdowns
-   * Data about ingredients, appliances and ustensils of recipes
-   * @param {string} key 
-   * @param {string | undefined} value 
-   * @returns Array - acc
-   */
-  recipesDataForDropdown(key, value) {
-    return this.recipesData
-      .map(recipe => recipe[`${key}`])
-      .flat()
-      .reduce((acc, el) => { // avoids duplicated item
-        let data;
-        if (value) {
-          data = el[`${value}`].charAt(0).toUpperCase() + el[`${value}`].slice(1);
-        } else {
-          data = el.charAt(0).toUpperCase() + el.slice(1);
-        }
-        if (acc.indexOf(data) < 0) {
-          acc.push(data);
-        }
-        return acc;
-      }, []);
-  }
-
-  /**
-   * @see recipesDataForDropdown
-   */
-  displayIngredientsDropdownWithData() {
-
-    this.recipesDataForDropdown('ingredients', 'ingredient')
-      .forEach(ingredient => {
-
-        // Displays ingredients dropdown
-        this.recipesPage.displayItemForDropdown(ingredient, this.$ingredientsList);
-
-        // Displays ingredients option
-        this.recipesPage.displayOptionForDropdown(ingredient, this.$ingredientsSelect);
-      });
-  }
-
-  /**
-   * @see recipesDataForDropdown
-   */
-  displayAppliancesDropdownWithData() {
-
-    this.recipesDataForDropdown('appliance', undefined)
-      .forEach(appliance => {
-
-        // Displays appliances dropdown
-        this.recipesPage.displayItemForDropdown(appliance, this.$appliancesList);
-
-        // Displays appliances option
-        this.recipesPage.displayOptionForDropdown(appliance, this.$appliancesSelect);
-      });
-  }
-
-  /**
-   * @see recipesDataForDropdown
-   */
-  displayUstensilsDropdownWithData() {
-
-    this.recipesDataForDropdown('ustensils', undefined)
-      .forEach(ustensil => {
-
-        // Displays ustensil dropdown
-        this.recipesPage.displayItemForDropdown(ustensil, this.$ustensilsList);
-
-        // Displays ustensil option
-        this.recipesPage.displayOptionForDropdown(ustensil, this.$ustensilsSelect);
-      });
   }
 
   /**
