@@ -6,6 +6,9 @@
 
 class RecipesApp {
   recipesData = undefined;
+  matchingIngredients = undefined;
+  matchingAppliances = undefined;
+  matchingUstensils = undefined;
 
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
@@ -31,6 +34,7 @@ class RecipesApp {
 
         return {
           ...recipe,
+          ingredientOnly: ingredient,
           search: `${recipe.name} ${recipe.description} ${ingredient}`
         }
       });
@@ -84,7 +88,8 @@ class RecipesApp {
 
   /**
    * Displays matching recipe
-   * By main search bar
+   * And matching ingredients, appliances and ustensils on select boxes
+   * from main search bar
    * @param {Event & {target: HTMLInputElement}} e 
    */
   displayMatchingRecipeBySearchBar(e) {
@@ -99,6 +104,10 @@ class RecipesApp {
       const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData, 0, this.recipesData.length - 1);
   
       this.$recipeCards.innerHTML = '';
+
+      let matchingIngredients = [];
+      let matchingAppliances = [];
+      let matchingUstensils = [];
   
       userInputMatchingData
         .forEach(recipe => {
@@ -107,7 +116,24 @@ class RecipesApp {
           const recipeCard = new RecipeCard(recipe);
           const card = recipeCard.createRecipeCard();
           this.recipesPage.displayRecipeCard(card);
+
+          // Pushes matching item into dropdown list
+          matchingIngredients.push(recipe.ingredientOnly);
+          matchingAppliances.push(recipe.appliance);
+          matchingUstensils.push(recipe.ustensils);
         });
+
+        this.matchingIngredients = matchingIngredients.flat();
+        this.matchingAppliances = matchingAppliances;
+        this.matchingUstensils = matchingUstensils.flat()
+  
+        // Updates select boxes with matching data
+        const dropdownList = new DropdownList();
+        dropdownList.displayMatchingItemsOnSelectBoxes(
+          this.matchingIngredients,
+          this.matchingAppliances,
+          this.matchingUstensils);
+
     } else {
       return;
     }
