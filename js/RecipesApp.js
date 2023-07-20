@@ -107,7 +107,7 @@ class RecipesApp {
 
       let matchingIngredients = [];
       let matchingAppliances = [];
-      let matchingUstensils = [];   
+      let matchingUstensils = [];
   
       userInputMatchingData
         .forEach(recipe => {
@@ -118,9 +118,9 @@ class RecipesApp {
           this.recipesPage.displayRecipeCard(card);
 
           // Pushes matching item into dropdown list
-          matchingIngredients.push(recipe.ingredientOnly)
-          matchingAppliances.push(recipe.appliance)
-          matchingUstensils.push(recipe.ustensils)
+          matchingIngredients.push(recipe.ingredientOnly);
+          matchingAppliances.push(recipe.appliance);
+          matchingUstensils.push(recipe.ustensils);
         });
 
         this.matchingIngredients = matchingIngredients.flat();

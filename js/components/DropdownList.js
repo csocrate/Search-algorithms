@@ -111,7 +111,7 @@ class DropdownList {
     this.displayMatchingItemsDropdownWithData(
       matchingUstensils,
       this.$ustensilsCustomSelect,
-      this.$ingredientsSelect);
+      this.$ustensilsSelect);
   }
 
   /**
