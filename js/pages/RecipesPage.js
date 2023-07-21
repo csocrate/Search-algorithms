@@ -16,7 +16,7 @@
    * @param {string} data 
    * @param {HTMLElement} list 
    */
-  async displayItemForDropdown(data, list) {
+  async displayItemInDropdown(data, list) {
     const itemDropdown = new ItemDropdown();
     itemDropdown.createItemForDropdown(data, list);
   }
@@ -27,7 +27,7 @@
    * @param {string} data 
    * @param {HTMLElement} select 
    */
-  async displayOptionForDropdown(data, select) {
+  async displayOptionInDropdown(data, select) {
     const itemDropdown = new ItemDropdown();
     itemDropdown.createOptionForDropdown(data, select);
   }
