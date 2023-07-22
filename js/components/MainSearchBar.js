@@ -33,6 +33,7 @@ class MainSearchBar {
 
     this.$form.querySelector('button').addEventListener("click", () => {
       this.closeBtn();
+      this.removeInputValue();
     }, false);
 
     document.addEventListener('keyup', e => {
@@ -113,6 +114,12 @@ class MainSearchBar {
       this.$form.querySelector('label').classList.replace('btn-primary', 'btn-secondary');
       this.$form.querySelector('label svg').style.fill = '#EDEDED';
 
+      if (this.$closeBtn.classList.contains('d-inline-block')) {
+        this.closeBtn();
+      }
+      
+      this.errorMessage('');
+
       result = false;
     }
 
@@ -132,7 +139,6 @@ class MainSearchBar {
    * Close form button
    */
   closeBtn() {
-    this.removeInputValue();
     this.$closeBtn.classList.replace('d-inline-block', 'd-none');
   }
 

@@ -90,8 +90,8 @@
         <!-- Filters -->
         <div class="row d-flex align-items-center mb-5">
           <div class="col-10">
-            <!-- Custom select boxes -->
-            <div class="row">
+            <!-- Select boxes -->
+            <div class="row search-filters">
               <!-- Ingredients dropdown -->
               <div class="col-12 col-md-4 col-lg-2">
                 <div class="position-relative mb-3">
@@ -123,7 +123,9 @@
                         type="search"
                         class="form-control w-90 mx-auto rounded-0 opacity-50 bg-white"
                         aria-label="Filtrer par ingrégrient">
-                        <span class="fa-solid fa-magnifying-glass position-absolute bottom-50 end-10 opacity-25" aria-hidden="true"></span>
+                        <button type="button" class="btn-close d-none position-absolute bottom-50 end-20 badge opacity-50" aria-label="Supprimer cet ingrédient">
+                        </button>
+                        <span class="fa-solid fa-magnifying-glass text-black-50 position-absolute bottom-50 end-10 z-1 bg-white" aria-hidden="true"></span>
                     </li>
                   </ul>
                 </div>
@@ -159,7 +161,9 @@
                           type="search" 
                           class="form-control w-90 mx-auto rounded-0 opacity-50 bg-white"
                           aria-label="Filtrer par appareil">
-                          <span class="fa-solid fa-magnifying-glass position-absolute bottom-50 end-10 opacity-25" aria-hidden="true"></span>
+                          <button type="button" class="btn-close d-none position-absolute bottom-50 end-20 badge opacity-50" aria-label="Supprimer cet appareil">
+                          </button>
+                          <span class="fa-solid fa-magnifying-glass text-black-50 position-absolute bottom-50 end-10 z-1 bg-white" aria-hidden="true"></span>
                       </li>
                   </ul>
                 </div>
@@ -195,12 +199,14 @@
                           type="search"
                           class="form-control w-90 mx-auto rounded-0 opacity-50 bg-white"
                           aria-label="Filtrer par ustensile">
-                          <span class="fa-solid fa-magnifying-glass position-absolute bottom-50 end-10 opacity-25" aria-hidden="true"></span>
+                          <button type="button" class="btn-close d-none position-absolute bottom-50 end-20 badge opacity-50" aria-label="Supprimer cet ustensile">
+                          </button>
+                          <span class="fa-solid fa-magnifying-glass text-black-50 position-absolute bottom-50 end-10 z-1 bg-white" aria-hidden="true"></span>
                       </li>
                   </ul>
                 </div>
               </div> <!-- End Ustensils dropdown -->  
-            </div> <!-- End Custom select boxes -->
+            </div> <!-- End Select boxes -->
             <!-- Filtered tags -->
             <div class="row">
               <div class="col-12">
@@ -238,7 +244,8 @@
   <!-- components -->
   <script src="/js/components/MainSearchBar.js"></script>
   <script src="/js/components/BinarySearch.js"></script>
-  <script src="/js/components/DropdownList.js"></script>
+  <script src="/js/components/DropdownSearchFilter.js"></script>
+  <script src="/js/components/DataDropdownList.js"></script>
   <!-- utils -->
   <script src="/js/utils/RecipesCounter.js"></script>
   <!-- Entry point -->

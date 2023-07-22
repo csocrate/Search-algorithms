@@ -19,6 +19,7 @@ class RecipesApp {
     this.$form = document.querySelector('#main_search');
     this.$userInput = document.querySelector('#recipes_search');
     this.$recipeCards = document.querySelector('.recipe-cards');
+    this.$searchFilterInputs = document.querySelectorAll('.search-filters li input');
   }
 
   async init() {
@@ -39,15 +40,15 @@ class RecipesApp {
         }
       });
 
-    // Select boxes
-    const dropdownList = new DropdownList();
-    dropdownList.displaySelectBoxesWithData(this.recipesData);
-
     // Cards
     this.displayRecipeCardsWithData();
 
     // Main search bar
     this.isUserInputValueMatches();
+
+    // Select boxes
+    this.displayDropDownListOnSearchFilters();
+    this.isUserInputValueMatchesOnSearchFilter();
 
     // Tags
     this.tags.push('item 1', 'item 2', 'item 3');
@@ -78,9 +79,9 @@ class RecipesApp {
       if (this.$form.dataset.validInput === 'true') {
 
         this.addCounterOnMachtingRecipe(userInputValue);
-  
+
         this.sortRecipesByDescendingMatching();
-  
+
         this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
       }
     });
@@ -102,16 +103,16 @@ class RecipesApp {
     if (isInputValid) {
 
       const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData, 0, this.recipesData.length - 1);
-  
+
       this.$recipeCards.innerHTML = '';
 
       let matchingIngredients = [];
       let matchingAppliances = [];
       let matchingUstensils = [];
-  
+
       userInputMatchingData
         .forEach(recipe => {
-  
+
           // Displays recipe card
           const recipeCard = new RecipeCard(recipe);
           const card = recipeCard.createRecipeCard();
@@ -123,16 +124,16 @@ class RecipesApp {
           matchingUstensils.push(recipe.ustensils);
         });
 
-        this.matchingIngredients = matchingIngredients.flat();
-        this.matchingAppliances = matchingAppliances;
-        this.matchingUstensils = matchingUstensils.flat()
-  
-        // Updates select boxes with matching data
-        const dropdownList = new DropdownList();
-        dropdownList.displayMatchingItemsOnSelectBoxes(
-          this.matchingIngredients,
-          this.matchingAppliances,
-          this.matchingUstensils);
+      this.matchingIngredients = matchingIngredients.flat();
+      this.matchingAppliances = matchingAppliances;
+      this.matchingUstensils = matchingUstensils.flat()
+
+      // Updates select boxes with matching data
+      const dataDropdownList = new DataDropdownList();
+      dataDropdownList.displayMatchingItemsOnSelectBoxes(
+        this.matchingIngredients,
+        this.matchingAppliances,
+        this.matchingUstensils);
 
     } else {
       return;
@@ -171,7 +172,7 @@ class RecipesApp {
    * Sorts recipes by descending matching
    * To allow user to better find the recipe that may suit him
    */
-   sortRecipesByDescendingMatching() {
+  sortRecipesByDescendingMatching() {
     const cardsContainer = document.querySelector('.recipe-cards');
     const containerArray = Array.from(cardsContainer.children);
 
@@ -190,6 +191,32 @@ class RecipesApp {
 
     sorted
       .forEach(el => cardsContainer.append(el));
+  }
+
+  /**
+   * Displays initial data on dropdown search filter
+   */
+  displayDropDownListOnSearchFilters() {
+    const dataDropdownList = new DataDropdownList();
+    dataDropdownList.displaySelectBoxesWithData(this.recipesData);
+  }
+
+  isUserInputValueMatchesOnSearchFilter() {
+    const dropdownSearchFilter = new DropdownSearchFilter();
+
+    this.$searchFilterInputs.forEach(input => {
+
+      input.addEventListener('input', (e) => {
+
+        const userInputValue = e.target.value;
+
+        const isInputValid = dropdownSearchFilter.IsUserInputValid(userInputValue, input);
+
+        if (isInputValid) {
+
+        }
+      });
+    });
   }
 
   /**
