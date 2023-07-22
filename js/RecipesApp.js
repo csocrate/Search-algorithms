@@ -44,7 +44,7 @@ class RecipesApp {
     this.displayRecipeCardsWithData();
 
     // Main search bar
-    this.isUserInputValueMatches();
+    this.isUserInputValueMatchesOnMainSearchBar();
 
     // Select boxes
     this.displayDropDownListOnSearchFilters();
@@ -69,7 +69,7 @@ class RecipesApp {
     this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
-  isUserInputValueMatches() {
+  isUserInputValueMatchesOnMainSearchBar() {
 
     this.$userInput.addEventListener('input', (e) => {
       const userInputValue = e.target.value;
@@ -118,7 +118,7 @@ class RecipesApp {
           const card = recipeCard.createRecipeCard();
           this.recipesPage.displayRecipeCard(card);
 
-          // Pushes matching item into dropdown list
+          // Pushes matching data
           matchingIngredients.push(recipe.ingredientOnly);
           matchingAppliances.push(recipe.appliance);
           matchingUstensils.push(recipe.ustensils);
@@ -126,14 +126,9 @@ class RecipesApp {
 
       this.matchingIngredients = matchingIngredients.flat();
       this.matchingAppliances = matchingAppliances;
-      this.matchingUstensils = matchingUstensils.flat()
+      this.matchingUstensils = matchingUstensils.flat();
 
-      // Updates select boxes with matching data
-      const dataDropdownList = new DataDropdownList();
-      dataDropdownList.displayMatchingItemsOnSelectBoxes(
-        this.matchingIngredients,
-        this.matchingAppliances,
-        this.matchingUstensils);
+      this.updateDropdownListsByMainSearchBar();
 
     } else {
       return;
@@ -176,7 +171,7 @@ class RecipesApp {
     const cardsContainer = document.querySelector('.recipe-cards');
     const containerArray = Array.from(cardsContainer.children);
 
-    const sorted = containerArray
+    const sortedRecipes = containerArray
       .filter(child => {
         if (child.hasAttribute('data-matches')) {
           const matches = child.dataset.matches > parseInt(0);
@@ -189,7 +184,7 @@ class RecipesApp {
         return b.dataset.matches - a.dataset.matches;
       });
 
-    sorted
+    sortedRecipes
       .forEach(el => cardsContainer.append(el));
   }
 
@@ -199,6 +194,18 @@ class RecipesApp {
   displayDropDownListOnSearchFilters() {
     const dataDropdownList = new DataDropdownList();
     dataDropdownList.displaySelectBoxesWithData(this.recipesData);
+  }
+
+  /**
+   * Updates dropdown search filters with matching data
+   * From main search bar
+   */
+  updateDropdownListsByMainSearchBar() {
+    const dataDropdownList = new DataDropdownList();
+    dataDropdownList.displayMatchingItemsOnSelectBoxes(
+      this.matchingIngredients,
+      this.matchingAppliances,
+      this.matchingUstensils);    
   }
 
   isUserInputValueMatchesOnSearchFilter() {

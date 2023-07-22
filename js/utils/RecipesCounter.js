@@ -43,7 +43,7 @@ class RecipesCounter {
       if (matches) {
         count++;
       }
-    }  
+    }
 
     if (count == 0) {
       this.errorMessage.textContent = `
@@ -52,13 +52,22 @@ class RecipesCounter {
 
       this.recipesCounter.textContent = `${count} recette`;
       
-    } else if (count == 1) {
-      this.recipesCounter.textContent = `${count} recette`;
-
     } else {
       this.errorMessage.textContent = '';
+    
+      if (count < 10) {
+  
+        if (count == 1) {
 
-      this.recipesCounter.textContent = `${count} recettes`; 
+          this.recipesCounter.textContent = `0${count} recette`;
+        } else {
+          this.recipesCounter.textContent = `0${count} recettes`;
+        }
+  
+      } else if (count >= 10) {
+  
+        this.recipesCounter.textContent = `${count} recettes`;  
+      }
     }
   }
 }
