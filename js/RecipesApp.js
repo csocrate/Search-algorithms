@@ -19,6 +19,7 @@ class RecipesApp {
     this.$form = document.querySelector('#main_search');
     this.$userInput = document.querySelector('#recipes_search');
     this.$recipeCards = document.querySelector('.recipe-cards');
+    this.$searchFilterInputs = document.querySelectorAll('.search-filters li input');
   }
 
   async init() {
@@ -39,15 +40,15 @@ class RecipesApp {
         }
       });
 
-    // Select boxes
-    const dropdownList = new DropdownList();
-    dropdownList.displaySelectBoxesWithData(this.recipesData);
-
     // Cards
     this.displayRecipeCardsWithData();
 
     // Main search bar
     this.isUserInputValueMatches();
+
+    // Select boxes
+    this.displayDropDownListOnSearchFilters();
+    this.isUserInputValueMatchesOnSearchFilter();
 
     // Tags
     this.tags.push('item 1', 'item 2', 'item 3');
@@ -128,8 +129,8 @@ class RecipesApp {
         this.matchingUstensils = matchingUstensils.flat()
   
         // Updates select boxes with matching data
-        const dropdownList = new DropdownList();
-        dropdownList.displayMatchingItemsOnSelectBoxes(
+        const dataDropdownList = new DataDropdownList();
+        dataDropdownList.displayMatchingItemsOnSelectBoxes(
           this.matchingIngredients,
           this.matchingAppliances,
           this.matchingUstensils);
@@ -190,6 +191,32 @@ class RecipesApp {
 
     sortedRecipes
       .forEach(el => cardsContainer.append(el));
+  }
+
+  /**
+   * Displays initial data on dropdown search filter
+   */
+  displayDropDownListOnSearchFilters() {
+    const dataDropdownList = new DataDropdownList();
+    dataDropdownList.displaySelectBoxesWithData(this.recipesData);
+  }
+  
+  isUserInputValueMatchesOnSearchFilter() {    
+    const dropdownSearchFilter = new DropdownSearchFilter();
+
+    this.$searchFilterInputs.forEach(input => {
+
+      input.addEventListener('input', (e) => {
+
+        const userInputValue = e.target.value;
+  
+        const isInputValid = dropdownSearchFilter.IsUserInputValid(userInputValue, input);
+  
+        if (isInputValid) {
+  
+        }
+      });
+    });
   }
 
   /**

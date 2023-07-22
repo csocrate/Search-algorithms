@@ -1,10 +1,10 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats components/DropdownList.js
+ * Les Petits Plats components/DataDropdownList.js
  * ------------------------------------------------------------
  */
 
-class DropdownList {
+class DataDropdownList {
 
   constructor() {
     this.recipesPage = new RecipesPage();
@@ -59,11 +59,11 @@ class DropdownList {
     this.recipesDataForDropdown(recipesData, key, value)
       .forEach(item => {
 
-        // Displays items dropdown
-        this.recipesPage.displayItemForDropdown(item, customSelect);
+        // Displays item on custom select
+        this.recipesPage.displayItemInDropdown(item, customSelect);
 
-        // Displays items option
-        this.recipesPage.displayOptionForDropdown(item, select);
+        // Displays option on select
+        this.recipesPage.displayOptionInDropdown(item, select);
       });
   }
 
@@ -130,10 +130,10 @@ class DropdownList {
       .forEach(item => {
 
         // Displays ingredients dropdown
-        this.recipesPage.displayItemForDropdown(item, customSelect);
+        this.recipesPage.displayItemInDropdown(item, customSelect);
 
         // Displays ingredients option
-        this.recipesPage.displayOptionForDropdown(item, select);
+        this.recipesPage.displayOptionInDropdown(item, select);
       });
   }
 
