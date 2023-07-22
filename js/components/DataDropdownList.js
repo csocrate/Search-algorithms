@@ -94,21 +94,21 @@ class DataDropdownList {
   }
 
   /**
-   * @see displayMatchingItemsDropdownWithData
+   * @see displayMatchingDataInDropdown
    */
   displayMatchingItemsOnSelectBoxes(matchingIngredients, matchingAppliances, matchingUstensils){
 
-    this.displayMatchingItemsDropdownWithData(
+    this.displayMatchingDataInDropdown(
       matchingIngredients,
       this.$ingredientsCustomSelect,
       this.$ingredientsSelect);
 
-    this.displayMatchingItemsDropdownWithData(
+    this.displayMatchingDataInDropdown(
       matchingAppliances,
       this.$appliancesCustomSelect,
       this.$appliancesSelect);
 
-    this.displayMatchingItemsDropdownWithData(
+    this.displayMatchingDataInDropdown(
       matchingUstensils,
       this.$ustensilsCustomSelect,
       this.$ustensilsSelect);
@@ -121,11 +121,13 @@ class DataDropdownList {
    * @param {HTMLElement} select
    * @see matchingRecipesDataForDropdown
    */
-  displayMatchingItemsDropdownWithData(matchingRecipesDataItem, customSelect, select) {
+  displayMatchingDataInDropdown(matchingRecipesDataItem, customSelect, select) {
 
-    customSelect.innerHTML = '';
+    // Cleans select boxes and keeps search input on custom select
+    this.cleanCustomSelect(customSelect);
     select.innerHTML = '';
 
+    //Displays new dropdown list
     this.matchingRecipesDataForDropdown(matchingRecipesDataItem)
       .forEach(item => {
 
@@ -158,5 +160,12 @@ class DataDropdownList {
         return acc;
 
       }, []);
+  }
+
+  cleanCustomSelect(customSelect) {
+    const items = Array.from(customSelect.children).slice(1);
+
+    items
+      .forEach(item => customSelect.removeChild(item));
   }
 }

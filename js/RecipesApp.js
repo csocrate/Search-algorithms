@@ -44,7 +44,7 @@ class RecipesApp {
     this.displayRecipeCardsWithData();
 
     // Main search bar
-    this.isUserInputValueMatches();
+    this.isUserInputValueMatchesOnMainSearchBar();
 
     // Select boxes
     this.displayDropDownListOnSearchFilters();
@@ -69,7 +69,7 @@ class RecipesApp {
     this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
-  isUserInputValueMatches() {
+  isUserInputValueMatchesOnMainSearchBar() {
 
     this.$userInput.addEventListener('input', (e) => {
       const userInputValue = e.target.value;
@@ -118,22 +118,17 @@ class RecipesApp {
           const card = recipeCard.createRecipeCard();
           this.recipesPage.displayRecipeCard(card);
 
-          // Pushes matching item into dropdown list
+          // Pushes matching data
           matchingIngredients.push(recipe.ingredientOnly);
           matchingAppliances.push(recipe.appliance);
           matchingUstensils.push(recipe.ustensils);
         });
 
-        this.matchingIngredients = matchingIngredients.flat();
-        this.matchingAppliances = matchingAppliances;
-        this.matchingUstensils = matchingUstensils.flat()
-  
-        // Updates select boxes with matching data
-        const dataDropdownList = new DataDropdownList();
-        dataDropdownList.displayMatchingItemsOnSelectBoxes(
-          this.matchingIngredients,
-          this.matchingAppliances,
-          this.matchingUstensils);
+      this.matchingIngredients = matchingIngredients.flat();
+      this.matchingAppliances = matchingAppliances;
+      this.matchingUstensils = matchingUstensils.flat()
+
+      this.updateDropdownListsByMainSearchBar();
 
     } else {
       return;
@@ -199,6 +194,18 @@ class RecipesApp {
   displayDropDownListOnSearchFilters() {
     const dataDropdownList = new DataDropdownList();
     dataDropdownList.displaySelectBoxesWithData(this.recipesData);
+  }
+
+  /**
+   * Updates dropdown search filters with matching data
+   * From main search bar
+   */
+  updateDropdownListsByMainSearchBar() {
+    const dataDropdownList = new DataDropdownList();
+    dataDropdownList.displayMatchingItemsOnSelectBoxes(
+      this.matchingIngredients,
+      this.matchingAppliances,
+      this.matchingUstensils);    
   }
   
   isUserInputValueMatchesOnSearchFilter() {    
