@@ -74,35 +74,43 @@ class RecipesApp {
     this.$userInput.addEventListener('input', (e) => {
       const userInputValue = e.target.value;
 
-      this.displayMatchingRecipeBySearchBar(e);
-
-      if (this.$form.dataset.validInput === 'true') {
-
-        this.addCounterOnMachtingRecipe(userInputValue);
-  
-        this.sortRecipesByDescendingMatching();
-  
-        this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
-      }
+      this.displayMatchingRecipeBySearchBar(userInputValue);
+      this.handleDisplayingRecipes(this.$userInput, userInputValue);
     });
+  }
+
+  /**
+   * 
+   * @param {HTMLElement} searchInput
+   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
+   */
+  handleDisplayingRecipes(searchInput, eventTargetValue) {
+
+    if (searchInput.dataset.validInput === 'true') {
+
+      this.addCounterOnMachtingRecipe(eventTargetValue);
+
+      this.sortRecipesByDescendingMatching();
+
+      this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
+    }
   }
 
   /**
    * Displays matching recipe
    * And matching ingredients, appliances and ustensils on select boxes
    * from main search bar
-   * @param {Event & {target: HTMLInputElement}} e 
+   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
    */
-  displayMatchingRecipeBySearchBar(e) {
+  displayMatchingRecipeBySearchBar(eventTargetValue) {
 
     const linearSearch = new LinearSearch();
-    const userInputValue = e.target.value;
 
-    const isInputValid = linearSearch.inputValidation(userInputValue);
+    const isInputValid = linearSearch.inputValidation(eventTargetValue);
 
     if (isInputValid) {
 
-      const userInputMatchingData = linearSearch.isUserValueMatchesByRegex(userInputValue, this.recipesData);
+      const userInputMatchingData = linearSearch.isUserValueMatchesByRegex(eventTargetValue, this.recipesData);
   
       this.$recipeCards.innerHTML = '';
 
@@ -126,7 +134,7 @@ class RecipesApp {
 
       this.matchingIngredients = matchingIngredients.flat();
       this.matchingAppliances = matchingAppliances;
-      this.matchingUstensils = matchingUstensils.flat()
+      this.matchingUstensils = matchingUstensils.flat();
 
       this.updateDropdownListsByMainSearchBar();
 
@@ -137,23 +145,23 @@ class RecipesApp {
 
   /**
    * 
-   * @param {string} target 
+   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue 
    */
-  addCounterOnMachtingRecipe(target) {
+  addCounterOnMachtingRecipe(eventTargetValue) {
 
     this.$recipeCards.querySelectorAll('article')
       .forEach(card => {
 
         const cardTextContent = card.textContent.toLowerCase();
 
-        if (cardTextContent.includes(target)) {
+        if (cardTextContent.includes(eventTargetValue)) {
 
-          let position = cardTextContent.indexOf(target);
+          let position = cardTextContent.indexOf(eventTargetValue);
           let count = 0;
 
           while (position !== -1) {
             count++;
-            position = cardTextContent.indexOf(target, position + 1);
+            position = cardTextContent.indexOf(eventTargetValue, position + 1);
           }
           // Number of occurrences of user input value matching
           card.dataset.matches = count;
@@ -193,7 +201,7 @@ class RecipesApp {
    */
   displayDropDownListOnSearchFilters() {
     const dataDropdownList = new DataDropdownList();
-    dataDropdownList.displaySelectBoxesWithData(this.recipesData);
+    dataDropdownList.displayDataOnDropdownLists(this.recipesData);
   }
 
   /**
@@ -202,28 +210,47 @@ class RecipesApp {
    */
   updateDropdownListsByMainSearchBar() {
     const dataDropdownList = new DataDropdownList();
-    dataDropdownList.displayMatchingItemsOnSelectBoxes(
+    dataDropdownList.displayAvailableMatchesOnDropdownByMainSearchBar(
       this.matchingIngredients,
       this.matchingAppliances,
       this.matchingUstensils);    
   }
   
-  isUserInputValueMatchesOnSearchFilter() {    
-    const dropdownSearchFilter = new DropdownSearchFilter();
+  isUserInputValueMatchesOnSearchFilter() {
 
     this.$searchFilterInputs.forEach(input => {
 
       input.addEventListener('input', (e) => {
-
         const userInputValue = e.target.value;
-  
-        const isInputValid = dropdownSearchFilter.IsUserInputValid(userInputValue, input);
-  
-        if (isInputValid) {
-  
-        }
+        
+
+        this.displayMatchingDataDropdownBySearchFilter(userInputValue, input);
+        
+        // this.handleDisplayingRecipes(input, userInputValue);
       });
     });
+  }
+
+  /**
+   * 
+   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
+   * @param {HTMLElement} input 
+   */
+  displayMatchingDataDropdownBySearchFilter(eventTargetValue, input) {
+
+    const dropdownSearchFilter = new DropdownSearchFilter();
+
+    const isInputValid = dropdownSearchFilter.IsUserInputValid(eventTargetValue, input);
+
+    if (isInputValid) {
+
+      const dataDropdownList = new DataDropdownList();
+
+      dataDropdownList.displayAvailableMatchesOnDropdownBySearchFilters(this.recipesData, eventTargetValue);
+
+    } else {
+      return;
+    }
   }
 
   /**

@@ -109,7 +109,7 @@ class MainSearchBar {
 
     if (!this.isValueMatch(inputValue, this.inputRules)) {
 
-      this.$form.dataset.validInput = 'false';
+      this.$input.dataset.validInput = 'false';
 
       this.$form.querySelector('label').classList.replace('btn-primary', 'btn-secondary');
       this.$form.querySelector('label svg').style.fill = '#EDEDED';
@@ -125,7 +125,7 @@ class MainSearchBar {
 
     if (result === true) {
 
-      this.$form.dataset.validInput = 'true';
+      this.$input.dataset.validInput = 'true';
 
       this.$form.querySelector('label').classList.replace('btn-secondary', 'btn-primary');
       this.$form.querySelector('label svg').style.fill = '#000';

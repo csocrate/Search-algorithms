@@ -31,7 +31,7 @@ class DropdownSearchFilter {
   /**
   * Returns result from rules implementation - About data input filter
   * @param {string} inputValue - Input value
-   * @param {*} currentInput
+   * @param {HTMLElement} currentInput
   * @returns {boolean} - If user data is set to true or false that means required field is correct or not
    */
   IsUserInputValid(inputValue, currentInput) {
@@ -45,6 +45,8 @@ class DropdownSearchFilter {
     if (!isValid) {
       result = false;
 
+      currentInput.dataset.validInput = 'false';
+
       if (btn.classList.contains('d-inline-block')) {
         this.closeBtn(btn);
       }
@@ -52,6 +54,7 @@ class DropdownSearchFilter {
 
     if (result === true) {
       this.launchBtn(btn);
+      currentInput.dataset.validInput = 'true';
     }
 
     return result;
