@@ -49,11 +49,6 @@ class RecipesApp {
     // Select boxes
     this.displayDropDownListOnSearchFilters();
     this.isUserInputValueMatchesOnSearchFilter();
-
-    // Tags
-    this.tags.push('item 1', 'item 2', 'item 3');
-    const tags = this.tags;
-    this.displayActiveTags(tags);
   }
 
   displayRecipeCardsWithData() {
@@ -77,23 +72,6 @@ class RecipesApp {
       this.displayMatchingRecipeBySearchBar(userInputValue);
       this.handleDisplayingRecipes(this.$userInput, userInputValue);
     });
-  }
-
-  /**
-   * 
-   * @param {HTMLElement} searchInput
-   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
-   */
-  handleDisplayingRecipes(searchInput, eventTargetValue) {
-
-    if (searchInput.dataset.validInput === 'true') {
-
-      this.addCounterOnMachtingRecipe(eventTargetValue);
-
-      this.sortRecipesByDescendingMatching();
-
-      this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
-    }
   }
 
   /**
@@ -140,6 +118,23 @@ class RecipesApp {
 
     } else {
       return;
+    }
+  }
+
+  /**
+   * 
+   * @param {HTMLElement} searchInput
+   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
+   */
+  handleDisplayingRecipes(searchInput, eventTargetValue) {
+
+    if (searchInput.dataset.validInput === 'true') {
+
+      this.addCounterOnMachtingRecipe(eventTargetValue);
+
+      this.sortRecipesByDescendingMatching();
+
+      this.recipesPage.displayMatchingRecipesCounter(this.recipesData);
     }
   }
 
@@ -221,14 +216,17 @@ class RecipesApp {
     this.$searchFilterInputs.forEach(input => {
 
       input.addEventListener('input', (e) => {
-        const userInputValue = e.target.value;
-        
+        const userInputValue = e.target.value;        
 
         this.displayMatchingDataDropdownBySearchFilter(userInputValue, input);
-        
-        // this.handleDisplayingRecipes(input, userInputValue);
+
+        this.displayMatchingRecipeByFilterTags();
       });
     });
+  }
+
+  displayMatchingRecipeByFilterTags() {
+    // TO DO
   }
 
   /**
@@ -248,22 +246,12 @@ class RecipesApp {
 
       dataDropdownList.displayAvailableMatchesOnDropdownBySearchFilters(this.recipesData, eventTargetValue);
 
+      const filtertags = new FilterTags();
+      filtertags.displayFiltertagsByDropdownList();      
+
     } else {
       return;
     }
-  }
-
-  /**
-   * @type {(string|Array)}
-   * @param {Object} items 
-   */
-  displayActiveTags(items) {
-    items
-      .forEach(item => {
-        const activeTag = new ActiveTag();
-        const tag = activeTag.createActivetag(item);
-        this.recipesPage.displayActiveTag(tag);
-      });
   }
 }
 const recipesApp = new RecipesApp();

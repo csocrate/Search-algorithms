@@ -96,6 +96,11 @@ class DataDropdownList {
     if (document.activeElement === document.querySelector("#search_ingredient")) {
     
       this.displayMatchingIngredientsOnDropdownList(ingredients);
+
+      // const customOptions = document.querySelectorAll('#ingredients_list a[role=option]');
+  
+      // Array.from(customOptions)
+      //   .forEach(customOption => console.log(customOption.textContent))
     }
 
     if (document.activeElement === document.querySelector('#search_appliance')) {
