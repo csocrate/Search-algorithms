@@ -98,11 +98,23 @@ class RecipesApp {
     const binarySearch = new BinarySearch();
     const userInputValue = e.target.value;
 
-    const isInputValid = binarySearch.inputValidation(userInputValue);
+    // const isInputValid = binarySearch.inputValidation(userInputValue);
+
+    const v2 = new V2();
+    const isInputValid = v2.inputValidation(userInputValue);
+
+    // if (isInputValidByV2) {
+
+    //   const userInputMatchingDataV2 = v2.isUserValueMatchesByV2(userInputValue, this.recipesData, 10);
+    //   console.log(userInputMatchingDataV2)
+    // }
 
     if (isInputValid) {
 
-      const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData, 0, this.recipesData.length - 1);
+      // const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData, 0, this.recipesData.length - 1);
+
+      const userInputMatchingData = v2.isUserValueMatchesByV2(userInputValue, this.recipesData, 10);
+      console.log(userInputMatchingData)
 
       this.$recipeCards.innerHTML = '';
 
