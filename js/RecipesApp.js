@@ -72,7 +72,7 @@ class RecipesApp {
   isUserInputValueMatchesOnMainSearchBar() {
 
     this.$userInput.addEventListener('input', (e) => {
-      const userInputValue = e.target.value;
+      const userInputValue = e.target.value.toLowerCase();
 
       this.displayMatchingRecipeBySearchBar(e);
 
@@ -95,26 +95,14 @@ class RecipesApp {
    */
   displayMatchingRecipeBySearchBar(e) {
 
-    const binarySearch = new BinarySearch();
+    const mainSearchBarMatches = new MainSearchBarMatches();
     const userInputValue = e.target.value;
 
-    // const isInputValid = binarySearch.inputValidation(userInputValue);
-
-    const v2 = new V2();
-    const isInputValid = v2.inputValidation(userInputValue);
-
-    // if (isInputValidByV2) {
-
-    //   const userInputMatchingDataV2 = v2.isUserValueMatchesByV2(userInputValue, this.recipesData, 10);
-    //   console.log(userInputMatchingDataV2)
-    // }
+    const isInputValid = mainSearchBarMatches.inputValidation(userInputValue);
 
     if (isInputValid) {
 
-      // const userInputMatchingData = binarySearch.isUserValueMatches(userInputValue, this.recipesData, 0, this.recipesData.length - 1);
-
-      const userInputMatchingData = v2.isUserValueMatchesByV2(userInputValue, this.recipesData, 10);
-      console.log(userInputMatchingData)
+      const userInputMatchingData = mainSearchBarMatches.isDataSearchMatches(userInputValue, this.recipesData, 10);
 
       this.$recipeCards.innerHTML = '';
 
@@ -217,7 +205,7 @@ class RecipesApp {
     dataDropdownList.displayMatchingItemsOnSelectBoxes(
       this.matchingIngredients,
       this.matchingAppliances,
-      this.matchingUstensils);    
+      this.matchingUstensils);
   }
 
   isUserInputValueMatchesOnSearchFilter() {
