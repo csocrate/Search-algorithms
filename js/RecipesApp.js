@@ -67,7 +67,7 @@ class RecipesApp {
   isUserInputValueMatchesOnMainSearchBar() {
 
     this.$userInput.addEventListener('input', (e) => {
-      const userInputValue = e.target.value;
+      const userInputValue = e.target.value.toLowerCase();
 
       this.displayMatchingRecipeBySearchBar(userInputValue);
       this.handleDisplayingRecipes(this.$userInput, userInputValue);
@@ -82,13 +82,13 @@ class RecipesApp {
    */
   displayMatchingRecipeBySearchBar(eventTargetValue) {
 
-    const linearSearch = new LinearSearch();
+    const mainSearchBarMatches = new MainSearchBarMatches();
 
-    const isInputValid = linearSearch.inputValidation(eventTargetValue);
+    const isInputValid = mainSearchBarMatches.inputValidation(eventTargetValue);
 
     if (isInputValid) {
 
-      const userInputMatchingData = linearSearch.isUserValueMatchesByRegex(eventTargetValue, this.recipesData);
+      const userInputMatchingData = mainSearchBarMatches.isDataSearchMatches(eventTargetValue, this.recipesData);
   
       this.$recipeCards.innerHTML = '';
 
