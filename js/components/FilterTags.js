@@ -29,54 +29,63 @@ class FilterTags {
 
                 optionTags.push(customOption.textContent.trim());
 
-                // To keep only the rest of custom options
+                // To keep only in the rest of custom options
                 customOption.parentNode.classList.add('d-none');
 
-                this.avoidDuplicateItems(optionTags)
+                const tag = this.avoidDuplicatedTags(optionTags);
 
-                const tagBtn = this.avoidDuplicateItems(optionTags);
-
-                this.displayFiltertags(tagBtn);
+                this.handleDisplayingTag(tag);
               });
             });
       });
   }
 
   /**
-   * 
+   * Avoids duplicated tags in tags container
    * @param {Array} array 
-   * @returns {Array} acc
+   * @returns {Array} lastElement
    */
-  avoidDuplicateItems(array) {
+  avoidDuplicatedTags(array) {
           
     return array
-      .reduce((acc, el) => {
+      .reduce((acc, item) => {
 
-        if (acc.indexOf(el) < 0) {
-          acc.push(el);
+        if (acc.indexOf(item) < 0) {
+          acc.push(item);
         }
-        console.log(acc)
-        return acc;
+
+        // To avoid duplicate Dom element
+        const lastElement = acc.slice(-1);
+        return lastElement;
 
       }, []);
   }
 
   /**
+   * Launches and closes tag
+   * @param {Object} items 
+   */
+  handleDisplayingTag(items) {
+
+    this.launchTag(items);
+
+    this.closeTag();    
+  }
+
+
+  /**
    * @type {(string|Array)}
    * @param {Object} items 
    */
-  displayFiltertags(items) {
+   launchTag(items) {    
 
     items
       .forEach(item => {
-        console.log(item)
 
         const activeTag = new ActiveTag();
         const tag = activeTag.createActivetag(item);
         this.recipesPage.displayActiveTag(tag);
       });
-
-    this.closeTag();
   }
 
   closeTag() {
@@ -92,7 +101,7 @@ class FilterTags {
 
           tag.remove();
         })
-      })
+      });
   }
 
   /**
