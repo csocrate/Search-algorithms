@@ -13,6 +13,10 @@ class FilterTags {
     this.$tagsContainer = document.querySelector('#filter_tags');
   }
 
+  /**
+   * @see avoidDuplicatedTags
+   * @see handleDisplayingTag
+   */
   displayFiltertagsByDropdownList() {
     
     this.$customSelectBoxes
@@ -23,7 +27,7 @@ class FilterTags {
         let optionTags = [];
 
           Array.from(customOptions)
-            .forEach(customOption => {       
+            .forEach(customOption => { 
 
               customOption.addEventListener('click', () => {
 
@@ -64,6 +68,8 @@ class FilterTags {
   /**
    * Launches and closes tag
    * @param {Object} items 
+   * @see launchTag
+   * @see closeTag
    */
   handleDisplayingTag(items) {
 
@@ -74,8 +80,11 @@ class FilterTags {
 
 
   /**
+   * Launches tag
    * @type {(string|Array)}
-   * @param {Object} items 
+   * @param {Object} items
+   * @see ActiveTag | createActivetag
+   * @see RecipesPage | displayActiveTag
    */
    launchTag(items) {    
 
@@ -88,6 +97,10 @@ class FilterTags {
       });
   }
 
+  /**
+   * Closes tag
+   * @see updateDropdownList
+   */
   closeTag() {
     const closeBtn = this.$tagsContainer.querySelectorAll('.btn-close');
 
@@ -108,19 +121,23 @@ class FilterTags {
    * Displays tag content text on dropdown list before to remove it 
    * @param {HTMLElement} tag 
    */
-  updateDropdownList(tag) {    
+  updateDropdownList(tag) {
 
-    const customOptions = Array.from(document.querySelectorAll('#ingredients_list a[role=option]'));
-    
-    customOptions
-      .forEach(customOption => {
+    this.$customSelectBoxes
+      .forEach(customSelect => {
 
-        if (customOption.parentElement.className === 'd-none') {
+        const customOptions = customSelect.querySelectorAll('a[role=option]');
 
-          if (customOption.textContent.trim() === tag.textContent.trim()) {
-            customOption.parentNode.classList.replace('d-none', 'd-block')
-          }
-        }
+          Array.from(customOptions)
+            .forEach(customOption => {
+
+              if (customOption.parentElement.className === 'd-none') {
+
+                if (customOption.textContent.trim() === tag.textContent.trim()) {
+                  customOption.parentNode.classList.replace('d-none', 'd-block')
+                }
+              }
+            });
       });
   }
 }

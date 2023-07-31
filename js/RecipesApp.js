@@ -13,7 +13,7 @@ class RecipesApp {
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
     this.recipesPage = new RecipesPage();
-    this.tags = new Array();
+    this.filtertags = new FilterTags();
 
     // DOM
     this.$form = document.querySelector('#main_search');
@@ -40,15 +40,85 @@ class RecipesApp {
         }
       });
 
-    // Cards
-    this.displayRecipeCardsWithData();
-
     // Main search bar
     this.isUserInputValueMatchesOnMainSearchBar();
 
     // Select boxes
     this.displayDropDownListOnSearchFilters();
-    this.isUserInputValueMatchesOnSearchFilter();
+    this.isUserInputValueMatchingOnSearchFilter();
+    
+    // Filter tags
+    this.filtertags.displayFiltertagsByDropdownList();
+    this.isTagMatchingWithRecipes();
+
+    // Cards
+    this.displayRecipeCardsWithData();
+
+    this.observeTagChangeToDisplayRecipes();
+  }
+
+  observeTagChangeToDisplayRecipes() {
+
+    // Selects the node that will be observed for mutations
+    const tags = document.querySelector('#filter_tags');
+
+    // Options for the observer (which mutations to observe)
+    const config = {
+      childList: true,
+      subtree: true
+    }
+
+    // Callback function to execute when mutations are observed
+    const callback = (mutationList) => {
+
+      // Finds mutation about selected attribute
+      const mutation = mutationList.find(mutation => mutation.type === 'childList'
+        && mutation.target.children);
+
+      if (mutation) {
+        this.isTagMatchingWithRecipes(mutation.target.children);
+      }
+    }
+
+    // Creates an observer instance linked to the callback function
+    const observer = new MutationObserver(callback);
+
+    // Starts observing the target node for configured mutations
+    observer.observe(tags, config);
+
+  }
+
+  isTagMatchingWithRecipes() {
+
+    let dataTag = [];
+    const tags = document.querySelectorAll('#filter_tags li');
+
+    tags
+      .forEach(tag => dataTag.push(tag.textContent.trim()));
+
+    const matchingDataTags = this.recipesData.filter(el => {
+
+      const data = el.ingredientOnly.toString().toLowerCase();
+      const tags = dataTag.toString().toLowerCase();
+
+     return data.includes(tags);
+    });
+
+    this.$recipeCards.innerHTML = '';
+    
+    matchingDataTags
+      .forEach(recipe => {
+  
+        // Displays recipe card
+        const recipeCard = new RecipeCard(recipe);
+        const card = recipeCard.createRecipeCard();
+        this.recipesPage.displayRecipeCard(card);
+
+      });
+
+      this.recipesPage.displayMatchingRecipesCounterByFilter(
+        this.recipesData, 
+        matchingDataTags.length);
   }
 
   displayRecipeCardsWithData() {
@@ -115,6 +185,7 @@ class RecipesApp {
       this.matchingUstensils = matchingUstensils.flat();
 
       this.updateDropdownListsByMainSearchBar();
+      this.filtertags.displayFiltertagsByDropdownList();
 
     } else {
       return;
@@ -147,7 +218,7 @@ class RecipesApp {
     this.$recipeCards.querySelectorAll('article')
       .forEach(card => {
 
-        const cardTextContent = card.textContent.toLowerCase();
+        const cardTextContent = card.textContent.trim().toLowerCase();
 
         if (cardTextContent.includes(eventTargetValue)) {
 
@@ -211,17 +282,23 @@ class RecipesApp {
       this.matchingUstensils);    
   }
   
-  isUserInputValueMatchesOnSearchFilter() {
+  isUserInputValueMatchingOnSearchFilter() {
 
     this.$searchFilterInputs.forEach(input => {
 
-      input.addEventListener('input', (e) => {
-        const userInputValue = e.target.value;        
+      this.handleMatchingResultBySearchFilter(input);
+    });
+  }
+  
+  handleMatchingResultBySearchFilter(input) {
 
-        this.displayMatchingDataDropdownBySearchFilter(userInputValue, input);
+    input.addEventListener('input', (e) => {
+      const userInputValue = e.target.value;        
 
-        this.displayMatchingRecipeByFilterTags();
-      });
+      this.displayMatchingDataDropdownBySearchFilter(userInputValue, input);
+      this.filtertags.displayFiltertagsByDropdownList();
+
+      this.displayMatchingRecipeByFilterTags();
     });
   }
 
@@ -238,16 +315,13 @@ class RecipesApp {
 
     const dropdownSearchFilter = new DropdownSearchFilter();
 
-    const isInputValid = dropdownSearchFilter.IsUserInputValid(eventTargetValue, input);
+    const isInputValid = dropdownSearchFilter.IsUserInputValid(eventTargetValue, input); 
 
     if (isInputValid) {
 
       const dataDropdownList = new DataDropdownList();
 
       dataDropdownList.displayAvailableMatchesOnDropdownBySearchFilters(this.recipesData, eventTargetValue);
-
-      const filtertags = new FilterTags();
-      filtertags.displayFiltertagsByDropdownList();      
 
     } else {
       return;

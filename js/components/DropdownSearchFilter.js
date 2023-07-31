@@ -24,6 +24,9 @@ class DropdownSearchFilter {
         
         this.closeBtn(btn);
         this.removeUserInputValue(e.target);
+
+        const dataDropdownList = new DataDropdownList();
+        dataDropdownList.displayDataOnDropdownLists(this.recipesData);
       }, false);
     });
   }

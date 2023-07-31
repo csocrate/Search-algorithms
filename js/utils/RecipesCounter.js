@@ -70,4 +70,32 @@ class RecipesCounter {
       }
     }
   }
+
+  addNumberOfMatchingRecipesByFilter(matchingData) {
+
+    this.recipesCounter.textContent = '';
+
+    let count = matchingData;
+
+    if (count == 0) {
+      this.recipesCounter.textContent = `${count} recette`;
+
+    } else {
+    
+      if (count < 10) {
+  
+        if (count == 1) {
+
+          this.recipesCounter.textContent = `0${count} recette`;
+        } else {
+          this.recipesCounter.textContent = `0${count} recettes`;
+        }
+  
+      } else if (count >= 10) {
+  
+        this.recipesCounter.textContent = `${count} recettes`;  
+      }
+    }
+
+  }
 }

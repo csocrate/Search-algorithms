@@ -68,4 +68,14 @@ class RecipesPage {
     const recipesCounter = new RecipesCounter(cards);
     recipesCounter.addNumberOfMatchingRecipes();
   }
+
+  /**
+   * Displays matching recipes counter
+   * by data filter
+   * @param {string} cards
+   */
+  async displayMatchingRecipesCounterByFilter(cards, matchingData) {
+    const recipesCounter = new RecipesCounter(cards);
+    recipesCounter.addNumberOfMatchingRecipesByFilter(matchingData);
+  }
 }
