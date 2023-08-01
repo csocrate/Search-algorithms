@@ -36,7 +36,8 @@ class RecipesApp {
         return {
           ...recipe,
           ingredientOnly: ingredient,
-          search: `${recipe.name} ${recipe.description} ${ingredient}`
+          search: `${recipe.name} ${recipe.description} ${ingredient}`,
+          filter: `${ingredient} ${recipe.appliance} ${recipe.ustensils}`
         }
       });
 
@@ -49,7 +50,6 @@ class RecipesApp {
     
     // Filter tags
     this.filtertags.displayFiltertagsByDropdownList();
-    this.isTagMatchingWithRecipes();
 
     // Cards
     this.displayRecipeCardsWithData();
@@ -76,7 +76,7 @@ class RecipesApp {
         && mutation.target.children);
 
       if (mutation) {
-        this.isTagMatchingWithRecipes(mutation.target.children);
+        this.displayRecipesByFilterTags(mutation.target.children);
       }
     }
 
@@ -85,24 +85,11 @@ class RecipesApp {
 
     // Starts observing the target node for configured mutations
     observer.observe(tags, config);
-
   }
 
-  isTagMatchingWithRecipes() {
+  displayRecipesByFilterTags() {
 
-    let dataTag = [];
-    const tags = document.querySelectorAll('#filter_tags li');
-
-    tags
-      .forEach(tag => dataTag.push(tag.textContent.trim()));
-
-    const matchingDataTags = this.recipesData.filter(el => {
-
-      const data = el.ingredientOnly.toString().toLowerCase();
-      const tags = dataTag.toString().toLowerCase();
-
-     return data.includes(tags);
-    });
+    const matchingDataTags = this.isTagMatchingWithRecipesData();
 
     this.$recipeCards.innerHTML = '';
     
@@ -119,6 +106,27 @@ class RecipesApp {
       this.recipesPage.displayMatchingRecipesCounterByFilter(
         this.recipesData, 
         matchingDataTags.length);
+  }
+
+  isTagMatchingWithRecipesData() {
+
+    let dataTag = [];
+
+    const tags = document.querySelectorAll('#filter_tags li');
+
+    tags
+      .forEach(tag => dataTag.push(tag.textContent.trim()));
+
+    const result = this.recipesData.filter(el => {
+
+      const filterData = el.filter.toLowerCase();
+      const tags = dataTag;
+
+      return tags.every(tag => 
+        filterData.includes(tag.toLowerCase()));
+    });
+
+    return result;
   }
 
   displayRecipeCardsWithData() {
