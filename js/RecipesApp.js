@@ -6,9 +6,6 @@
 
 class RecipesApp {
   recipesData = undefined;
-  matchingIngredients = undefined;
-  matchingAppliances = undefined;
-  matchingUstensils = undefined;
 
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
@@ -47,99 +44,14 @@ class RecipesApp {
     // Select boxes
     this.displayDropDownListOnSearchFilters();
     this.isUserInputValueMatchingOnSearchFilter();
-    
+
     // Filter tags
     this.filtertags.displayFiltertagsByDropdownList();
 
-    // Cards
+    // Recipe cards
     this.displayRecipeCardsWithData();
 
     this.observeTagChangeToDisplayRecipes();
-  }
-
-  observeTagChangeToDisplayRecipes() {
-
-    // Selects the node that will be observed for mutations
-    const tags = document.querySelector('#filter_tags');
-
-    // Options for the observer (which mutations to observe)
-    const config = {
-      childList: true,
-      subtree: true
-    }
-
-    // Callback function to execute when mutations are observed
-    const callback = (mutationList) => {
-
-      // Finds mutation about selected attribute
-      const mutation = mutationList.find(mutation => mutation.type === 'childList'
-        && mutation.target.children);
-
-      if (mutation) {
-        this.displayRecipesByFilterTags(mutation.target.children);
-      }
-    }
-
-    // Creates an observer instance linked to the callback function
-    const observer = new MutationObserver(callback);
-
-    // Starts observing the target node for configured mutations
-    observer.observe(tags, config);
-  }
-
-  displayRecipesByFilterTags() {
-
-    const matchingDataTags = this.isTagMatchingWithRecipesData();
-
-    this.$recipeCards.innerHTML = '';
-    
-    matchingDataTags
-      .forEach(recipe => {
-  
-        // Displays recipe card
-        const recipeCard = new RecipeCard(recipe);
-        const card = recipeCard.createRecipeCard();
-        this.recipesPage.displayRecipeCard(card);
-
-      });
-
-      this.recipesPage.displayMatchingRecipesCounterByFilter(
-        this.recipesData, 
-        matchingDataTags.length);
-  }
-
-  isTagMatchingWithRecipesData() {
-
-    let dataTag = [];
-
-    const tags = document.querySelectorAll('#filter_tags li');
-
-    tags
-      .forEach(tag => dataTag.push(tag.textContent.trim()));
-
-    const result = this.recipesData.filter(el => {
-
-      const filterData = el.filter.toLowerCase();
-      const tags = dataTag;
-
-      return tags.every(tag => 
-        filterData.includes(tag.toLowerCase()));
-    });
-
-    return result;
-  }
-
-  displayRecipeCardsWithData() {
-    this.recipesData
-      .forEach(recipe => {
-
-        // Displays recipe card
-        const recipeCard = new RecipeCard(recipe);
-        const card = recipeCard.createRecipeCard();
-        this.recipesPage.displayRecipeCard(card);
-      });
-
-    this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
   isUserInputValueMatchesOnMainSearchBar() {
@@ -167,37 +79,59 @@ class RecipesApp {
     if (isInputValid) {
 
       const userInputMatchingData = mainSearchBarMatches.isDataSearchMatches(eventTargetValue, this.recipesData);
-  
-      this.$recipeCards.innerHTML = '';
 
-      let matchingIngredients = [];
-      let matchingAppliances = [];
-      let matchingUstensils = [];
-  
-      userInputMatchingData
-        .forEach(recipe => {
-  
-          // Displays recipe card
-          const recipeCard = new RecipeCard(recipe);
-          const card = recipeCard.createRecipeCard();
-          this.recipesPage.displayRecipeCard(card);
-
-          // Pushes matching data
-          matchingIngredients.push(recipe.ingredientOnly);
-          matchingAppliances.push(recipe.appliance);
-          matchingUstensils.push(recipe.ustensils);
-        });
-
-      this.matchingIngredients = matchingIngredients.flat();
-      this.matchingAppliances = matchingAppliances;
-      this.matchingUstensils = matchingUstensils.flat();
-
-      this.updateDropdownListsByMainSearchBar();
-      this.filtertags.displayFiltertagsByDropdownList();
+      this.displayMatchingRecipes(userInputMatchingData);
 
     } else {
       return;
     }
+  }
+
+  displayMatchingRecipes(matchingData) {
+
+    this.$recipeCards.innerHTML = '';
+
+    let matchingIngredients = [];
+    let matchingAppliances = [];
+    let matchingUstensils = [];
+
+    matchingData
+      .forEach(recipe => {
+
+        this.displayRecipeCard(recipe);
+
+        // Pushes matching data
+        matchingIngredients.push(recipe.ingredientOnly);
+        matchingAppliances.push(recipe.appliance);
+        matchingUstensils.push(recipe.ustensils);
+
+      });
+
+    this.updateDropdownLists(
+      matchingIngredients.flat(),
+      matchingAppliances,
+      matchingUstensils.flat());
+
+    this.filtertags.displayFiltertagsByDropdownList();
+  }
+
+  displayRecipeCard(data) {
+
+    const recipeCard = new RecipeCard(data);
+    const card = recipeCard.createRecipeCard();
+    this.recipesPage.displayRecipeCard(card);
+  }
+
+  /**
+   * Updates dropdown search filters with matching data
+   * From main search bar
+   */
+  updateDropdownLists(matchingIngredients, matchingAppliances, matchingUstensils) {
+    const dataDropdownList = new DataDropdownList();
+    dataDropdownList.displayAvailableMatchesOnDropdownByMainSearchBar(
+      matchingIngredients,
+      matchingAppliances,
+      matchingUstensils);
   }
 
   /**
@@ -278,18 +212,6 @@ class RecipesApp {
     dataDropdownList.displayDataOnDropdownLists(this.recipesData);
   }
 
-  /**
-   * Updates dropdown search filters with matching data
-   * From main search bar
-   */
-  updateDropdownListsByMainSearchBar() {
-    const dataDropdownList = new DataDropdownList();
-    dataDropdownList.displayAvailableMatchesOnDropdownByMainSearchBar(
-      this.matchingIngredients,
-      this.matchingAppliances,
-      this.matchingUstensils);    
-  }
-  
   isUserInputValueMatchingOnSearchFilter() {
 
     this.$searchFilterInputs.forEach(input => {
@@ -297,21 +219,87 @@ class RecipesApp {
       this.handleMatchingResultBySearchFilter(input);
     });
   }
-  
+
   handleMatchingResultBySearchFilter(input) {
 
     input.addEventListener('input', (e) => {
-      const userInputValue = e.target.value;        
+      const userInputValue = e.target.value;
 
       this.displayMatchingDataDropdownBySearchFilter(userInputValue, input);
       this.filtertags.displayFiltertagsByDropdownList();
-
-      this.displayMatchingRecipeByFilterTags();
     });
   }
 
-  displayMatchingRecipeByFilterTags() {
-    // TO DO
+  displayRecipeCardsWithData() {
+    this.recipesData
+      .forEach(recipe => {
+
+        this.displayRecipeCard(recipe);
+      });
+
+    this.recipesPage.displayRecipesCounter(this.recipesData);
+  }
+
+  observeTagChangeToDisplayRecipes() {
+
+    // Selects the node that will be observed for mutations
+    const tags = document.querySelector('#filter_tags');
+
+    // Options for the observer (which mutations to observe)
+    const config = {
+      childList: true,
+      subtree: true
+    }
+
+    // Callback function to execute when mutations are observed
+    const callback = (mutationList) => {
+
+      // Finds mutation about selected attribute
+      const mutation = mutationList.find(mutation => mutation.type === 'childList'
+        && mutation.target.children);
+
+      if (mutation) {
+        this.displayRecipesByFilterTags(mutation.target.children);
+      }
+    }
+
+    // Creates an observer instance linked to the callback function
+    const observer = new MutationObserver(callback);
+
+    // Starts observing the target node for configured mutations
+    observer.observe(tags, config);
+  }
+
+  displayRecipesByFilterTags() {
+
+    const matchingDataTags = this.isTagMatchingWithRecipesData();
+
+    this.displayMatchingRecipes(matchingDataTags);
+
+    this.recipesPage.displayMatchingRecipesCounterByFilter(
+      this.recipesData,
+      matchingDataTags.length);
+  }
+
+  isTagMatchingWithRecipesData() {
+
+    let dataTag = [];
+
+    const tags = document.querySelectorAll('#filter_tags li');
+
+    tags
+      .forEach(tag => dataTag.push(tag.textContent.trim()));
+
+    const result = this.recipesData.filter(el => {
+
+      const filterData = el.filter.toLowerCase();
+      const tags = dataTag;
+
+      return tags.every(tag =>
+        filterData.includes(tag.toLowerCase()));
+    });
+
+    return result;
   }
 
   /**
@@ -323,7 +311,7 @@ class RecipesApp {
 
     const dropdownSearchFilter = new DropdownSearchFilter();
 
-    const isInputValid = dropdownSearchFilter.IsUserInputValid(eventTargetValue, input); 
+    const isInputValid = dropdownSearchFilter.IsUserInputValid(eventTargetValue, input);
 
     if (isInputValid) {
 
