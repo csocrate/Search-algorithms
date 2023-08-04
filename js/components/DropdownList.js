@@ -1,10 +1,10 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats components/DataDropdownList.js
+ * Les Petits Plats components/DropdownList.js
  * ------------------------------------------------------------
  */
 
-class DataDropdownList {
+class DropdownList {
 
   constructor() {
     this.recipesPage = new RecipesPage();
@@ -79,7 +79,7 @@ class DataDropdownList {
    * @see displayMatchingAppliancesOnDropdownList
    * @see displayMatchingUstensilsOnDropdownList
    */
-  displayAvailableMatchesOnDropdownBySearchFilters(recipesData, eventTargetValue) {
+  updateDropdownDataByAdvancedFilterSearchBar(recipesData, eventTargetValue) {
 
     const ingredients = this.ingredientsOnDropdownMatchesEventTargetValue(
       recipesData, 

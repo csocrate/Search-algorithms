@@ -17,7 +17,7 @@ class FilterTags {
    * @see avoidDuplicatedTags
    * @see handleDisplayingTag
    */
-  displayFiltertagsByDropdownList() {
+  displayFilterTagsByDropdownList() {
     
     this.$customSelectBoxes
       .forEach(customSelect => {
@@ -35,34 +35,11 @@ class FilterTags {
 
                 // To keep only in the rest of custom options
                 customOption.parentNode.classList.add('d-none');
-
-                const tag = this.avoidDuplicatedTags(optionTags);
-
-                this.handleDisplayingTag(tag);
+                
+                this.handleDisplayingTag(optionTags);
               });
             });
       });
-  }
-
-  /**
-   * Avoids duplicated tags in tags container
-   * @param {Array} array 
-   * @returns {Array} lastElement
-   */
-  avoidDuplicatedTags(array) {
-          
-    return array
-      .reduce((acc, item) => {
-
-        if (acc.indexOf(item) < 0) {
-          acc.push(item);
-        }
-
-        // To avoid duplicate Dom element
-        const lastElement = acc.slice(-1);
-        return lastElement;
-
-      }, []);
   }
 
   /**

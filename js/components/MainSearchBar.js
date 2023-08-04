@@ -130,6 +130,9 @@ class MainSearchBar {
       this.$form.querySelector('label').classList.replace('btn-secondary', 'btn-primary');
       this.$form.querySelector('label svg').style.fill = '#000';
       this.$closeBtn.classList.replace('d-none', 'd-inline-block');
+
+      const errorMessage = this.$form.nextElementSibling;
+      errorMessage.innerHTML = '';
     }
 
     return result;

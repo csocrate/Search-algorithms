@@ -1,10 +1,10 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats components/DropdownSearchFilter.js
+ * Les Petits Plats components/advancedFilterSearchBar.js
  * ------------------------------------------------------------
  */
 
-class DropdownSearchFilter {
+class advancedFilterSearchBar {
   constructor() {
     this.inputRules = new RegExp('^[a-zA-Z]([a-zA-Z\-\s]){2,30}$', 'g');
     this.$searchFilters = document.querySelectorAll('.search-filters ul');
@@ -25,8 +25,8 @@ class DropdownSearchFilter {
         this.closeBtn(btn);
         this.removeUserInputValue(e.target);
 
-        const dataDropdownList = new DataDropdownList();
-        dataDropdownList.displayDataOnDropdownLists(this.recipesData);
+        const dropdownList = new DropdownList();
+        dropdownList.displayDataOnDropdownLists(this.recipesData);
       }, false);
     });
   }

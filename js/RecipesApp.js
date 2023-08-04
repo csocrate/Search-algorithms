@@ -16,7 +16,7 @@ class RecipesApp {
     this.$form = document.querySelector('#main_search');
     this.$userInput = document.querySelector('#recipes_search');
     this.$recipeCards = document.querySelector('.recipe-cards');
-    this.$searchFilterInputs = document.querySelectorAll('.search-filters li input');
+    this.$advancedFilterInputs = document.querySelectorAll('.search-filters li input');
   }
 
   async init() {
@@ -39,27 +39,26 @@ class RecipesApp {
       });
 
     // Main search bar
-    this.isUserInputValueMatchesOnMainSearchBar();
+    this.handleMatchingDataByMainSearchBar();
 
-    // Select boxes
-    this.displayDropDownListOnSearchFilters();
-    this.isUserInputValueMatchingOnSearchFilter();
-
-    // Filter tags
-    this.filtertags.displayFiltertagsByDropdownList();
+    // Dropdown of advanced filters
+    this.displayDropDownListOnAdvancedFilters();
+    this.handleMatchingDataOnDropdownsAndTagsByAdvancedFilters();
 
     // Recipe cards
-    this.displayRecipeCardsWithData();
+    this.handleRecipeCardsData();
 
-    this.observeTagChangeToDisplayRecipes();
+    // Filter tags
+    this.filtertags.displayFilterTagsByDropdownList();
+    this.observeTagsChangeToUpdateRecipes();
   }
 
-  isUserInputValueMatchesOnMainSearchBar() {
+  handleMatchingDataByMainSearchBar() {
 
     this.$userInput.addEventListener('input', (e) => {
       const userInputValue = e.target.value.toLowerCase();
 
-      this.displayMatchingRecipeBySearchBar(userInputValue);
+      this.displayMatchingRecipeByMainSearchBar(userInputValue);
       this.handleDisplayingRecipes(this.$userInput, userInputValue);
     });
   }
@@ -70,7 +69,7 @@ class RecipesApp {
    * from main search bar
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
    */
-  displayMatchingRecipeBySearchBar(eventTargetValue) {
+  displayMatchingRecipeByMainSearchBar(eventTargetValue) {
 
     const mainSearchBarMatches = new MainSearchBarMatches();
 
@@ -112,7 +111,7 @@ class RecipesApp {
       matchingAppliances,
       matchingUstensils.flat());
 
-    this.filtertags.displayFiltertagsByDropdownList();
+    this.filtertags.displayFilterTagsByDropdownList();
   }
 
   displayRecipeCard(data) {
@@ -123,12 +122,12 @@ class RecipesApp {
   }
 
   /**
-   * Updates dropdown search filters with matching data
+   * Updates dropdown of advanced filters with matching data
    * From main search bar
    */
   updateDropdownLists(matchingIngredients, matchingAppliances, matchingUstensils) {
-    const dataDropdownList = new DataDropdownList();
-    dataDropdownList.displayAvailableMatchesOnDropdownByMainSearchBar(
+    const dropdownList = new DropdownList();
+    dropdownList.displayAvailableMatchesOnDropdownByMainSearchBar(
       matchingIngredients,
       matchingAppliances,
       matchingUstensils);
@@ -207,30 +206,33 @@ class RecipesApp {
   /**
    * Displays initial data on dropdown search filter
    */
-  displayDropDownListOnSearchFilters() {
-    const dataDropdownList = new DataDropdownList();
-    dataDropdownList.displayDataOnDropdownLists(this.recipesData);
+  displayDropDownListOnAdvancedFilters() {
+    const dropdownList = new DropdownList();
+    dropdownList.displayDataOnDropdownLists(this.recipesData);
   }
 
-  isUserInputValueMatchingOnSearchFilter() {
+  /**
+   * @see handleMatchingResultByAdvancedFilters
+   */
+  handleMatchingDataOnDropdownsAndTagsByAdvancedFilters() {
 
-    this.$searchFilterInputs.forEach(input => {
+    this.$advancedFilterInputs.forEach(input => {
 
-      this.handleMatchingResultBySearchFilter(input);
+      this.handleMatchingResultByAdvancedFilters(input);
     });
   }
 
-  handleMatchingResultBySearchFilter(input) {
+  handleMatchingResultByAdvancedFilters(input) {
 
     input.addEventListener('input', (e) => {
       const userInputValue = e.target.value;
 
-      this.displayMatchingDataDropdownBySearchFilter(userInputValue, input);
-      this.filtertags.displayFiltertagsByDropdownList();
+      this.displayMatchingDataDropdownByAdvancedFilters(userInputValue, input);
+      this.filtertags.displayFilterTagsByDropdownList();
     });
   }
 
-  displayRecipeCardsWithData() {
+  handleRecipeCardsData() {
     this.recipesData
       .forEach(recipe => {
 
@@ -240,7 +242,7 @@ class RecipesApp {
     this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
-  observeTagChangeToDisplayRecipes() {
+  observeTagsChangeToUpdateRecipes() {
 
     // Selects the node that will be observed for mutations
     const tags = document.querySelector('#filter_tags');
@@ -307,17 +309,17 @@ class RecipesApp {
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
    * @param {HTMLElement} input 
    */
-  displayMatchingDataDropdownBySearchFilter(eventTargetValue, input) {
+  displayMatchingDataDropdownByAdvancedFilters(eventTargetValue, input) {
 
-    const dropdownSearchFilter = new DropdownSearchFilter();
+    const advancedFilterSearchBar = new advancedFilterSearchBar();
 
-    const isInputValid = dropdownSearchFilter.IsUserInputValid(eventTargetValue, input);
+    const isInputValid = advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
 
     if (isInputValid) {
 
-      const dataDropdownList = new DataDropdownList();
+      const dropdownList = new DropdownList();
 
-      dataDropdownList.displayAvailableMatchesOnDropdownBySearchFilters(this.recipesData, eventTargetValue);
+      dropdownList.updateDropdownDataByAdvancedFilterSearchBar(this.recipesData, eventTargetValue);
 
     } else {
       return;
