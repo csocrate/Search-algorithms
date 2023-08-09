@@ -6,9 +6,9 @@
 
 class DropdownSearchFilter {
   constructor() {
-    this.inputRules = new RegExp('^[a-zA-Z]([a-zA-Z\-\s]){2,30}$', 'g');
     this.$searchFilters = document.querySelectorAll('.search-filters ul');
     this.$closeBtn = document.querySelectorAll('.search-filters li .btn-close');
+    this.inputRules = new RegExp(/^[\w+|\s]{2,30}$/, 'gmi');
 
     this.init();
   }
