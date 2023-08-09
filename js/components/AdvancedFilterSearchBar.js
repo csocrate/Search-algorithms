@@ -1,14 +1,14 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats components/advancedFilterSearchBar.js
+ * Les Petits Plats components/AdvancedFilterSearchBar.js
  * ------------------------------------------------------------
  */
 
-class advancedFilterSearchBar {
+class AdvancedFilterSearchBar {
   constructor() {
-    this.inputRules = new RegExp('^[a-zA-Z]([a-zA-Z\-\s]){2,30}$', 'g');
     this.$searchFilters = document.querySelectorAll('.search-filters ul');
     this.$closeBtn = document.querySelectorAll('.search-filters li .btn-close');
+    this.inputRules = new RegExp(/^[\w+|\s]{2,30}$/, 'gmi');
 
     this.init();
   }
@@ -24,9 +24,7 @@ class advancedFilterSearchBar {
         
         this.closeBtn(btn);
         this.removeUserInputValue(e.target);
-
-        const dropdownList = new DropdownList();
-        dropdownList.displayDataOnDropdownLists(this.recipesData);
+        
       }, false);
     });
   }

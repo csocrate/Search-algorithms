@@ -311,7 +311,7 @@ class RecipesApp {
    */
   displayMatchingDataDropdownByAdvancedFilters(eventTargetValue, input) {
 
-    const advancedFilterSearchBar = new advancedFilterSearchBar();
+    const advancedFilterSearchBar = new AdvancedFilterSearchBar();
 
     const isInputValid = advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
 
