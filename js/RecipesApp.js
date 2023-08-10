@@ -11,6 +11,7 @@ class RecipesApp {
     this.dataApi = new DataApi('/data/recipes.json');
     this.recipesPage = new RecipesPage();
     this.filtertags = new FilterTags();
+    this.advancedFilterSearchBar = new AdvancedFilterSearchBar();
 
     // DOM
     this.$form = document.querySelector('#main_search');
@@ -228,7 +229,7 @@ class RecipesApp {
       const userInputValue = e.target.value;
 
       this.displayMatchingDataDropdownByAdvancedFilters(userInputValue, input);
-      this.filtertags.displayFilterTagsByDropdownList();
+      this.filtertags.displayFilterTagsByDropdownList();      
     });
   }
 
@@ -311,9 +312,7 @@ class RecipesApp {
    */
   displayMatchingDataDropdownByAdvancedFilters(eventTargetValue, input) {
 
-    const advancedFilterSearchBar = new AdvancedFilterSearchBar();
-
-    const isInputValid = advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
+    const isInputValid = this.advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
 
     if (isInputValid) {
 

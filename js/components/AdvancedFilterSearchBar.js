@@ -78,10 +78,12 @@ class AdvancedFilterSearchBar {
   }
 
   /**
-   * Removes search input value of user
-   * @param {HTMLElement} btn 
+   * Removes user input value
+   * @param {Event & {eventTarget: HTMLInputElement}} eventTarget
    */
-  removeUserInputValue(btn) {
-    btn.previousElementSibling.value = '';
+  removeUserInputValue(eventTarget) {
+    const dropdownMenu = eventTarget.closest('.dropdown-menu');
+    
+    dropdownMenu.querySelector('input').value = '';
   }
 }

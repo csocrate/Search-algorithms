@@ -37,9 +37,25 @@ class FilterTags {
                 customOption.parentNode.classList.add('d-none');
                 
                 this.handleDisplayingTag(optionTags);
+
+                this.cleanUserInputValue(customOption);
               });
             });
       });
+  }
+
+  /**
+   * Cleans user input value
+   * With click on dropdown close button
+   * @param {HTMLElement} activeItem 
+   */
+  cleanUserInputValue(activeItem) {
+
+    const closeBtn = activeItem.closest('.dropdown-menu').querySelector('.btn-close');
+
+    if (closeBtn.classList.contains('d-inline-block')) {
+      closeBtn.click();
+    }
   }
 
   /**
