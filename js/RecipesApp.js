@@ -223,6 +223,10 @@ class RecipesApp {
     });
   }
 
+  /**
+   * 
+   * @param {HTMLElement} input User input on advanced filter
+   */
   handleMatchingResultByAdvancedFilters(input) {
 
     input.addEventListener('input', (e) => {

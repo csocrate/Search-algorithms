@@ -67,7 +67,7 @@ class DropdownList {
         this.recipesPage.displayOptionInDropdown(item, select);
       });
   }
-  
+
   /**
    * Displays available matches on dropdown list from search filters
    * @param {Array} recipesData 
@@ -82,35 +82,30 @@ class DropdownList {
   updateDropdownDataByAdvancedFilterSearchBar(recipesData, eventTargetValue) {
 
     const ingredients = this.ingredientsOnDropdownMatchesEventTargetValue(
-      recipesData, 
+      recipesData,
       eventTargetValue);
-    
+
     const appliances = this.appliancesOnDropdownMatchesEventTargetValue(
-      recipesData, 
+      recipesData,
       eventTargetValue);
 
     const ustensils = this.ustensilsOnDropdownMatchesEventTargetValue(
-      recipesData, 
+      recipesData,
       eventTargetValue);
 
     if (document.activeElement === document.querySelector("#search_ingredient")) {
-    
-      this.displayMatchingIngredientsOnDropdownList(ingredients);
 
-      // const customOptions = document.querySelectorAll('#ingredients_list a[role=option]');
-  
-      // Array.from(customOptions)
-      //   .forEach(customOption => console.log(customOption.textContent))
+      this.displayMatchingIngredientsOnDropdownList(ingredients);
     }
 
     if (document.activeElement === document.querySelector('#search_appliance')) {
-    
-      this.displayMatchingAppliancesOnDropdownList(appliances); 
+
+      this.displayMatchingAppliancesOnDropdownList(appliances);
     }
 
     if (document.activeElement === document.querySelector('#search_ustensil')) {
-    
-      this.displayMatchingUstensilsOnDropdownList(ustensils); 
+
+      this.displayMatchingUstensilsOnDropdownList(ustensils);
     }
   }
 
@@ -122,12 +117,12 @@ class DropdownList {
    * @see isUserValueMatches
    * @see getIngredientsData
    */
-  ingredientsOnDropdownMatchesEventTargetValue(recipesData, eventTargetValue) {   
+  ingredientsOnDropdownMatchesEventTargetValue(recipesData, eventTargetValue) {
 
     const matchingIngredients = this.isUserValueMatches(
-      eventTargetValue, 
+      eventTargetValue,
       this.getIngredientsData(recipesData));
-      
+
     return matchingIngredients;
   }
 
@@ -139,12 +134,12 @@ class DropdownList {
    * @see isUserValueMatches
    * @see getIngredientsData
    */
-  appliancesOnDropdownMatchesEventTargetValue(recipesData, eventTargetValue) {   
+  appliancesOnDropdownMatchesEventTargetValue(recipesData, eventTargetValue) {
 
     const matchingAppliances = this.isUserValueMatches(
-      eventTargetValue, 
+      eventTargetValue,
       this.getAppliancesData(recipesData));
-    
+
     return matchingAppliances;
   }
 
@@ -158,12 +153,12 @@ class DropdownList {
    */
   ustensilsOnDropdownMatchesEventTargetValue(recipesData, eventTargetValue) {
     const matchingUstensils = this.isUserValueMatches(
-      eventTargetValue, 
+      eventTargetValue,
       this.getUstensilssData(recipesData));
-      
+
     return matchingUstensils;
   }
-  
+
   /**
    * Returns ingredients data from Api
    * @param {Array} recipesData 
@@ -178,7 +173,7 @@ class DropdownList {
 
     return ingredientsData;
   }
-  
+
   /**
    * Returns appliances data from Api
    * @param {Array} recipesData 
@@ -193,7 +188,7 @@ class DropdownList {
 
     return appliancesData;
   }
-  
+
   /**
    * Returns ustensils data from Api
    * @param {Array} recipesData 
@@ -248,7 +243,7 @@ class DropdownList {
    * @see displayMatchingAppliancesOnDropdownList
    * @see displayMatchingUstensilsOnDropdownList
    */
-   displayAvailableMatchesOnDropdownByMainSearchBar(matchingIngredients, matchingAppliances, matchingUstensils) {
+  displayAvailableMatchesOnDropdownByMainSearchBar(matchingIngredients, matchingAppliances, matchingUstensils) {
 
     if (matchingIngredients) {
       this.displayMatchingIngredientsOnDropdownList(matchingIngredients);
@@ -270,10 +265,10 @@ class DropdownList {
    */
   displayMatchingIngredientsOnDropdownList(matchingIngredients) {
 
-      this.displayMatchingDataInDropdown(
-        matchingIngredients,
-        this.$ingredientsCustomSelect,
-        this.$ingredientsSelect);
+    this.displayMatchingDataInDropdown(
+      matchingIngredients,
+      this.$ingredientsCustomSelect,
+      this.$ingredientsSelect);
   }
 
   /**
@@ -283,10 +278,10 @@ class DropdownList {
    */
   displayMatchingAppliancesOnDropdownList(matchingAppliances) {
 
-      this.displayMatchingDataInDropdown(
-        matchingAppliances,
-        this.$appliancesCustomSelect,
-        this.$appliancesSelect);
+    this.displayMatchingDataInDropdown(
+      matchingAppliances,
+      this.$appliancesCustomSelect,
+      this.$appliancesSelect);
   }
 
   /**
@@ -296,10 +291,10 @@ class DropdownList {
    */
   displayMatchingUstensilsOnDropdownList(matchingUstensils) {
 
-      this.displayMatchingDataInDropdown(
-        matchingUstensils,
-        this.$ustensilsCustomSelect,
-        this.$ustensilsSelect);
+    this.displayMatchingDataInDropdown(
+      matchingUstensils,
+      this.$ustensilsCustomSelect,
+      this.$ustensilsSelect);
   }
 
   /**
@@ -317,12 +312,62 @@ class DropdownList {
     this.matchingRecipesDataForDropdown(matchingRecipesDataItem)
       .forEach(item => {
 
-        // Displays ingredients dropdown
+        // Displays item dropdown
         this.recipesPage.displayItemInDropdown(item, customSelect);
 
-        // Displays ingredients option
+        // Displays option
         this.recipesPage.displayOptionInDropdown(item, select);
+
+        const customSelectAttribute = {
+          'class': 'd-none'
+        }
+
+        const selectAttributes = {
+          'class': 'd-none',
+          'selected': ''
+        };
+
+        // Hides selected item in custom select
+        this.hideSelectedElementInDropdown(customSelect, customSelectAttribute);
+
+        // Hides selected option in select
+        this.hideSelectedElementInDropdown(select, selectAttributes);
       });
+  }
+
+  /**
+   * Hides selected element in dropdown
+   */
+  hideSelectedElementInDropdown(container, attributes) {
+
+    const tags = Array.from(document.querySelectorAll('#filter_tags li'));
+
+    tags
+      .forEach(tag => {
+
+        const options = Array.from(container.children)
+
+        options
+          .forEach(option => {
+
+            if (option.textContent.trim() === tag.textContent.trim()) {
+
+              // To keep only the rest of options
+              this.setAttributesToSelectedElement(option, attributes)
+            }
+          });
+      });
+  }
+
+  /**
+   * Sets mulitple attributes to an element
+   * @param {HTMLElement} element 
+   * @param {Object | string} attributes 
+   */
+  setAttributesToSelectedElement(element, attributes) {
+    for (let key in attributes) {
+      element.setAttribute(key, attributes[key])
+    }
   }
 
   /**
@@ -377,9 +422,9 @@ class DropdownList {
    * @returns {Array} isMatches
    */
   isUserValueMatches(userInputValue, dataDropdown) {
-    
-    const isMatches =  dataDropdown.filter(data => {
-  
+
+    const isMatches = dataDropdown.filter(data => {
+
       const regExp = new RegExp(userInputValue, 'gmi');
 
       return data.match(regExp);

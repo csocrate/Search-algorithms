@@ -32,9 +32,6 @@ class FilterTags {
               customOption.addEventListener('click', () => {
 
                 optionTags.push(customOption.textContent.trim());
-
-                // To keep only in the rest of custom options
-                customOption.parentNode.classList.add('d-none');
                 
                 this.handleDisplayingTag(optionTags);
 
@@ -92,7 +89,7 @@ class FilterTags {
 
   /**
    * Closes tag
-   * @see updateDropdownList
+   * @see handleSelectedItemInDropdown
    */
   closeTag() {
     const closeBtn = this.$tagsContainer.querySelectorAll('.btn-close');
@@ -102,8 +99,6 @@ class FilterTags {
         btn.addEventListener('click', () => {
 
           const tag = btn.parentElement;
-          
-          this.updateDropdownList(tag);
 
           tag.remove();
         })
@@ -111,26 +106,16 @@ class FilterTags {
   }
 
   /**
-   * Displays tag content text on dropdown list before to remove it 
-   * @param {HTMLElement} tag 
+   * Cleans user input value
+   * With click on dropdown close button
+   * @param {HTMLElement} activeItem 
    */
-  updateDropdownList(tag) {
+  cleanUserInputValue(activeItem) {
 
-    this.$customSelectBoxes
-      .forEach(customSelect => {
+    const closeBtn = activeItem.closest('.dropdown-menu').querySelector('.btn-close');
 
-        const customOptions = customSelect.querySelectorAll('a[role=option]');
-
-          Array.from(customOptions)
-            .forEach(customOption => {
-
-              if (customOption.parentElement.className === 'd-none') {
-
-                if (customOption.textContent.trim() === tag.textContent.trim()) {
-                  customOption.parentNode.classList.replace('d-none', 'd-block')
-                }
-              }
-            });
-      });
+    if (closeBtn.classList.contains('d-inline-block')) {
+      closeBtn.click();
+    }
   }
 }
