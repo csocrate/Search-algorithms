@@ -14,8 +14,8 @@ class FilterTags {
   }
 
   /**
-   * @see avoidDuplicatedTags
    * @see handleDisplayingTag
+   * @see cleanUserInputValue
    */
   displayFilterTagsByDropdownList() {
     

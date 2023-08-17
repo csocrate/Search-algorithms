@@ -4,12 +4,13 @@
  * ------------------------------------------------------------
  */
 
-class RecipesApp {
+ class RecipesApp {
   recipesData = undefined;
 
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
     this.recipesPage = new RecipesPage();
+    this.dropdownList = new DropdownList();
     this.filtertags = new FilterTags();
     this.advancedFilterSearchBar = new AdvancedFilterSearchBar();
 
@@ -43,7 +44,7 @@ class RecipesApp {
     this.handleMatchingDataByMainSearchBar();
 
     // Dropdown of advanced filters
-    this.displayDropDownListOnAdvancedFilters();
+    this.displayInitialDropDownListOnAdvancedFilters();
     this.handleMatchingDataOnDropdownsAndTagsByAdvancedFilters();
 
     // Recipe cards
@@ -52,6 +53,8 @@ class RecipesApp {
     // Filter tags
     this.filtertags.displayFilterTagsByDropdownList();
     this.observeTagsChangeToUpdateRecipes();
+
+    this.observeClosingBtnOnMainSearchBar();
   }
 
   handleMatchingDataByMainSearchBar() {
@@ -127,8 +130,7 @@ class RecipesApp {
    * From main search bar
    */
   updateDropdownLists(matchingIngredients, matchingAppliances, matchingUstensils) {
-    const dropdownList = new DropdownList();
-    dropdownList.displayAvailableMatchesOnDropdownByMainSearchBar(
+    this.dropdownList.displayAvailableMatchesOnDropdownByMainSearchBar(
       matchingIngredients,
       matchingAppliances,
       matchingUstensils);
@@ -207,9 +209,26 @@ class RecipesApp {
   /**
    * Displays initial data on dropdown search filter
    */
-  displayDropDownListOnAdvancedFilters() {
-    const dropdownList = new DropdownList();
-    dropdownList.displayDataOnDropdownLists(this.recipesData);
+  displayInitialDropDownListOnAdvancedFilters() {
+    
+    const selectBoxes = document.querySelectorAll('.search-filters select');
+    const customSelectBoxes = document.querySelectorAll('.search-filters ul');
+
+    selectBoxes
+      .forEach(select => {
+        if (select.innerHTML != '') {
+          select.innerHTML = '';
+        }
+      });
+
+    customSelectBoxes
+      .forEach(customSelect => {
+        if (customSelect.innerHTML != '') {
+          this.dropdownList.cleanCustomSelect(customSelect);
+        }
+      });
+
+    this.dropdownList.displayDataOnDropdownLists(this.recipesData);
   }
 
   /**
@@ -320,12 +339,57 @@ class RecipesApp {
 
     if (isInputValid) {
 
-      const dropdownList = new DropdownList();
-
-      dropdownList.updateDropdownDataByAdvancedFilterSearchBar(this.recipesData, eventTargetValue);
+      this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(this.recipesData, eventTargetValue);
 
     } else {
       return;
+    }
+  }
+
+  observeClosingBtnOnMainSearchBar() {
+
+    // Selects the node that will be observed for mutations
+    const closeBtn = this.$form.querySelector('button');
+
+    // Options for the observer (which mutations to observe)
+    const config = {
+      attributes: true
+    }
+
+    // Callback function to execute when mutations are observed
+    const callback = (mutationList) => {
+
+      // Finds mutation about selected attribute
+      const mutation = mutationList.find(mutation => mutation.type === 'attributes'
+        && mutation.attributeName === 'data-clicked');
+
+      if (mutation) {
+        this.resetInterface(mutation.attributeName);
+      }
+    }
+
+    // Creates an observer instance linked to the callback function
+    const observer = new MutationObserver(callback);
+
+    // Starts observing the target node for configured mutations
+    observer.observe(closeBtn, config);   
+  }
+
+  resetInterface() {
+
+    const closeBtn = document.querySelector("#filter_tags").querySelectorAll('.btn-close');
+
+    if (this.$form.querySelector('button').dataset.clicked === 'true') {
+
+      document.querySelector(".recipe-cards").innerHTML = '';
+      
+      this.handleRecipeCardsData();
+      this.displayInitialDropDownListOnAdvancedFilters();
+      this.filtertags.displayFilterTagsByDropdownList();
+
+      // Closes tags
+      closeBtn
+        .forEach(btn => btn.click());
     }
   }
 }
