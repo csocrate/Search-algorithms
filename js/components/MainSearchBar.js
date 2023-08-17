@@ -9,7 +9,7 @@ class MainSearchBar {
     this.$form = document.querySelector('#main_search');
     this.$input = document.querySelector('#recipes_search');
     this.$closeBtn = document.querySelector('#main_search .btn-close');
-    this.inputRules = new RegExp(/^[\w+|\s]{2,30}$/, 'gmi');
+    this.inputRules = new RegExp(/^[\w+|\s]{3,30}$/, 'gmi');
 
     this.init();
   }
@@ -34,6 +34,7 @@ class MainSearchBar {
     this.$form.querySelector('button').addEventListener("click", () => {
       this.closeBtn();
       this.removeInputValue();
+      this.$form.querySelector('button').dataset.clicked = 'true';
     }, false);
 
     document.addEventListener('keyup', e => {
@@ -124,6 +125,8 @@ class MainSearchBar {
     }
 
     if (result === true) {
+
+      this.$form.querySelector('button').dataset.clicked = 'false';
 
       this.$input.dataset.validInput = 'true';
 
