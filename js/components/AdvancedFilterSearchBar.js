@@ -8,7 +8,7 @@ class AdvancedFilterSearchBar {
   constructor() {
     this.$searchFilters = document.querySelectorAll('.search-filters ul');
     this.$closeBtn = document.querySelectorAll('.search-filters li .btn-close');
-    this.inputRules = new RegExp(/^[\w+|\s]{3,30}$/, 'gmi');
+    this.inputRules = new RegExp(/^[\w+|\s]{2,30}$/, 'gmi');
 
     this.init();
   }
