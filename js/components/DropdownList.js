@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
-class DropdownList {
+ class DropdownList {
 
   constructor() {
     this.recipesPage = new RecipesPage();
@@ -108,6 +108,35 @@ class DropdownList {
       this.displayMatchingUstensilsOnDropdownList(ustensils);
     }
   }
+  updateDropdownDataByAdvancedFilterSearchBarBis(matchingIngredients, matchingAppliances, matchingUstensils, eventTargetValue) {
+
+    const ingredients = this.ingredientsOnDropdownMatchesEventTargetValueBis(
+      matchingIngredients,
+      eventTargetValue);
+
+    const appliances = this.appliancesOnDropdownMatchesEventTargetValueBis(
+      matchingAppliances,
+      eventTargetValue);
+
+    const ustensils = this.ustensilsOnDropdownMatchesEventTargetValueBis(
+      matchingUstensils,
+      eventTargetValue);
+
+    if (document.activeElement === document.querySelector("#search_ingredient")) {
+
+      this.displayMatchingIngredientsOnDropdownList(ingredients);
+    }
+
+    if (document.activeElement === document.querySelector('#search_appliance')) {
+
+      this.displayMatchingAppliancesOnDropdownList(appliances);
+    }
+
+    if (document.activeElement === document.querySelector('#search_ustensil')) {
+
+      this.displayMatchingUstensilsOnDropdownList(ustensils);
+    }
+  }
 
   /**
    * Returns list of matching ingredients from Api
@@ -122,6 +151,14 @@ class DropdownList {
     const matchingIngredients = this.isUserValueMatches(
       eventTargetValue,
       this.getIngredientsData(recipesData));
+
+    return matchingIngredients;
+  }
+  ingredientsOnDropdownMatchesEventTargetValueBis(recipesData, eventTargetValue) {
+
+    const matchingIngredients = this.isUserValueMatches(
+      eventTargetValue,
+      this.getIngredientsDataBis(recipesData));
 
     return matchingIngredients;
   }
@@ -142,6 +179,14 @@ class DropdownList {
 
     return matchingAppliances;
   }
+  appliancesOnDropdownMatchesEventTargetValueBis(recipesData, eventTargetValue) {
+
+    const matchingAppliances = this.isUserValueMatches(
+      eventTargetValue,
+      this.getAppliancesDataBis(recipesData));
+
+    return matchingAppliances;
+  }
 
   /**
    * Returns list of matching ustensils from Api
@@ -155,6 +200,13 @@ class DropdownList {
     const matchingUstensils = this.isUserValueMatches(
       eventTargetValue,
       this.getUstensilssData(recipesData));
+
+    return matchingUstensils;
+  }
+  ustensilsOnDropdownMatchesEventTargetValueBis(recipesData, eventTargetValue) {
+    const matchingUstensils = this.isUserValueMatches(
+      eventTargetValue,
+      this.getUstensilssDataBis(recipesData));
 
     return matchingUstensils;
   }
@@ -173,6 +225,12 @@ class DropdownList {
 
     return ingredientsData;
   }
+  getIngredientsDataBis(recipesData) {
+    const ingredientsData = this.recipesDataForDropdownBis(
+      recipesData);
+
+    return ingredientsData;
+  }
 
   /**
    * Returns appliances data from Api
@@ -188,6 +246,12 @@ class DropdownList {
 
     return appliancesData;
   }
+  getAppliancesDataBis(recipesData) {
+    const appliancesData = this.recipesDataForDropdownBis(
+      recipesData);
+
+    return appliancesData;
+  }
 
   /**
    * Returns ustensils data from Api
@@ -200,6 +264,12 @@ class DropdownList {
       recipesData,
       'ustensils',
       undefined);
+
+    return ustensilsData;
+  }
+  getUstensilssDataBis(recipesData) {
+    const ustensilsData = this.recipesDataForDropdownBis(
+      recipesData);
 
     return ustensilsData;
   }
@@ -227,6 +297,21 @@ class DropdownList {
           acc.push(data);
         }
         return acc;
+      }, []);
+  }
+  recipesDataForDropdownBis(recipesData) {
+    return recipesData
+      .reduce((acc, el) => { // avoids duplicated item
+
+        let data;
+
+        data = el.charAt(0).toUpperCase() + el.slice(1);
+
+        if (acc.indexOf(data) < 0) {
+          acc.push(data);
+        }
+        return acc;
+
       }, []);
   }
 
@@ -432,5 +517,4 @@ class DropdownList {
 
     return isMatches;
   }
-
 }

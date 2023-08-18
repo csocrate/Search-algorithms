@@ -7,6 +7,10 @@
  class RecipesApp {
   recipesData = undefined;
 
+  matchingIngredients = undefined;
+  matchingAppliances = undefined;
+  matchingUstensils = undefined;
+
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
     this.recipesPage = new RecipesPage();
@@ -36,7 +40,7 @@
           ...recipe,
           ingredientOnly: ingredient,
           search: `${recipe.name} ${recipe.description} ${ingredient}`,
-          filter: `${ingredient} ${recipe.appliance} ${recipe.ustensils}`
+          advancedSearch: `${ingredient} ${recipe.appliance} ${recipe.ustensils}`
         }
       });
 
@@ -51,7 +55,8 @@
     this.handleRecipeCardsData();
 
     // Filter tags
-    this.filtertags.displayFilterTagsByDropdownList();
+    this.filtertags.displayFilterTagsByDropdownList(); 
+
     this.observeTagsChangeToUpdateRecipes();
 
     this.observeClosingBtnOnMainSearchBar();
@@ -85,6 +90,8 @@
 
       this.displayMatchingRecipes(userInputMatchingData);
 
+      this.handleMatchingDataOnDropdownsAndTagsByMainSearchBar();
+
     } else {
       return;
     }
@@ -110,10 +117,14 @@
 
       });
 
+      this.matchingIngredients = matchingIngredients.flat();
+      this.matchingAppliances = matchingAppliances;
+      this.matchingUstensils = matchingUstensils.flat();
+
     this.updateDropdownLists(
-      matchingIngredients.flat(),
-      matchingAppliances,
-      matchingUstensils.flat());
+      this.matchingIngredients,
+      this.matchingAppliances,
+      this.matchingUstensils);
 
     this.filtertags.displayFilterTagsByDropdownList();
   }
@@ -242,6 +253,28 @@
     });
   }
 
+  handleMatchingDataOnDropdownsAndTagsByMainSearchBar() {
+
+    this.$advancedFilterInputs.forEach(input => {
+
+      this.handleMatchingResultByAdvancedFiltersAndMainSearchBar(input);
+    });
+  }
+
+  /**
+   * 
+   * @param {HTMLElement} input User input on advanced filter
+   */
+  handleMatchingResultByAdvancedFiltersAndMainSearchBar(input) {
+
+    input.addEventListener('input', (e) => {
+      const userInputValue = e.target.value;
+
+      this.displayMatchingDataDropdownByAdvancedFiltersAndMainSearchBar(userInputValue, input);
+      this.filtertags.displayFilterTagsByDropdownList();      
+    });
+  }  
+
   /**
    * 
    * @param {HTMLElement} input User input on advanced filter
@@ -305,27 +338,100 @@
     this.recipesPage.displayMatchingRecipesCounterByFilter(
       this.recipesData,
       matchingDataTags.length);
+
+    this.isDataFromMainSearchBarReset();
   }
 
   isTagMatchingWithRecipesData() {
 
-    let dataTag = [];
+    let dataTags = [];
+    const userMainInputValue = document.querySelector("#recipes_search").value;
+    const matchingDatas = this.getmatchingDatasInDropdowns(userMainInputValue);
+
+    this.pushTagInArray(dataTags, userMainInputValue, matchingDatas);
+
+    const result = this.recipesData.filter(el => {
+
+      const filterData = el.advancedSearch.toLowerCase();
+
+      // Case using advanced filter from main search bar
+      if (userMainInputValue !== '') {
+
+        if (filterData.includes(userMainInputValue)) {
+
+          return dataTags.every(dataTag =>
+            filterData.includes(dataTag.toLowerCase()));  
+        }
+      } else { // Case using advanced filter only
+        return dataTags.every(dataTag =>
+          filterData.includes(dataTag.toLowerCase())); 
+      }
+    });
+
+    return result;
+  }
+
+  /**
+   * Returns an array of all matching data in dropdown
+   * @param {Event & {userInputValue: HTMLInputElement}} userInputValue
+   * @returns {Array | string} result or not
+   */
+  getmatchingDatasInDropdowns(userInputValue) {
+
+    const matchingDropdownDatas = [
+      this.matchingIngredients,
+      this.matchingAppliances,
+      this.matchingUstensils
+    ];
+
+    if (userInputValue !== '') {
+
+      const matchingDatas = matchingDropdownDatas.flat();
+  
+      const result =  matchingDatas
+          .map(el => el.charAt(0).toUpperCase() + el.slice(1));
+  
+      return result;
+    } else {
+      return;
+    }
+  }
+
+  /**
+   * Returns tag that matches with advanced filter data only
+   * Or with advanced filter data from main search bar
+   * @param {Array} array Empty array to get data tag
+   * @param {Event & {userInputValue: HTMLInputElement}} userInputValue
+   * @param {Array} data Array of all matching data in dropdown
+   */
+  pushTagInArray(array, userInputValue, data) {
 
     const tags = document.querySelectorAll('#filter_tags li');
 
     tags
-      .forEach(tag => dataTag.push(tag.textContent.trim()));
+      .forEach(tag => {
 
-    const result = this.recipesData.filter(el => {
+        // Case using advanced filter from main search bar
+        if (userInputValue !== '') {
 
-      const filterData = el.filter.toLowerCase();
-      const tags = dataTag;
+          if (data.includes(tag.textContent.trim())) {
+            return array.push(tag.textContent.trim());
+          }
+        } else { // Case using advanced filter only
+          return array.push(tag.textContent.trim());
+        }    
+      });
+  }
 
-      return tags.every(tag =>
-        filterData.includes(tag.toLowerCase()));
-    });
+  isDataFromMainSearchBarReset() {
 
-    return result;
+    if (document.querySelector('#filter_tags').children.length == 0) {
+      
+      const userInputValue = document.querySelector("#recipes_search").value;
+
+      this.displayMatchingRecipeByMainSearchBar(userInputValue);
+      this.handleDisplayingRecipes(this.$userInput, userInputValue);
+    }
   }
 
   /**
@@ -340,6 +446,24 @@
     if (isInputValid) {
 
       this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(this.recipesData, eventTargetValue);
+
+    } else {
+      return;
+    }
+  }
+
+  /**
+   * 
+   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
+   * @param {HTMLElement} input 
+   */
+   displayMatchingDataDropdownByAdvancedFiltersAndMainSearchBar(eventTargetValue, input) {
+
+    const isInputValid = this.advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
+
+    if (isInputValid) {
+
+      this.dropdownList.updateDropdownDataByAdvancedFilterSearchBarBis(this.matchingIngredients, this.matchingAppliances, this.matchingUstensils, eventTargetValue);
 
     } else {
       return;

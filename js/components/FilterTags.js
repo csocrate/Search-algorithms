@@ -42,20 +42,6 @@ class FilterTags {
   }
 
   /**
-   * Cleans user input value
-   * With click on dropdown close button
-   * @param {HTMLElement} activeItem 
-   */
-  cleanUserInputValue(activeItem) {
-
-    const closeBtn = activeItem.closest('.dropdown-menu').querySelector('.btn-close');
-
-    if (closeBtn.classList.contains('d-inline-block')) {
-      closeBtn.click();
-    }
-  }
-
-  /**
    * Launches and closes tag
    * @param {Object} items 
    * @see launchTag
