@@ -108,7 +108,7 @@
   inputValidation(inputValue) {
     let result = true;
 
-    if (!this.isValueMatch(inputValue, this.inputRules)) {
+    if (inputValue && !this.isValueMatch(inputValue, this.inputRules)) {
 
       this.$input.dataset.validInput = 'false';
 
@@ -130,9 +130,11 @@
 
       this.$input.dataset.validInput = 'true';
 
-      this.$form.querySelector('label').classList.replace('btn-secondary', 'btn-primary');
-      this.$form.querySelector('label svg').style.fill = '#000';
-      this.$closeBtn.classList.replace('d-none', 'd-inline-block');
+      if (inputValue) {
+        this.$form.querySelector('label').classList.replace('btn-secondary', 'btn-primary');
+        this.$form.querySelector('label svg').style.fill = '#000';
+        this.$closeBtn.classList.replace('d-none', 'd-inline-block');
+      }
 
       const errorMessage = this.$form.nextElementSibling;
       errorMessage.innerHTML = '';

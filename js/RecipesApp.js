@@ -180,7 +180,7 @@
           let position = cardTextContent.indexOf(eventTargetValue);
           let count = 0;
 
-          while (position !== -1) {
+          while (position !== -1 && position < cardTextContent.length) {
             count++;
             position = cardTextContent.indexOf(eventTargetValue, position + 1);
           }

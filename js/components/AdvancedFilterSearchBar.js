@@ -43,7 +43,7 @@ class AdvancedFilterSearchBar {
 
     let result = true;
 
-    if (!isValid) {
+    if (inputValue && !isValid) {
       result = false;
 
       currentInput.dataset.validInput = 'false';
@@ -54,7 +54,11 @@ class AdvancedFilterSearchBar {
     }
 
     if (result === true) {
-      this.launchBtn(btn);
+
+      if (inputValue) {
+        this.launchBtn(btn);
+      }
+      
       currentInput.dataset.validInput = 'true';
     }
 
