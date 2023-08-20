@@ -20,7 +20,7 @@
 
     // DOM
     this.$form = document.querySelector('#main_search');
-    this.$userInput = document.querySelector('#recipes_search');
+    this.$userMainInput = document.querySelector('#recipes_search');
     this.$recipeCards = document.querySelector('.recipe-cards');
     this.$advancedFilterInputs = document.querySelectorAll('.search-filters li input');
   }
@@ -64,11 +64,11 @@
 
   handleMatchingDataByMainSearchBar() {
 
-    this.$userInput.addEventListener('input', (e) => {
+    this.$userMainInput.addEventListener('input', (e) => {
       const userInputValue = e.target.value.toLowerCase();
 
       this.displayMatchingRecipeByMainSearchBar(userInputValue);
-      this.handleDisplayingRecipes(this.$userInput, userInputValue);
+      this.handleDisplayingRecipes(this.$userMainInput, userInputValue);
     });
   }
 
@@ -340,6 +340,8 @@
       matchingDataTags.length);
 
     this.isDataFromMainSearchBarReset();
+
+    this.removeCounterOnMachtingRecipe();
   }
 
   isTagMatchingWithRecipesData() {
@@ -424,13 +426,24 @@
   }
 
   isDataFromMainSearchBarReset() {
-
-    if (document.querySelector('#filter_tags').children.length == 0) {
       
-      const userInputValue = document.querySelector("#recipes_search").value;
+    const userInputValue = document.querySelector("#recipes_search").value;
+    
+    if (document.querySelector('#filter_tags').children.length == 0) {
 
-      this.displayMatchingRecipeByMainSearchBar(userInputValue);
-      this.handleDisplayingRecipes(this.$userInput, userInputValue);
+      this.handleDisplayingRecipes(this.$userMainInput, userInputValue);
+    }
+  }
+
+  removeCounterOnMachtingRecipe() {
+
+    const tags = this.filtertags.$tagsContainer.children;
+    const cards = this.$recipeCards.children;
+
+    if (tags.length >= 0) {
+      for (const card of cards) {
+        card.removeAttribute('data-matches');
+      }
     }
   }
 

@@ -9,6 +9,7 @@
     this.$form = document.querySelector('#main_search');
     this.$input = document.querySelector('#recipes_search');
     this.$closeBtn = document.querySelector('#main_search .btn-close');
+    
     this.inputRules = new RegExp(/^[\w+|\s]{3,30}$/, 'gmi');
 
     this.init();
@@ -102,6 +103,21 @@
   }
 
   /**
+   * Removes existing tag
+   * to reset interface before search by main search bar
+   */
+  closeTag() {
+
+    const closeBtn = document.querySelectorAll('#filter_tags .btn-close');
+
+    if (closeBtn) {
+
+      closeBtn
+        .forEach(btn => btn.click());
+    }
+  }
+
+  /**
    * Rejects input that doesn't follow rules
    * @see {@link isValueMatch}
    */
@@ -125,6 +141,8 @@
     }
 
     if (result === true) {
+
+      this.closeTag();
 
       this.$form.querySelector('button').dataset.clicked = 'false';
 
