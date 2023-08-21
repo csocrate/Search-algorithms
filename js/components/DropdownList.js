@@ -8,6 +8,7 @@
 
   constructor() {
     this.recipesPage = new RecipesPage();
+    this.advancedFilterSearchBar = new AdvancedFilterSearchBar();
 
     //DOM
     this.$ingredientsCustomSelect = document.querySelector('#ingredients_list');
@@ -69,209 +70,124 @@
   }
 
   /**
-   * Displays available matches on dropdown list from search filters
+   * 
    * @param {Array} recipesData 
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
-   * @see ingredientsOnDropdownMatchesEventTargetValue
-   * @see appliancesOnDropdownMatchesEventTargetValue
-   * @see ustensilsOnDropdownMatchesEventTargetValue
-   * @see displayMatchingIngredientsOnDropdownList
-   * @see displayMatchingAppliancesOnDropdownList
-   * @see displayMatchingUstensilsOnDropdownList
+   * @see matchingDataOnDropdownMatchesEventTargetValue
+   * @see displayMatchingDataOnAdvancedFilter
    */
   updateDropdownDataByAdvancedFilterSearchBar(recipesData, eventTargetValue) {
 
-    const ingredients = this.ingredientsOnDropdownMatchesEventTargetValue(
-      recipesData,
-      eventTargetValue);
+    let ingredients;
+    let appliances;
+    let ustensils;
 
-    const appliances = this.appliancesOnDropdownMatchesEventTargetValue(
-      recipesData,
-      eventTargetValue);
+    if (recipesData.length == 3) {
 
-    const ustensils = this.ustensilsOnDropdownMatchesEventTargetValue(
-      recipesData,
-      eventTargetValue);
+      ingredients = this.matchingDataOnDropdownMatchesEventTargetValue(
+        recipesData[0],
+        undefined,
+        undefined,
+        eventTargetValue);
+  
+      appliances = this.matchingDataOnDropdownMatchesEventTargetValue(
+        recipesData[1],
+        undefined,
+        undefined,
+        eventTargetValue);
+  
+      ustensils = this.matchingDataOnDropdownMatchesEventTargetValue(
+        recipesData[2],
+        undefined,
+        undefined,
+        eventTargetValue);
+
+    } else {
+
+      ingredients = this.matchingDataOnDropdownMatchesEventTargetValue(
+        recipesData,
+        'ingredients',  
+        'ingredient',
+        eventTargetValue);
+  
+      appliances = this.matchingDataOnDropdownMatchesEventTargetValue(
+        recipesData,
+        'appliance',
+        undefined,
+        eventTargetValue);
+  
+      ustensils = this.matchingDataOnDropdownMatchesEventTargetValue(
+        recipesData,
+        'ustensils',
+        undefined,
+        eventTargetValue);
+    }
+
+    this.displayMatchingDataOnAdvancedFilter(ingredients, appliances, ustensils);
+  }
+
+  /**
+   * Display matching data on dropdown of advanced search filter
+   * when this one is the active element on document
+   * @see displayMatchingDataInDropdown
+   */
+  displayMatchingDataOnAdvancedFilter(ingredients, appliances, ustensils) {
 
     if (document.activeElement === document.querySelector("#search_ingredient")) {
 
-      this.displayMatchingIngredientsOnDropdownList(ingredients);
+      this.displayMatchingDataInDropdown(
+        ingredients,
+        this.$ingredientsCustomSelect,
+        this.$ingredientsSelect);
     }
 
     if (document.activeElement === document.querySelector('#search_appliance')) {
 
-      this.displayMatchingAppliancesOnDropdownList(appliances);
+      this.displayMatchingDataInDropdown(
+        appliances,
+        this.$appliancesCustomSelect,
+        this.$appliancesSelect);
     }
 
     if (document.activeElement === document.querySelector('#search_ustensil')) {
 
-      this.displayMatchingUstensilsOnDropdownList(ustensils);
+      this.displayMatchingDataInDropdown(
+        ustensils,
+        this.$ustensilsCustomSelect,
+        this.$ustensilsSelect);
     }
-  }
-  updateDropdownDataByAdvancedFilterSearchBarBis(matchingIngredients, matchingAppliances, matchingUstensils, eventTargetValue) {
-
-    const ingredients = this.ingredientsOnDropdownMatchesEventTargetValueBis(
-      matchingIngredients,
-      eventTargetValue);
-
-    const appliances = this.appliancesOnDropdownMatchesEventTargetValueBis(
-      matchingAppliances,
-      eventTargetValue);
-
-    const ustensils = this.ustensilsOnDropdownMatchesEventTargetValueBis(
-      matchingUstensils,
-      eventTargetValue);
-
-    if (document.activeElement === document.querySelector("#search_ingredient")) {
-
-      this.displayMatchingIngredientsOnDropdownList(ingredients);
-    }
-
-    if (document.activeElement === document.querySelector('#search_appliance')) {
-
-      this.displayMatchingAppliancesOnDropdownList(appliances);
-    }
-
-    if (document.activeElement === document.querySelector('#search_ustensil')) {
-
-      this.displayMatchingUstensilsOnDropdownList(ustensils);
-    }
-  }
+  } 
 
   /**
-   * Returns list of matching ingredients from Api
+   * Returns list of matching data from Api
    * @param {Array} recipesData 
+   * @param {string} key 
+   * @param {string} value
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue 
-   * @returns {Array} matchingIngredients
-   * @see isUserValueMatches
-   * @see getIngredientsData
+   * @returns  matchingData
    */
-  ingredientsOnDropdownMatchesEventTargetValue(recipesData, eventTargetValue) {
+   matchingDataOnDropdownMatchesEventTargetValue(recipesData, key,  value, eventTargetValue) {
 
-    const matchingIngredients = this.isUserValueMatches(
+    const  matchingData = this.isUserValueMatches(
       eventTargetValue,
-      this.getIngredientsData(recipesData));
+      this.getData(recipesData, key, value));
 
-    return matchingIngredients;
-  }
-  ingredientsOnDropdownMatchesEventTargetValueBis(recipesData, eventTargetValue) {
-
-    const matchingIngredients = this.isUserValueMatches(
-      eventTargetValue,
-      this.getIngredientsDataBis(recipesData));
-
-    return matchingIngredients;
+    return  matchingData;
   }
 
   /**
-   * Returns list of matching appliances from Api
+   * Returns ingredients, appliance or ustensils data from Api
    * @param {Array} recipesData 
-   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue 
-   * @returns {Array} matchingAppliances
-   * @see isUserValueMatches
-   * @see getIngredientsData
-   */
-  appliancesOnDropdownMatchesEventTargetValue(recipesData, eventTargetValue) {
-
-    const matchingAppliances = this.isUserValueMatches(
-      eventTargetValue,
-      this.getAppliancesData(recipesData));
-
-    return matchingAppliances;
-  }
-  appliancesOnDropdownMatchesEventTargetValueBis(recipesData, eventTargetValue) {
-
-    const matchingAppliances = this.isUserValueMatches(
-      eventTargetValue,
-      this.getAppliancesDataBis(recipesData));
-
-    return matchingAppliances;
-  }
-
-  /**
-   * Returns list of matching ustensils from Api
-   * @param {Array} recipesData 
-   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue 
-   * @returns {Array} matchingUstensils
-   * @see isUserValueMatches
-   * @see getIngredientsData
-   */
-  ustensilsOnDropdownMatchesEventTargetValue(recipesData, eventTargetValue) {
-    const matchingUstensils = this.isUserValueMatches(
-      eventTargetValue,
-      this.getUstensilssData(recipesData));
-
-    return matchingUstensils;
-  }
-  ustensilsOnDropdownMatchesEventTargetValueBis(recipesData, eventTargetValue) {
-    const matchingUstensils = this.isUserValueMatches(
-      eventTargetValue,
-      this.getUstensilssDataBis(recipesData));
-
-    return matchingUstensils;
-  }
-
-  /**
-   * Returns ingredients data from Api
-   * @param {Array} recipesData 
-   * @returns ingredientsData
+   * @returns data - ingredients, appliance or ustensils
    * @see recipesDataForDropdown
    */
-  getIngredientsData(recipesData) {
-    const ingredientsData = this.recipesDataForDropdown(
+  getData(recipesData, key, value) {
+    const data = this.recipesDataForDropdown(
       recipesData,
-      'ingredients',
-      'ingredient');
+      key,
+      value);
 
-    return ingredientsData;
-  }
-  getIngredientsDataBis(recipesData) {
-    const ingredientsData = this.recipesDataForDropdownBis(
-      recipesData);
-
-    return ingredientsData;
-  }
-
-  /**
-   * Returns appliances data from Api
-   * @param {Array} recipesData 
-   * @returns appliancesData
-   * @see recipesDataForDropdown
-   */
-  getAppliancesData(recipesData) {
-    const appliancesData = this.recipesDataForDropdown(
-      recipesData,
-      'appliance',
-      undefined);
-
-    return appliancesData;
-  }
-  getAppliancesDataBis(recipesData) {
-    const appliancesData = this.recipesDataForDropdownBis(
-      recipesData);
-
-    return appliancesData;
-  }
-
-  /**
-   * Returns ustensils data from Api
-   * @param {Array} recipesData 
-   * @returns ustensilsData
-   * @see recipesDataForDropdown
-   */
-  getUstensilssData(recipesData) {
-    const ustensilsData = this.recipesDataForDropdown(
-      recipesData,
-      'ustensils',
-      undefined);
-
-    return ustensilsData;
-  }
-  getUstensilssDataBis(recipesData) {
-    const ustensilsData = this.recipesDataForDropdownBis(
-      recipesData);
-
-    return ustensilsData;
+    return data;
   }
 
   /**
@@ -283,107 +199,82 @@
    * @returns Array - acc
    */
   recipesDataForDropdown(recipesData, key, value) {
-    return recipesData
-      .map(recipe => recipe[`${key}`])
-      .flat()
-      .reduce((acc, el) => { // avoids duplicated item
-        let data;
-        if (value) {
-          data = el[`${value}`].charAt(0).toUpperCase() + el[`${value}`].slice(1);
-        } else {
+
+    let data;
+
+    if (!key && !value) {
+
+      return recipesData
+        .reduce((acc, el) => { // avoids duplicated item
+  
+          let data;
+  
           data = el.charAt(0).toUpperCase() + el.slice(1);
-        }
-        if (acc.indexOf(data) < 0) {
-          acc.push(data);
-        }
-        return acc;
-      }, []);
+  
+          if (acc.indexOf(data) < 0) {
+            acc.push(data);
+          }
+          return acc;  
+        }, []);
+    }
+    else {    
+
+      return recipesData
+        .map(recipe => recipe[`${key}`])
+        .flat()
+        .reduce((acc, el) => { // avoids duplicated item
+          
+          if (value) {
+            data = el[`${value}`].charAt(0).toUpperCase() + el[`${value}`].slice(1);
+  
+          } else {
+            data = el.charAt(0).toUpperCase() + el.slice(1);  
+          }
+  
+          if (acc.indexOf(data) < 0) {
+            acc.push(data);
+          }
+          return acc;
+        }, []);
+    }
   }
-  recipesDataForDropdownBis(recipesData) {
-    return recipesData
-      .reduce((acc, el) => { // avoids duplicated item
-
-        let data;
-
-        data = el.charAt(0).toUpperCase() + el.slice(1);
-
-        if (acc.indexOf(data) < 0) {
-          acc.push(data);
-        }
-        return acc;
-
-      }, []);
-  }
-
-  /**
-   * @see displayMatchingDataInDropdown
-   */
 
   /**
    * Displays available matches on dropdown list from main search bar
    * @param {Array} matchingIngredients 
    * @param {Array} matchingAppliances 
    * @param {Array} matchingUstensils
-   * @see displayMatchingIngredientsOnDropdownList
-   * @see displayMatchingAppliancesOnDropdownList
-   * @see displayMatchingUstensilsOnDropdownList
+   * @see displayMatchingDataInDropdown
    */
   displayAvailableMatchesOnDropdownByMainSearchBar(matchingIngredients, matchingAppliances, matchingUstensils) {
 
-    if (matchingIngredients) {
-      this.displayMatchingIngredientsOnDropdownList(matchingIngredients);
+    if (matchingIngredients) {      
+
+      this.displayMatchingDataInDropdown(
+        matchingIngredients,
+        this.$ingredientsCustomSelect,
+        this.$ingredientsSelect);
     }
 
     if (matchingAppliances) {
-      this.displayMatchingAppliancesOnDropdownList(matchingAppliances);
+
+      this.displayMatchingDataInDropdown(
+        matchingAppliances,
+        this.$appliancesCustomSelect,
+        this.$appliancesSelect);
     }
 
     if (matchingUstensils) {
-      this.displayMatchingUstensilsOnDropdownList(matchingUstensils);
+
+      this.displayMatchingDataInDropdown(
+        matchingUstensils,
+        this.$ustensilsCustomSelect,
+        this.$ustensilsSelect);
     }
   }
 
   /**
-   * 
-   * @param {Array} matchingIngredients
-   * @see displayMatchingDataInDropdown
-   */
-  displayMatchingIngredientsOnDropdownList(matchingIngredients) {
-
-    this.displayMatchingDataInDropdown(
-      matchingIngredients,
-      this.$ingredientsCustomSelect,
-      this.$ingredientsSelect);
-  }
-
-  /**
-   * 
-   * @param {Array} matchingAppliances
-   * @see displayMatchingDataInDropdown
-   */
-  displayMatchingAppliancesOnDropdownList(matchingAppliances) {
-
-    this.displayMatchingDataInDropdown(
-      matchingAppliances,
-      this.$appliancesCustomSelect,
-      this.$appliancesSelect);
-  }
-
-  /**
-   * 
-   * @param {Array} matchingUstensils
-   * @see displayMatchingDataInDropdown 
-   */
-  displayMatchingUstensilsOnDropdownList(matchingUstensils) {
-
-    this.displayMatchingDataInDropdown(
-      matchingUstensils,
-      this.$ustensilsCustomSelect,
-      this.$ustensilsSelect);
-  }
-
-  /**
-   * 
+   * Displays matching data in dropdown list
    * @param {Array} matchingRecipesDataItem
    * @param {HTMLElement} customSelect
    * @param {HTMLElement} select
@@ -391,7 +282,7 @@
    */
   displayMatchingDataInDropdown(matchingRecipesDataItem, customSelect, select) {
 
-    this.cleanSelectBoxes(customSelect, select);
+    this.advancedFilterSearchBar.cleanSelectBoxes(customSelect, select);
 
     //Displays new dropdown list
     this.matchingRecipesDataForDropdown(matchingRecipesDataItem)
@@ -477,27 +368,7 @@
 
       }, []);
   }
-
-  /**
-   * Cleans select boxes and keeps search input on custom select
-   * @see cleanCustomSelect
-   */
-  cleanSelectBoxes(customSelect, select) {
-    this.cleanCustomSelect(customSelect);
-    select.innerHTML = '';
-  }
-
-  /**
-   * 
-   * @param {HTMLElement} customSelect 
-   */
-  cleanCustomSelect(customSelect) {
-    const items = Array.from(customSelect.children).slice(1);
-
-    items
-      .forEach(item => customSelect.removeChild(item));
-  }
-
+  
   /**
    * Returns an array of data
    * Matching with user input value

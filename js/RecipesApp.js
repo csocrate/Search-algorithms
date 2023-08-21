@@ -21,28 +21,29 @@
     // DOM
     this.$form = document.querySelector('#main_search');
     this.$userMainInput = document.querySelector('#recipes_search');
+    this.$advancedFilters = document.querySelector('.advanced-filters');
     this.$recipeCards = document.querySelector('.recipe-cards');
-    this.$advancedFilterInputs = document.querySelectorAll('.search-filters li input');
+    this.$advancedFilterInputs = this.$advancedFilters.querySelectorAll('li input');
   }
 
   async init() {
     const recipesData = await this.dataApi.recipesFetch();
 
-    // this.recipesData = recipesData
-    //   .map(recipe => new RecipeFactories(recipe, 'recipe'));
+    recipesData
+      .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
     this.recipesData = recipesData
-      .map(recipe => {
-        const ingredient = recipe.ingredients
-          .map(el => el.ingredient);
+    .map(recipe => {
+      const ingredient = recipe.ingredients
+        .map(el => el.ingredient);
 
-        return {
-          ...recipe,
-          ingredientOnly: ingredient,
-          search: `${recipe.name} ${recipe.description} ${ingredient}`,
-          advancedSearch: `${ingredient} ${recipe.appliance} ${recipe.ustensils}`
-        }
-      });
+      return {
+        ...recipe,
+        ingredientOnly: ingredient,
+        search: `${recipe.name} ${recipe.description} ${ingredient}`,
+        advancedSearch: `${ingredient} ${recipe.appliance} ${recipe.ustensils}`
+      }
+    });
 
     // Main search bar
     this.handleMatchingDataByMainSearchBar();
@@ -89,8 +90,6 @@
       const userInputMatchingData = mainSearchBarMatches.isDataSearchMatches(eventTargetValue, this.recipesData);
 
       this.displayMatchingRecipes(userInputMatchingData);
-
-      this.handleMatchingDataOnDropdownsAndTagsByMainSearchBar();
 
     } else {
       return;
@@ -221,23 +220,8 @@
    * Displays initial data on dropdown search filter
    */
   displayInitialDropDownListOnAdvancedFilters() {
-    
-    const selectBoxes = document.querySelectorAll('.search-filters select');
-    const customSelectBoxes = document.querySelectorAll('.search-filters ul');
 
-    selectBoxes
-      .forEach(select => {
-        if (select.innerHTML != '') {
-          select.innerHTML = '';
-        }
-      });
-
-    customSelectBoxes
-      .forEach(customSelect => {
-        if (customSelect.innerHTML != '') {
-          this.dropdownList.cleanCustomSelect(customSelect);
-        }
-      });
+    this.advancedFilterSearchBar.cleanEachSelectBoxes();
 
     this.dropdownList.displayDataOnDropdownLists(this.recipesData);
   }
@@ -251,29 +235,7 @@
 
       this.handleMatchingResultByAdvancedFilters(input);
     });
-  }
-
-  handleMatchingDataOnDropdownsAndTagsByMainSearchBar() {
-
-    this.$advancedFilterInputs.forEach(input => {
-
-      this.handleMatchingResultByAdvancedFiltersAndMainSearchBar(input);
-    });
-  }
-
-  /**
-   * 
-   * @param {HTMLElement} input User input on advanced filter
-   */
-  handleMatchingResultByAdvancedFiltersAndMainSearchBar(input) {
-
-    input.addEventListener('input', (e) => {
-      const userInputValue = e.target.value;
-
-      this.displayMatchingDataDropdownByAdvancedFiltersAndMainSearchBar(userInputValue, input);
-      this.filtertags.displayFilterTagsByDropdownList();      
-    });
-  }  
+  } 
 
   /**
    * 
@@ -284,7 +246,14 @@
     input.addEventListener('input', (e) => {
       const userInputValue = e.target.value;
 
-      this.displayMatchingDataDropdownByAdvancedFilters(userInputValue, input);
+      if (this.$userMainInput.dataset.validInput === 'true') {
+
+        this.displayMatchingDataDropdownByAdvancedFiltersAndMainSearchBar(userInputValue, input);
+      } else {
+
+        this.displayMatchingDataDropdownByAdvancedFilters(userInputValue, input);
+      }
+
       this.filtertags.displayFilterTagsByDropdownList();      
     });
   }
@@ -472,11 +441,17 @@
    */
    displayMatchingDataDropdownByAdvancedFiltersAndMainSearchBar(eventTargetValue, input) {
 
+    const matchingDatas = [
+      this.matchingIngredients, 
+      this.matchingAppliances,
+      this.matchingUstensils
+    ];
+
     const isInputValid = this.advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
 
     if (isInputValid) {
 
-      this.dropdownList.updateDropdownDataByAdvancedFilterSearchBarBis(this.matchingIngredients, this.matchingAppliances, this.matchingUstensils, eventTargetValue);
+    this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(matchingDatas, eventTargetValue);
 
     } else {
       return;
@@ -517,6 +492,8 @@
     const closeBtn = document.querySelector("#filter_tags").querySelectorAll('.btn-close');
 
     if (this.$form.querySelector('button').dataset.clicked === 'true') {
+
+      this.$userMainInput.dataset.validInput = 'false';
 
       document.querySelector(".recipe-cards").innerHTML = '';
       

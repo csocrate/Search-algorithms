@@ -6,8 +6,11 @@
 
 class AdvancedFilterSearchBar {
   constructor() {
-    this.$searchFilters = document.querySelectorAll('.search-filters ul');
-    this.$closeBtn = document.querySelectorAll('.search-filters li .btn-close');
+    // DOM
+    this.$advancedFilters = document.querySelector('.advanced-filters');
+    this.$closeBtn = document.querySelectorAll('.advanced-filters li .btn-close');
+
+    // Regular expression
     this.inputRules = new RegExp(/^[\w+|\s]{3,30}$/, 'gmi');
 
     this.init();
@@ -90,4 +93,45 @@ class AdvancedFilterSearchBar {
     
     dropdownMenu.querySelector('input').value = '';
   }
+
+  cleanEachSelectBoxes() {
+    
+    const selectBoxes = this.$advancedFilters.querySelectorAll('select');
+    const customSelectBoxes = this.$advancedFilters.querySelectorAll('ul');
+
+    selectBoxes
+      .forEach(select => {
+        if (select.innerHTML != '') {
+          select.innerHTML = '';
+        }
+      });
+
+    customSelectBoxes
+      .forEach(customSelect => {
+        if (customSelect.innerHTML != '') {
+          this.cleanCustomSelect(customSelect);
+        }
+      });
+  }
+
+  /**
+   * Cleans select boxes and keeps search input on custom select
+   * @see cleanCustomSelect
+   */
+     cleanSelectBoxes(customSelect, select) {
+      this.cleanCustomSelect(customSelect);
+      select.innerHTML = '';
+    }
+  
+    /**
+     * 
+     * @param {HTMLElement} customSelect 
+     */
+    cleanCustomSelect(customSelect) {
+      const items = Array.from(customSelect.children).slice(1);
+  
+      items
+        .forEach(item => customSelect.removeChild(item));
+    }
+  
 }

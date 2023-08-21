@@ -9,7 +9,7 @@ class FilterTags {
     this.recipesPage = new RecipesPage();
 
     // DOM
-    this.$customSelectBoxes = document.querySelectorAll('.search-filters ul');
+    this.$customSelectBoxes = document.querySelectorAll('.advanced-filters ul');
     this.$tagsContainer = document.querySelector('#filter_tags');
   }
 

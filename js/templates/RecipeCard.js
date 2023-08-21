@@ -67,16 +67,15 @@
   createIngredientsDom() {
 
     const ingredientsDom = this._recipes.ingredients
-      .map(ingredient => {
-
-        let content = ingredient.ingredient;
-        let quantity = ingredient.quantity;
-        let unit = ingredient.unit;
+      .map(el => {
+        const ingredient = el.ingredient;
+        const quantity = el.quantity;
+        const unit = el.unit;
         
         const all = `
         <div class="w-50">
           <p class="mb-0_1">
-          ${content}
+          ${ingredient}
           </p>
           <p class="text-body-tertiary fw-medium">
           ${quantity}${unit}
@@ -86,7 +85,7 @@
         const ingredientAndQuantity = `
         <div class="w-50">
           <p class="mb-0_1">
-          ${content}
+          ${ingredient}
           </p>
           <p class="text-body-tertiary fw-medium">
           ${quantity}
@@ -96,11 +95,11 @@
         const ingredientOnly = `
         <div class="w-50">
           <p class="mb-0_1">
-          ${content}
+          ${ingredient}
           </p>
         </div>`;
 
-        if (content && quantity) {
+        if (ingredient && quantity) {
           if (unit) {
             return all;
           } else {
