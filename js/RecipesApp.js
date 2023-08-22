@@ -10,68 +10,71 @@ class RecipesApp {
   constructor() {
     this.dataApi = new DataApi('/data/recipes.json');
     this.recipesPage = new RecipesPage();
+    this.dropdownList = new DropdownList();
     this.tags = new Array();
 
     // DOM
-    this.$searchFilterInputs = document.querySelectorAll('.search-filters li input');
+    this.$userMainInput = document.querySelector('#recipes_search');
+    this.$searchFilterInputs = document.querySelectorAll('.advanced-filters li input');
   }
 
   async init() {
     const recipesData = await this.dataApi.recipesFetch();
 
-    // this.recipesData = recipesData
-    //   .map(recipe => new RecipeFactories(recipe, 'recipe'));
-
     this.recipesData = recipesData
-      .map(recipe => {
-        const ingredient = recipe.ingredients
-          .map(el => el.ingredient);
-
-        return {
-          ...recipe,
-          search: `${recipe.name} ${recipe.description} ${ingredient}`
-        }
-      });
+      .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
     // Cards
-    this.displayRecipeCardsWithData();
+    this.handleRecipeCardsData();
 
     // Main search bar
-    new MainSearchBar();
+    this.isUserInputValidOnMainSearchBar();
 
     // Select boxes
     this.displayDropDownListOnSearchFilters();
-    this.isUserInputValueMatchesOnSearchFilter();
+    this.isUserInputValidOnAdvancedFilter();
 
     // Tags
-    this.tags.push('item 1', 'item 2', 'item 3');
-    const tags = this.tags;
-    this.displayActiveTags(tags);
+    this.displayTags();
   }
 
-  displayRecipeCardsWithData() {
+  handleRecipeCardsData() {
     this.recipesData
       .forEach(recipe => {
 
-        // Displays recipe card
-        const recipeCard = new RecipeCard(recipe);
-        const card = recipeCard.createRecipeCard();
-        this.recipesPage.displayRecipeCard(card);
+        this.displayRecipeCard(recipe);
       });
 
     this.recipesPage.displayRecipesCounter(this.recipesData);
+  }
+
+  displayRecipeCard(data) {
+
+    const recipeCard = new RecipeCard(data);
+    const card = recipeCard.createRecipeCard();
+    this.recipesPage.displayRecipeCard(card);
+  }
+
+  isUserInputValidOnMainSearchBar() {
+    const mainSearchBar = new MainSearchBar();
+
+    this.$userMainInput.addEventListener('input', (e) => {
+
+      const userInputValue = e.target.value;
+  
+      mainSearchBar.inputValidation(userInputValue);
+    });
   }
 
   /**
    * Displays initial data on dropdown search filter
    */
   displayDropDownListOnSearchFilters() {
-    const dataDropdownList = new DataDropdownList();
-    dataDropdownList.displaySelectBoxesWithData(this.recipesData);
+    this.dropdownList.displaySelectBoxesWithData(this.recipesData);
   }
   
-  isUserInputValueMatchesOnSearchFilter() {    
-    const dropdownSearchFilter = new DropdownSearchFilter();
+  isUserInputValidOnAdvancedFilter() {    
+    const advancedFilterSearchBar = new AdvancedFilterSearchBar();
 
     this.$searchFilterInputs.forEach(input => {
 
@@ -79,11 +82,7 @@ class RecipesApp {
 
         const userInputValue = e.target.value;
   
-        const isInputValid = dropdownSearchFilter.IsUserInputValid(userInputValue, input);
-  
-        if (isInputValid) {
-  
-        }
+        advancedFilterSearchBar.IsUserInputValid(userInputValue, input);
       });
     });
   }
@@ -99,6 +98,12 @@ class RecipesApp {
         const tag = activeTag.createActivetag(item);
         this.recipesPage.displayActiveTag(tag);
       });
+  }
+
+  displayTags() {
+    this.tags.push('item 1', 'item 2', 'item 3');
+    const tags = this.tags;
+    this.displayActiveTags(tags);
   }
 }
 const recipesApp = new RecipesApp();

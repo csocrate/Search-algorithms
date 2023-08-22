@@ -1,14 +1,16 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats components/DropdownSearchFilter.js
+ * Les Petits Plats components/AdvancedFilterSearchBar.js
  * ------------------------------------------------------------
  */
 
-class DropdownSearchFilter {
+class AdvancedFilterSearchBar {
   constructor() {
-    this.inputRules = new RegExp('^[a-zA-Z]([a-zA-Z\-\s]){2,30}$', 'g');
-    this.$searchFilters = document.querySelectorAll('.search-filters ul');
-    this.$closeBtn = document.querySelectorAll('.search-filters li .btn-close');
+    // DOM
+    this.$closeBtn = document.querySelectorAll('.advanced-filters li .btn-close');
+
+    // Regular expression
+    this.inputRules = new RegExp(/^[\w+|\s]{3,30}$/, 'gmi');
 
     this.init();
   }
@@ -24,6 +26,7 @@ class DropdownSearchFilter {
         
         this.closeBtn(btn);
         this.removeUserInputValue(e.target);
+
       }, false);
     });
   }
@@ -31,7 +34,7 @@ class DropdownSearchFilter {
   /**
   * Returns result from rules implementation - About data input filter
   * @param {string} inputValue - Input value
-   * @param {*} currentInput
+   * @param {HTMLElement} currentInput
   * @returns {boolean} - If user data is set to true or false that means required field is correct or not
    */
   IsUserInputValid(inputValue, currentInput) {
@@ -45,13 +48,20 @@ class DropdownSearchFilter {
     if (!isValid) {
       result = false;
 
+      currentInput.dataset.validInput = 'false';
+
       if (btn.classList.contains('d-inline-block')) {
         this.closeBtn(btn);
       }
     }
 
     if (result === true) {
-      this.launchBtn(btn);
+
+      if (inputValue) {
+        this.launchBtn(btn);
+      }
+      
+      currentInput.dataset.validInput = 'true';
     }
 
     return result;
@@ -74,10 +84,12 @@ class DropdownSearchFilter {
   }
 
   /**
-   * Removes search input value of user
-   * @param {HTMLElement} btn 
+   * Removes user input value
+   * @param {Event & {eventTarget: HTMLInputElement}} eventTarget
    */
-  removeUserInputValue(btn) {
-    btn.previousElementSibling.value = '';
+  removeUserInputValue(eventTarget) {
+    const dropdownMenu = eventTarget.closest('.dropdown-menu');
+    
+    dropdownMenu.querySelector('input').value = '';
   }
 }
