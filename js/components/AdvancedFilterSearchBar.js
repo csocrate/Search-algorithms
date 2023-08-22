@@ -7,6 +7,7 @@
 class AdvancedFilterSearchBar {
   constructor() {
     // DOM
+    this.$advancedFilters = document.querySelector('.advanced-filters');
     this.$closeBtn = document.querySelectorAll('.advanced-filters li .btn-close');
 
     // Regular expression
@@ -17,6 +18,7 @@ class AdvancedFilterSearchBar {
 
   init() {
     this.handleCloseBtn();
+    this.isAdvancedFilterExpanded();
   }
 
   handleCloseBtn() {
@@ -28,6 +30,31 @@ class AdvancedFilterSearchBar {
         this.removeUserInputValue(e.target);
 
       }, false);
+    });
+  }
+
+  /**
+   * Toggles arrow icon on dropdown header
+   */
+  isAdvancedFilterExpanded() {
+    const dropdownHeaders = this.$advancedFilters.querySelectorAll('button[aria-haspopup=listbox]');
+
+    dropdownHeaders
+      .forEach(dropdownHeader => {
+
+        dropdownHeader.addEventListener('click', (e) => {
+
+          const icon = dropdownHeader.querySelector('span.fa-solid');
+
+          if (dropdownHeader.getAttribute('aria-expanded') === 'true') {
+
+            icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+      
+          } else {
+            icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+          }
+
+        }, false);
     });
   }
 
