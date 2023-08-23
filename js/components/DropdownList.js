@@ -100,7 +100,7 @@
         recipesData[2],
         undefined,
         undefined,
-        eventTargetValue);
+        eventTargetValue);        
 
     } else {
 
@@ -203,7 +203,6 @@
     let data;
 
     if (!key && !value) {
-
       return recipesData
         .reduce((acc, el) => { // avoids duplicated item
   
@@ -217,7 +216,7 @@
           return acc;  
         }, []);
     }
-    else {    
+    else {
 
       return recipesData
         .map(recipe => recipe[`${key}`])
@@ -225,7 +224,7 @@
         .reduce((acc, el) => { // avoids duplicated item
           
           if (value) {
-            data = el[`${value}`].charAt(0).toUpperCase() + el[`${value}`].slice(1);
+            data = el[`${value}`].charAt(0).toUpperCase() + el[`${value}`].toLowerCase().slice(1);
   
           } else {
             data = el.charAt(0).toUpperCase() + el.slice(1);  
@@ -380,6 +379,15 @@
   isUserValueMatches(userInputValue, dataDropdown) {
 
     const isMatches = dataDropdown.filter(data => {
+
+      const punctuation = /[\.,?!]/g;
+      const accents = /[\u0300-\u036f]/g;
+
+      data = data
+        .replace(punctuation, ' ')
+        .normalize('NFD')
+        .replace(accents, '')
+        .toLowerCase();
 
       const regExp = new RegExp(userInputValue, 'gmi');
 

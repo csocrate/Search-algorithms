@@ -66,7 +66,13 @@
   handleMatchingDataByMainSearchBar() {
 
     this.$userMainInput.addEventListener('input', (e) => {
-      const userInputValue = e.target.value.toLowerCase();
+
+      const accents = /[\u0300-\u036f]/g;
+
+      const userInputValue = e.target.value
+      .normalize('NFD')
+      .replace(accents, '')
+      .toLowerCase();
 
       this.displayMatchingRecipeByMainSearchBar(userInputValue);
       this.handleDisplayingRecipes(this.$userMainInput, userInputValue);
@@ -169,10 +175,17 @@
    */
   addCounterOnMachtingRecipe(eventTargetValue) {
 
+    const punctuation = /[\.,?!]/g;
+    const accents = /[\u0300-\u036f]/g;
+
     this.$recipeCards.querySelectorAll('article')
       .forEach(card => {
 
-        const cardTextContent = card.textContent.trim().toLowerCase();
+        const cardTextContent= card.textContent
+        .replace(punctuation, ' ')
+        .normalize('NFD')
+        .replace(accents, '')
+        .toLowerCase();
 
         if (cardTextContent.includes(eventTargetValue)) {
 
@@ -235,7 +248,7 @@
 
       this.handleMatchingResultByAdvancedFilters(input);
     });
-  } 
+  }
 
   /**
    * 
@@ -244,17 +257,23 @@
   handleMatchingResultByAdvancedFilters(input) {
 
     input.addEventListener('input', (e) => {
-      const userInputValue = e.target.value;
+
+      const accents = /[\u0300-\u036f]/g;
+
+      const userInputValue = e.target.value
+      .normalize('NFD')
+      .replace(accents, '')
+      .toLowerCase();
 
       if (this.$userMainInput.dataset.validInput === 'true') {
 
         this.displayMatchingDataDropdownByAdvancedFiltersAndMainSearchBar(userInputValue, input);
+
       } else {
 
         this.displayMatchingDataDropdownByAdvancedFilters(userInputValue, input);
       }
-
-      this.filtertags.displayFilterTagsByDropdownList();      
+         
     });
   }
 
@@ -428,6 +447,8 @@
     if (isInputValid) {
 
       this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(this.recipesData, eventTargetValue);
+      
+      this.filtertags.displayFilterTagsByDropdownList();
 
     } else {
       return;
@@ -451,7 +472,9 @@
 
     if (isInputValid) {
 
-    this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(matchingDatas, eventTargetValue);
+      this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(matchingDatas, eventTargetValue);
+
+      this.filtertags.displayFilterTagsByDropdownList();
 
     } else {
       return;

@@ -27,7 +27,7 @@ class FilterTags {
         let optionTags = [];
 
           Array.from(customOptions)
-            .forEach(customOption => { 
+            .forEach(customOption => {
 
               customOption.addEventListener('click', () => {
 
@@ -35,7 +35,7 @@ class FilterTags {
                 
                 this.handleDisplayingTag(optionTags);
 
-                this.cleanUserInputValue(customOption);
+                this.cleanUserInputValue(customSelect);
               });
             });
       });
@@ -96,12 +96,14 @@ class FilterTags {
    * With click on dropdown close button
    * @param {HTMLElement} activeItem 
    */
-  cleanUserInputValue(activeItem) {
+  cleanUserInputValue(customSelect) {
 
-    const closeBtn = activeItem.closest('.dropdown-menu').querySelector('.btn-close');
+    const closeBtn = customSelect.querySelector('ul button');
 
     if (closeBtn.classList.contains('d-inline-block')) {
       closeBtn.click();
+    } else {
+      closeBtn.parentElement.querySelector('input').value = '';
     }
   }
 }

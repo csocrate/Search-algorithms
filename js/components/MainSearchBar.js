@@ -10,7 +10,7 @@
     this.$input = document.querySelector('#recipes_search');
     this.$closeBtn = document.querySelector('#main_search .btn-close');
     
-    this.inputRules = new RegExp(/^[\w+|\s]{3,30}$/, 'gmi');
+    this.inputRules = new RegExp(/^[\D+|\s]{3,30}$/, 'gmi');
 
     this.init();
   }

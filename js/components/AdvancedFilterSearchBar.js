@@ -11,7 +11,7 @@ class AdvancedFilterSearchBar {
     this.$closeBtn = document.querySelectorAll('.advanced-filters li .btn-close');
 
     // Regular expression
-    this.inputRules = new RegExp(/^[\w+|\s]{3,30}$/, 'gmi');
+    this.inputRules = new RegExp(/^[\D+|\s]{3,30}$/, 'gmi');
 
     this.init();
   }

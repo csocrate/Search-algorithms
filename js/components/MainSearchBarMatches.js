@@ -21,10 +21,16 @@
     
     const result =  mainArray.filter(el => {
 
-      const data = el.search.toLowerCase();
-      const inputValue= eventTargetValue.toLowerCase();
+      const punctuation = /[\.,?!]/g;
+      const accents = /[\u0300-\u036f]/g;
 
-      return data.includes(inputValue);
+      const data = el.search
+        .replace(punctuation, ' ')
+        .normalize('NFD')
+        .replace(accents, '')
+        .toLowerCase();
+
+      return data.includes(eventTargetValue);
     });
 
     return result;
