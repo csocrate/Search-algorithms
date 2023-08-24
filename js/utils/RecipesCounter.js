@@ -24,7 +24,7 @@ class RecipesCounter {
 
   addNumberOfRecipes() {
 
-    let count = `${this._recipes.length} recettes`;
+    let count = `${this._recipes.length}`;
 
     this.recipesCounter.textContent = `${count} recettes`;
 

@@ -1,14 +1,14 @@
 /**
  * ------------------------------------------------------------
- * Les Petits Plats components/DataDropdownList.js
+ * Les Petits Plats components/DropdownList.js
  * ------------------------------------------------------------
  */
 
-class DataDropdownList {
+class DropdownList {
 
-  constructor() {
+  constructor() {    
     this.recipesPage = new RecipesPage();
-
+    
     //DOM
     this.$ingredientsCustomSelect = document.querySelector('#ingredients_list');
     this.$appliancesCustomSelect = document.querySelector('#appliances_list');

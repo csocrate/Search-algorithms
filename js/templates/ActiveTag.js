@@ -20,8 +20,8 @@ class ActiveTag {
       'flex-wrap',
       'align-items-center',
       'rounded',
-      'col-6',
-      'col-md-3',
+      'col-10',
+      'col-md-4',
       'col-lg-2',
       'py-3',
       'bg-primary');

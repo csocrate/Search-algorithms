@@ -28,7 +28,7 @@
     <!-- Banner section -->
     <section class="banner h-70vh">
       <div class="d-flex justify-content-center position-relative w-100 h-100 pt-6">
-        <div class="container position-relative d-flex flex-column justify-content-center align-items-center mw-900px">
+        <div class="container position-relative d-flex flex-column justify-content-center align-items-center mw-900px w-90 px-0">
           <h1 class="d-flex flex-column align-items-center font-monospace text-uppercase text-primary mb-4">
             <span class="d-inline-block">           
               Cherchez parmi plus de 1500 recettes
@@ -65,7 +65,7 @@
                   </svg>
               </label>
           </form>
-          <span class="error-message d-inline-block fs-7 fw-bold m-2 p-3 rounded-3 text-primary bg-secondary"></span>
+          <span class="error-message d-inline-block fs-7 fw-bold m-2 p-3 rounded-3 text-primary bg-transparent"></span>
         </div>
         <div class="position-absolute top-0 start-0 z-n1 w-100 h-100">
           <img
@@ -86,12 +86,12 @@
     </section> <!-- End Banner section -->
     <!-- Recipes wrapper section -->
     <div class="recipes-wrapper">
-      <div class="container-xxl py-4">
+      <div class="container-xxl w-90 px-0 py-4">
         <!-- Filters -->
         <div class="row d-flex align-items-center mb-5">
           <div class="col-10">
             <!-- Select boxes -->
-            <div class="row search-filters">
+            <div class="row advanced-filters">
               <!-- Ingredients dropdown -->
               <div class="col-12 col-md-4 col-lg-2">
                 <div class="position-relative mb-3">
@@ -244,8 +244,8 @@
   <!-- components -->
   <script src="/js/components/MainSearchBar.js"></script>
   <script src="/js/components/MainSearchBarMatches.js"></script>
-  <script src="/js/components/DropdownSearchFilter.js"></script>
-  <script src="/js/components/DataDropdownList.js"></script>
+  <script src="/js/components/AdvancedFilterSearchBar.js"></script>
+  <script src="/js/components/DropdownList.js"></script>
   <!-- utils -->
   <script src="/js/utils/RecipesCounter.js"></script>
   <!-- Entry point -->
