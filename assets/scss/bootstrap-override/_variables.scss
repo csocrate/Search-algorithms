@@ -5,39 +5,39 @@
 // @see '../../node_modules/bootstrap/scss/variables'
 
 //== Color variables ==
-$golden:               #FFD15B;
-$black-night:          #1B1B1B;
-$grey:                 #7A7A7A;
-$grey-light:           #EDEDED;
+$golden:                      #FFD15B;
+$black-night:                 #1B1B1B;
+$grey:                        #7A7A7A;
+$grey-light:                  #EDEDED;
 
 //== Theme colors ==
-$primary:                $golden;
-$secondary:              $black-night;
-$tertiary:               $grey;
+$primary:                     $golden;
+$secondary:                   $black-night;
+$tertiary:                    $grey;
 
 //== Body style ==
-$body-color:             $secondary;
-$body-bg:                $grey-light;
+$body-color:                  $secondary;
+$body-bg:                     $grey-light;
 
 //== Typography ==
 //
 // Font, line-height
 
-$font-family-sans-serif: 'Manrope', sans-serif;
-$font-family-monospace:  'Anton', sans-serif;
+$font-family-sans-serif:      'Manrope', sans-serif;
+$font-family-monospace:       'Anton', sans-serif;
 
-$font-size-base:         .875rem;
+$font-size-base:              .875rem;
 
-$h1-font-size:           $font-size-base * 2.5 !default;
-$h2-font-size:           $font-size-base * 2 !default;
-$h3-font-size:           $font-size-base * 1.75 !default;
-$h4-font-size:           $font-size-base * 1.5 !default;
-$h5-font-size:           $font-size-base * 1.25 !default;
-$h6-font-size:           $font-size-base * .85;
-$h7-font-size:           $font-size-base * 1.05;
-$h8-font-size:           $font-size-base * 1.17;
+$h1-font-size:                $font-size-base * 2.5 !default;
+$h2-font-size:                $font-size-base * 2 !default;
+$h3-font-size:                $font-size-base * 1.75 !default;
+$h4-font-size:                $font-size-base * 1.5 !default;
+$h5-font-size:                $font-size-base * 1.25 !default;
+$h6-font-size:                $font-size-base * .85;
+$h7-font-size:                $font-size-base * 1.05;
+$h8-font-size:                $font-size-base * 1.17;
 
-$badge-font-size:        .6em;
+$badge-font-size:             .6em;
 
 // scss-docs-start font-sizes
 $font-sizes: (
@@ -68,20 +68,22 @@ $container-max-widths: (
 
 //== Components ==
 //
-// Card, close button, form input
+// Card, close button, form input, dropdown
 
-$card-border-radius:       1.5rem;
-$enable-shadows:           true;
-$card-box-shadow:          0 8px 22px 0 rgba(0,0,0,.15);
-$card-spacer-y:            2.25rem;
-$card-spacer-x:            1.5rem;
-$card-title-spacer-y:      2rem;
-$card-subtitle-color:      $tertiary;
+$card-border-radius:          1.5rem;
+$enable-shadows:              true;
+$card-box-shadow:             0 8px 22px 0 rgba(0,0,0,.15);
+$card-spacer-y:               2.25rem;
+$card-spacer-x:               1.5rem;
+$card-title-spacer-y:         2rem;
+$card-subtitle-color:         $tertiary;
 
-$btn-close-opacity:        1;
+$btn-close-opacity:           1;
 
-$input-focus-border-color: $grey;
-$input-focus-box-shadow:   transparent;
+$input-focus-border-color:    $grey;
+$input-focus-box-shadow:      transparent;
+
+$dropdown-link-active-color: $black-night;
 
 //== Utilities ==
 //

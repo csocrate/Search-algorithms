@@ -29,8 +29,8 @@
       <div class="card rounded-bottom-4 border-0">
       <div class="h-300px position-relative">
         <img 
-          src="./assets/images/showcase/vedette_768.jpg" 
-          class="card-img-top object-fit-cover mh-100" 
+          src="./assets/images/cards/${this._recipes.image}" 
+          class="card-img-top object-fit-cover h-100" 
           alt="">
         <p class="position-absolute top-5 end-5 rounded-4 px-3 py-1 bg-primary">
           10min

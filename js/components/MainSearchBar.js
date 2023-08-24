@@ -6,6 +6,7 @@
 
  class MainSearchBar {
   constructor() {
+    //DOM
     this.$form = document.querySelector('#main_search');
     this.$input = document.querySelector('#recipes_search');
     this.$closeBtn = document.querySelector('#main_search .btn-close');
@@ -66,13 +67,10 @@
   * @returns {boolean} - If user data is set to true or false that means required field is correct or not
   */
   isValueMatch(inputValue, regExpName) {
-    const errorMessage = document.querySelector(".error-message");
 
     if (inputValue.match(regExpName)) {
-      errorMessage.dataset.errorVisible = "false";
       return true;
     } else {
-      errorMessage.dataset.errorVisible = "true";
       return false;
     }
   }
@@ -83,9 +81,8 @@
    * @returns errorMessage
    */
   errorMessage(text) {
-    const errorMessage = document.querySelector(".error-message");
-    errorMessage.textContent = text;
-    return errorMessage;
+    this.$errorMessage.textContent = text;
+    return this.$errorMessage;
   }
 
   /**
@@ -98,6 +95,8 @@
     const userInputValue = this.$input.value;
 
     if (!userInputValue.match(this.inputRules)) {
+
+      this.$errorMessage.classList.replace('bg-transparent', 'bg-secondary');
       this.errorMessage(message);
     }
   }
@@ -136,6 +135,10 @@
       }
       
       this.errorMessage('');
+
+      if (this.$errorMessage.classList.contains('bg-secondary')) {
+        this.$errorMessage.classList.replace('bg-secondary', 'bg-transparent');
+      }
 
       result = false;
     }
