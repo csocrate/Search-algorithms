@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
-class RecipesCounter {
+ class RecipesCounter {
   /**
    * @param {Object} recipes - list of objects from .json file
    */
@@ -50,10 +50,14 @@ class RecipesCounter {
       Aucune recette ne contient "${this.$userInput.value}", 
       vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
 
+      this.errorMessage.classList.replace('bg-transparent', 'bg-secondary');
+
       this.recipesCounter.textContent = `${count} recette`;
       
     } else {
       this.errorMessage.textContent = '';
+
+      this.errorMessage.classList.replace('bg-secondary', 'bg-transparent');
     
       if (count < 10) {
   
@@ -69,5 +73,33 @@ class RecipesCounter {
         this.recipesCounter.textContent = `${count} recettes`;  
       }
     }
+  }
+
+  addNumberOfMatchingRecipesByFilter(matchingData) {
+
+    this.recipesCounter.textContent = '';
+
+    let count = matchingData;
+
+    if (count == 0) {
+      this.recipesCounter.textContent = `${count} recette`;
+
+    } else {
+    
+      if (count < 10) {
+  
+        if (count == 1) {
+
+          this.recipesCounter.textContent = `0${count} recette`;
+        } else {
+          this.recipesCounter.textContent = `0${count} recettes`;
+        }
+  
+      } else if (count >= 10) {
+  
+        this.recipesCounter.textContent = `${count} recettes`;  
+      }
+    }
+
   }
 }

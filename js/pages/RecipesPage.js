@@ -7,7 +7,7 @@
  class RecipesPage {
   constructor() {
     this.$recipeCards = document.querySelector('.recipe-cards');
-    this.$activeTags = document.querySelector('#active_tags');
+    this.$activeTags = document.querySelector('#filter_tags');
   }
 
   /**
@@ -68,4 +68,14 @@
     const recipesCounter = new RecipesCounter(cards);
     recipesCounter.addNumberOfMatchingRecipes();
   }
- }
+
+  /**
+   * Displays matching recipes counter
+   * by data filter
+   * @param {string} cards
+   */
+  async displayMatchingRecipesCounterByFilter(cards, matchingData) {
+    const recipesCounter = new RecipesCounter(cards);
+    recipesCounter.addNumberOfMatchingRecipesByFilter(matchingData);
+  }
+}

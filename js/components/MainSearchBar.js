@@ -4,16 +4,15 @@
  * ------------------------------------------------------------
  */
 
-class MainSearchBar {
+ class MainSearchBar {
   constructor() {
     //DOM
     this.$form = document.querySelector('#main_search');
     this.$input = document.querySelector('#recipes_search');
     this.$closeBtn = document.querySelector('#main_search .btn-close');
-    this.$errorMessage = document.querySelector(".error-message");
-
-    // Regular expression
-    this.inputRules = new RegExp(/^[\w+|\s]{3,30}$/, 'gmi');
+    this.$errorMessage = document.querySelector('.error-message');
+    
+    this.inputRules = new RegExp(/^[\D+|\s]{3,30}$/, 'gmi');
 
     this.init();
   }
@@ -38,6 +37,7 @@ class MainSearchBar {
     this.$form.querySelector('button').addEventListener("click", () => {
       this.closeBtn();
       this.removeInputValue();
+      this.$form.querySelector('button').dataset.clicked = 'true';
     }, false);
 
     document.addEventListener('keyup', e => {
@@ -97,8 +97,22 @@ class MainSearchBar {
 
     if (!userInputValue.match(this.inputRules)) {
 
-      this.$errorMessage.classList.replace('bg-transparent', 'bg-secondary');
       this.errorMessage(message);
+    }
+  }
+
+  /**
+   * Removes existing tag
+   * to reset interface before search by main search bar
+   */
+  closeTag() {
+
+    const closeBtn = document.querySelectorAll('#filter_tags .btn-close');
+
+    if (closeBtn) {
+
+      closeBtn
+        .forEach(btn => btn.click());
     }
   }
 
@@ -109,9 +123,9 @@ class MainSearchBar {
   inputValidation(inputValue) {
     let result = true;
 
-    if (!this.isValueMatch(inputValue, this.inputRules)) {
+    if (inputValue && !this.isValueMatch(inputValue, this.inputRules)) {
 
-      this.$form.dataset.validInput = 'false';
+      this.$input.dataset.validInput = 'false';
 
       this.$form.querySelector('label').classList.replace('btn-primary', 'btn-secondary');
       this.$form.querySelector('label svg').style.fill = '#EDEDED';
@@ -122,24 +136,26 @@ class MainSearchBar {
       
       this.errorMessage('');
 
-      if (this.$errorMessage.classList.contains('bg-secondary')) {
-        this.$errorMessage.classList.replace('bg-secondary', 'bg-transparent');
-      }
-
       result = false;
     }
 
     if (result === true) {
 
-      this.$form.dataset.validInput = 'true';
+      this.closeTag();
 
-      this.$form.querySelector('label').classList.replace('btn-secondary', 'btn-primary');
-      this.$form.querySelector('label svg').style.fill = '#000';
-      this.$closeBtn.classList.replace('d-none', 'd-inline-block');
+      this.$form.querySelector('button').dataset.clicked = 'false';
+
+      this.$input.dataset.validInput = 'true';
+
+      if (inputValue) {
+        this.$form.querySelector('label').classList.replace('btn-secondary', 'btn-primary');
+        this.$form.querySelector('label svg').style.fill = '#000';
+        this.$closeBtn.classList.replace('d-none', 'd-inline-block');
+      }
+
+      const errorMessage = this.$form.nextElementSibling;
+      errorMessage.innerHTML = '';
     }
-
-    const errorMessage = this.$form.nextElementSibling;
-    errorMessage.innerHTML = '';
 
     return result;
   }
