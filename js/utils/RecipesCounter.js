@@ -50,10 +50,14 @@ class RecipesCounter {
       Aucune recette ne contient "${this.$userInput.value}", 
       vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
 
+      this.errorMessage.classList.replace('bg-transparent', 'bg-secondary');
+
       this.recipesCounter.textContent = `${count} recette`;
       
     } else {
       this.errorMessage.textContent = '';
+
+      this.errorMessage.classList.replace('bg-secondary', 'bg-transparent');
     
       if (count < 10) {
   

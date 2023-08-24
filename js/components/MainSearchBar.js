@@ -10,6 +10,7 @@
     this.$form = document.querySelector('#main_search');
     this.$input = document.querySelector('#recipes_search');
     this.$closeBtn = document.querySelector('#main_search .btn-close');
+    this.$errorMessage = document.querySelector('.error-message');
     
     this.inputRules = new RegExp(/^[\D+|\s]{3,30}$/, 'gmi');
 
@@ -96,7 +97,6 @@
 
     if (!userInputValue.match(this.inputRules)) {
 
-      this.$errorMessage.classList.replace('bg-transparent', 'bg-secondary');
       this.errorMessage(message);
     }
   }
@@ -135,10 +135,6 @@
       }
       
       this.errorMessage('');
-
-      if (this.$errorMessage.classList.contains('bg-secondary')) {
-        this.$errorMessage.classList.replace('bg-secondary', 'bg-transparent');
-      }
 
       result = false;
     }
