@@ -122,9 +122,9 @@
 
       });
 
-      this.matchingIngredients = matchingIngredients.flat();
-      this.matchingAppliances = matchingAppliances;
-      this.matchingUstensils = matchingUstensils.flat();
+    this.matchingIngredients = matchingIngredients.flat();
+    this.matchingAppliances = matchingAppliances;
+    this.matchingUstensils = matchingUstensils.flat();
 
     this.updateDropdownLists(
       this.matchingIngredients,
@@ -143,10 +143,9 @@
 
   /**
    * Updates dropdown of advanced filters with matching data
-   * From main search bar
    */
   updateDropdownLists(matchingIngredients, matchingAppliances, matchingUstensils) {
-    this.dropdownList.displayAvailableMatchesOnDropdownByMainSearchBar(
+    this.dropdownList.displayAvailableMatchesOnDropdown(
       matchingIngredients,
       matchingAppliances,
       matchingUstensils);
@@ -265,13 +264,13 @@
       .replace(accents, '')
       .toLowerCase();
 
-      if (this.$userMainInput.dataset.validInput === 'true') {
+      if (this.matchingIngredients && this.matchingAppliances && this.matchingUstensils) {
 
-        this.displayMatchingDataDropdownByAdvancedFiltersAndMainSearchBar(userInputValue, input);
+        this.updateDropdownByMatchingData(userInputValue, input);
 
       } else {
-
-        this.displayMatchingDataDropdownByAdvancedFilters(userInputValue, input);
+        
+        this.updateDropdownByFullData(userInputValue, input);
       }
          
     });
@@ -440,7 +439,7 @@
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
    * @param {HTMLElement} input 
    */
-  displayMatchingDataDropdownByAdvancedFilters(eventTargetValue, input) {
+  updateDropdownByFullData(eventTargetValue, input) {
 
     const isInputValid = this.advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
 
@@ -460,7 +459,7 @@
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
    * @param {HTMLElement} input 
    */
-   displayMatchingDataDropdownByAdvancedFiltersAndMainSearchBar(eventTargetValue, input) {
+   updateDropdownByMatchingData(eventTargetValue, input) {
 
     const matchingDatas = [
       this.matchingIngredients, 

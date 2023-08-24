@@ -208,7 +208,7 @@
   
           let data;
   
-          data = el.charAt(0).toUpperCase() + el.slice(1);
+          data = el.charAt(0).toUpperCase() + el.toLowerCase().slice(1);
   
           if (acc.indexOf(data) < 0) {
             acc.push(data);
@@ -245,9 +245,9 @@
    * @param {Array} matchingUstensils
    * @see displayMatchingDataInDropdown
    */
-  displayAvailableMatchesOnDropdownByMainSearchBar(matchingIngredients, matchingAppliances, matchingUstensils) {
+  displayAvailableMatchesOnDropdown(matchingIngredients, matchingAppliances, matchingUstensils) {
 
-    if (matchingIngredients) {      
+    if (matchingIngredients) {
 
       this.displayMatchingDataInDropdown(
         matchingIngredients,
