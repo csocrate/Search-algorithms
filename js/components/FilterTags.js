@@ -7,6 +7,7 @@
 class FilterTags {
   constructor() {
     this.recipesPage = new RecipesPage();
+    this.advancedFilterSearchBar = new AdvancedFilterSearchBar();
 
     // DOM
     this.$customSelectBoxes = document.querySelectorAll('.advanced-filters ul');
@@ -18,7 +19,7 @@ class FilterTags {
    * @see cleanUserInputValue
    */
   displayFilterTagsByDropdownList() {
-    
+
     this.$customSelectBoxes
       .forEach(customSelect => {
 
@@ -26,18 +27,20 @@ class FilterTags {
 
         let optionTags = [];
 
-          Array.from(customOptions)
-            .forEach(customOption => {
+        Array.from(customOptions)
+          .forEach(customOption => {
 
-              customOption.addEventListener('click', () => {
+            customOption.addEventListener('click', () => {
 
-                optionTags.push(customOption.textContent.trim());
-                
-                this.handleDisplayingTag(optionTags);
+              optionTags.push(customOption.textContent.trim());
 
-                this.cleanUserInputValue(customSelect);
-              });
+              this.handleDisplayingTag(optionTags);
+
+              this.advancedFilterSearchBar.forceArrowIconDown();
+
+              this.cleanUserInputValue(customSelect);
             });
+          });
       });
   }
 
@@ -51,7 +54,7 @@ class FilterTags {
 
     this.launchTag(items);
 
-    this.closeTag();    
+    this.closeTag();
   }
 
 
@@ -62,7 +65,7 @@ class FilterTags {
    * @see ActiveTag | createActivetag
    * @see RecipesPage | displayActiveTag
    */
-   launchTag(items) {    
+  launchTag(items) {
 
     items
       .forEach(item => {

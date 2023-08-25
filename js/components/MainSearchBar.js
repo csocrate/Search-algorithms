@@ -4,14 +4,14 @@
  * ------------------------------------------------------------
  */
 
- class MainSearchBar {
+class MainSearchBar {
   constructor() {
     //DOM
     this.$form = document.querySelector('#main_search');
     this.$input = document.querySelector('#recipes_search');
     this.$closeBtn = document.querySelector('#main_search .btn-close');
     this.$errorMessage = document.querySelector('.error-message');
-    
+
     this.inputRules = new RegExp(/^[\D+|\s]{3,30}$/, 'gmi');
 
     this.init();
@@ -121,7 +121,6 @@
    * @see {@link isValueMatch}
    */
   inputValidation(inputValue) {
-    let result = true;
 
     if (inputValue && !this.isValueMatch(inputValue, this.inputRules)) {
 
@@ -133,31 +132,28 @@
       if (this.$closeBtn.classList.contains('d-inline-block')) {
         this.closeBtn();
       }
-      
+
       this.errorMessage('');
 
-      result = false;
+      return false;
     }
 
-    if (result === true) {
+    this.closeTag();
 
-      this.closeTag();
+    this.$form.querySelector('button').dataset.clicked = 'false';
 
-      this.$form.querySelector('button').dataset.clicked = 'false';
+    this.$input.dataset.validInput = 'true';
 
-      this.$input.dataset.validInput = 'true';
-
-      if (inputValue) {
-        this.$form.querySelector('label').classList.replace('btn-secondary', 'btn-primary');
-        this.$form.querySelector('label svg').style.fill = '#000';
-        this.$closeBtn.classList.replace('d-none', 'd-inline-block');
-      }
-
-      const errorMessage = this.$form.nextElementSibling;
-      errorMessage.innerHTML = '';
+    if (inputValue) {
+      this.$form.querySelector('label').classList.replace('btn-secondary', 'btn-primary');
+      this.$form.querySelector('label svg').style.fill = '#000';
+      this.$closeBtn.classList.replace('d-none', 'd-inline-block');
     }
+    
+    const errorMessage = this.$form.nextElementSibling;
+    errorMessage.innerHTML = '';
 
-    return result;
+    return true;
   }
 
   /**

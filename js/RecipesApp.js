@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
- class RecipesApp {
+class RecipesApp {
   recipesData = undefined;
 
   matchingIngredients = undefined;
@@ -24,6 +24,8 @@
     this.$advancedFilters = document.querySelector('.advanced-filters');
     this.$recipeCards = document.querySelector('.recipe-cards');
     this.$advancedFilterInputs = this.$advancedFilters.querySelectorAll('li input');
+    this.closeBtnOnMainSearchBar = this.$form.querySelector('button');
+    this.$tagsContainer = document.querySelector('#filter_tags');
   }
 
   async init() {
@@ -33,17 +35,17 @@
       .map(recipe => new RecipeFactories(recipe, 'recipe'));
 
     this.recipesData = recipesData
-    .map(recipe => {
-      const ingredient = recipe.ingredients
-        .map(el => el.ingredient);
+      .map(recipe => {
+        const ingredient = recipe.ingredients
+          .map(el => el.ingredient);
 
-      return {
-        ...recipe,
-        ingredientOnly: ingredient,
-        search: `${recipe.name} ${recipe.description} ${ingredient}`,
-        advancedSearch: `${ingredient} ${recipe.appliance} ${recipe.ustensils}`
-      }
-    });
+        return {
+          ...recipe,
+          ingredientOnly: ingredient,
+          search: `${recipe.name} ${recipe.description} ${ingredient}`,
+          advancedSearch: `${ingredient} ${recipe.appliance} ${recipe.ustensils}`
+        }
+      });
 
     // Main search bar
     this.handleMatchingDataByMainSearchBar();
@@ -56,13 +58,20 @@
     this.handleRecipeCardsData();
 
     // Filter tags
-    this.filtertags.displayFilterTagsByDropdownList(); 
+    this.filtertags.displayFilterTagsByDropdownList();
 
     this.observeTagsChangeToUpdateRecipes();
 
     this.observeClosingBtnOnMainSearchBar();
   }
 
+  /**
+   * Displays matching recipes, update dropdown lists, displays tags
+   * from main search bar
+   * and add counter on the cards to sort recipes by descending matching
+   * @see displayMatchingRecipeByMainSearchBar
+   * @see handleDisplayingRecipes
+   */
   handleMatchingDataByMainSearchBar() {
 
     this.$userMainInput.addEventListener('input', (e) => {
@@ -70,9 +79,9 @@
       const accents = /[\u0300-\u036f]/g;
 
       const userInputValue = e.target.value
-      .normalize('NFD')
-      .replace(accents, '')
-      .toLowerCase();
+        .normalize('NFD')
+        .replace(accents, '')
+        .toLowerCase();
 
       this.displayMatchingRecipeByMainSearchBar(userInputValue);
       this.handleDisplayingRecipes(this.$userMainInput, userInputValue);
@@ -80,10 +89,11 @@
   }
 
   /**
-   * Displays matching recipe
+   * Displays matching recipes
    * And matching ingredients, appliances and ustensils on select boxes
    * from main search bar
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
+   * @see displayMatchingRecipes
    */
   displayMatchingRecipeByMainSearchBar(eventTargetValue) {
 
@@ -102,6 +112,13 @@
     }
   }
 
+  /**
+   * Displays matching recipes, update dropdown lists
+   * displays tags
+   * Gets matchingIngredients, matchingAppliances, matchingUstensils
+   * @param {Array | string} matchingData
+   * @see updateDropdownLists
+   */
   displayMatchingRecipes(matchingData) {
 
     this.$recipeCards.innerHTML = '';
@@ -134,6 +151,10 @@
     this.filtertags.displayFilterTagsByDropdownList();
   }
 
+  /**
+   * Displays recipe cards with data
+   * @param {Object} data from array
+   */
   displayRecipeCard(data) {
 
     const recipeCard = new RecipeCard(data);
@@ -143,6 +164,9 @@
 
   /**
    * Updates dropdown of advanced filters with matching data
+   * @param {Array | string} matchingIngredients 
+   * @param {Array | string} matchingAppliances 
+   * @param {Array | string} matchingUstensils 
    */
   updateDropdownLists(matchingIngredients, matchingAppliances, matchingUstensils) {
     this.dropdownList.displayAvailableMatchesOnDropdown(
@@ -152,9 +176,11 @@
   }
 
   /**
-   * 
+   * Add counter on the cards to sort recipes by descending matching
    * @param {HTMLElement} searchInput
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
+   * @see addCounterOnMachtingRecipe
+   * @see sortRecipesByDescendingMatching
    */
   handleDisplayingRecipes(searchInput, eventTargetValue) {
 
@@ -169,7 +195,7 @@
   }
 
   /**
-   * 
+   * Add counter of matching data on card
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue 
    */
   addCounterOnMachtingRecipe(eventTargetValue) {
@@ -180,11 +206,11 @@
     this.$recipeCards.querySelectorAll('article')
       .forEach(card => {
 
-        const cardTextContent= card.textContent
-        .replace(punctuation, ' ')
-        .normalize('NFD')
-        .replace(accents, '')
-        .toLowerCase();
+        const cardTextContent = card.textContent
+          .replace(punctuation, ' ')
+          .normalize('NFD')
+          .replace(accents, '')
+          .toLowerCase();
 
         if (cardTextContent.includes(eventTargetValue)) {
 
@@ -239,6 +265,9 @@
   }
 
   /**
+   * Update dropdown lists from matching or full data, 
+   * displays tags
+   * from advanced filters
    * @see handleMatchingResultByAdvancedFilters
    */
   handleMatchingDataOnDropdownsAndTagsByAdvancedFilters() {
@@ -252,6 +281,8 @@
   /**
    * 
    * @param {HTMLElement} input User input on advanced filter
+   * @see updateDropdownByMatchingData
+   * @see updateDropdownByFullData
    */
   handleMatchingResultByAdvancedFilters(input) {
 
@@ -260,22 +291,73 @@
       const accents = /[\u0300-\u036f]/g;
 
       const userInputValue = e.target.value
-      .normalize('NFD')
-      .replace(accents, '')
-      .toLowerCase();
+        .normalize('NFD')
+        .replace(accents, '')
+        .toLowerCase();
 
       if (this.matchingIngredients && this.matchingAppliances && this.matchingUstensils) {
 
         this.updateDropdownByMatchingData(userInputValue, input);
 
       } else {
-        
+
         this.updateDropdownByFullData(userInputValue, input);
       }
-         
+
     });
   }
 
+  /**
+   * 
+   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
+   * @param {HTMLElement} input 
+   */
+  updateDropdownByMatchingData(eventTargetValue, input) {
+
+    const matchingDatas = [
+      this.matchingIngredients,
+      this.matchingAppliances,
+      this.matchingUstensils
+    ];
+
+    const isInputValid = this.advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
+
+    if (isInputValid) {
+
+      this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(matchingDatas, eventTargetValue);
+
+      this.filtertags.displayFilterTagsByDropdownList();
+
+    } else {
+      return;
+    }
+  }
+
+  /**
+   * 
+   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
+   * @param {HTMLElement} input 
+   */
+  updateDropdownByFullData(eventTargetValue, input) {
+
+    const isInputValid = this.advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
+
+    if (isInputValid) {
+
+      this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(this.recipesData, eventTargetValue);
+
+      this.filtertags.displayFilterTagsByDropdownList();
+
+    } else {
+      return;
+    }
+  }
+
+  /**
+   * Displays recipe cards
+   * and recipe counter
+   * @see displayRecipeCard
+   */
   handleRecipeCardsData() {
     this.recipesData
       .forEach(recipe => {
@@ -286,10 +368,14 @@
     this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
+  /**
+   * Observes changing tags
+   * to handle recipes
+   * @see displayRecipesByFilterTags
+   * @external MutationObserver
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe}
+   */
   observeTagsChangeToUpdateRecipes() {
-
-    // Selects the node that will be observed for mutations
-    const tags = document.querySelector('#filter_tags');
 
     // Options for the observer (which mutations to observe)
     const config = {
@@ -305,7 +391,7 @@
         && mutation.target.children);
 
       if (mutation) {
-        this.displayRecipesByFilterTags(mutation.target.children);
+        this.handlerecipesByFilterTags(mutation.target.children);
       }
     }
 
@@ -313,10 +399,22 @@
     const observer = new MutationObserver(callback);
 
     // Starts observing the target node for configured mutations
-    observer.observe(tags, config);
+    // this.$tagsContainer: the node that will be observed for mutations
+    observer.observe(this.$tagsContainer, config);
   }
 
-  displayRecipesByFilterTags() {
+  /**
+   * Displays matching recipes by filter tags
+   * from main search bar or not
+   * Displays recipe counter
+   * Resets interface if there is no more tag
+   * Removes counter on the cards
+   * @see isTagMatchingWithRecipesData
+   * @see displayMatchingRecipes
+   * @see resetInterfaceByEndingTag
+   * @see removeCounterOnMachtingRecipeCards
+   */
+  handlerecipesByFilterTags() {
 
     const matchingDataTags = this.isTagMatchingWithRecipesData();
 
@@ -326,11 +424,17 @@
       this.recipesData,
       matchingDataTags.length);
 
-    this.isDataFromMainSearchBarReset();
+    this.resetInterfaceByEndingTag();
 
-    this.removeCounterOnMachtingRecipe();
+    this.removeCounterOnMachtingRecipeCards();
   }
 
+  /**
+   * Returns array of matching data from tags
+   * from main search bar or not
+   * @returns {Array | Object} - result
+   * @see getmatchingDatasInDropdowns
+   */
   isTagMatchingWithRecipesData() {
 
     let dataTags = [];
@@ -349,11 +453,11 @@
         if (filterData.includes(userMainInputValue)) {
 
           return dataTags.every(dataTag =>
-            filterData.includes(dataTag.toLowerCase()));  
+            filterData.includes(dataTag.toLowerCase()));
         }
       } else { // Case using advanced filter only
         return dataTags.every(dataTag =>
-          filterData.includes(dataTag.toLowerCase())); 
+          filterData.includes(dataTag.toLowerCase()));
       }
     });
 
@@ -363,7 +467,7 @@
   /**
    * Returns an array of all matching data in dropdown
    * @param {Event & {userInputValue: HTMLInputElement}} userInputValue
-   * @returns {Array | string} result or not
+   * @returns {Array | string} result
    */
   getmatchingDatasInDropdowns(userInputValue) {
 
@@ -376,10 +480,10 @@
     if (userInputValue !== '') {
 
       const matchingDatas = matchingDropdownDatas.flat();
-  
-      const result =  matchingDatas
-          .map(el => el.charAt(0).toUpperCase() + el.slice(1));
-  
+
+      const result = matchingDatas
+        .map(el => el.charAt(0).toUpperCase() + el.slice(1));
+
       return result;
     } else {
       return;
@@ -395,7 +499,7 @@
    */
   pushTagInArray(array, userInputValue, data) {
 
-    const tags = document.querySelectorAll('#filter_tags li');
+    const tags = this.$tagsContainer.querySelectorAll('li');
 
     tags
       .forEach(tag => {
@@ -408,21 +512,27 @@
           }
         } else { // Case using advanced filter only
           return array.push(tag.textContent.trim());
-        }    
+        }
       });
   }
 
-  isDataFromMainSearchBarReset() {
-      
+  /**
+   * Resets interface if there is no more tag
+   */
+  resetInterfaceByEndingTag() {
+
     const userInputValue = document.querySelector("#recipes_search").value;
-    
-    if (document.querySelector('#filter_tags').children.length == 0) {
+
+    if (this.$tagsContainer.children.length == 0) {
 
       this.handleDisplayingRecipes(this.$userMainInput, userInputValue);
     }
   }
 
-  removeCounterOnMachtingRecipe() {
+  /**
+   * Removes counter on the cards
+   */
+  removeCounterOnMachtingRecipeCards() {
 
     const tags = this.filtertags.$tagsContainer.children;
     const cards = this.$recipeCards.children;
@@ -435,55 +545,13 @@
   }
 
   /**
-   * 
-   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
-   * @param {HTMLElement} input 
+   * Observes changing closing button on main search bar
+   * to reset interface
+   * @external MutationObserver
+   * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe}
+   * @see resetInterfaceByMainSearchbar
    */
-  updateDropdownByFullData(eventTargetValue, input) {
-
-    const isInputValid = this.advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
-
-    if (isInputValid) {
-
-      this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(this.recipesData, eventTargetValue);
-      
-      this.filtertags.displayFilterTagsByDropdownList();
-
-    } else {
-      return;
-    }
-  }
-
-  /**
-   * 
-   * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue
-   * @param {HTMLElement} input 
-   */
-   updateDropdownByMatchingData(eventTargetValue, input) {
-
-    const matchingDatas = [
-      this.matchingIngredients, 
-      this.matchingAppliances,
-      this.matchingUstensils
-    ];
-
-    const isInputValid = this.advancedFilterSearchBar.IsUserInputValid(eventTargetValue, input);
-
-    if (isInputValid) {
-
-      this.dropdownList.updateDropdownDataByAdvancedFilterSearchBar(matchingDatas, eventTargetValue);
-
-      this.filtertags.displayFilterTagsByDropdownList();
-
-    } else {
-      return;
-    }
-  }
-
   observeClosingBtnOnMainSearchBar() {
-
-    // Selects the node that will be observed for mutations
-    const closeBtn = this.$form.querySelector('button');
 
     // Options for the observer (which mutations to observe)
     const config = {
@@ -498,7 +566,7 @@
         && mutation.attributeName === 'data-clicked');
 
       if (mutation) {
-        this.resetInterface(mutation.attributeName);
+        this.resetInterfaceByMainSearchbar(mutation.attributeName);
       }
     }
 
@@ -506,19 +574,28 @@
     const observer = new MutationObserver(callback);
 
     // Starts observing the target node for configured mutations
-    observer.observe(closeBtn, config);   
+    // this.closeBtnOnMainSearchBar: the node that will be observed for mutations
+    observer.observe(this.closeBtnOnMainSearchBar, config);
   }
 
-  resetInterface() {
+  /**
+   * Resets interface from closing button on main search bar
+   * @see handleRecipeCardsData
+   * @see displayInitialDropDownListOnAdvancedFilters
+   */
+  resetInterfaceByMainSearchbar() {
 
-    const closeBtn = document.querySelector("#filter_tags").querySelectorAll('.btn-close');
+    const closeBtn = this.$tagsContainer.querySelectorAll('.btn-close');
 
     if (this.$form.querySelector('button').dataset.clicked === 'true') {
 
       this.$userMainInput.dataset.validInput = 'false';
 
+      this.$form.querySelector('label').classList.replace('btn-primary', 'btn-secondary');
+      this.$form.querySelector('label svg').style.fill = '#fff';
+
       document.querySelector(".recipe-cards").innerHTML = '';
-      
+
       this.handleRecipeCardsData();
       this.displayInitialDropDownListOnAdvancedFilters();
       this.filtertags.displayFilterTagsByDropdownList();
