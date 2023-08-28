@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
- class RecipeFactories {
+class RecipeFactories {
   /**
    * Returns a new Recipe with recipe properties
    * @param {Object} data 

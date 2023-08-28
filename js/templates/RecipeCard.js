@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
- class RecipeCard {
+class RecipeCard {
   /**
    * @param {Object} recipes - list of objects from .json file
    */
@@ -73,7 +73,7 @@
         let content = ingredient.ingredient;
         let quantity = ingredient.quantity;
         let unit = ingredient.unit;
-        
+
         const all = `
         <div class="w-50">
           <p class="mb-0_1">
@@ -83,7 +83,7 @@
           ${quantity}${unit}
           </p>
         </div>`;
-    
+
         const ingredientAndQuantity = `
         <div class="w-50">
           <p class="mb-0_1">
@@ -93,7 +93,7 @@
           ${quantity}
           </p>
         </div>`;
-    
+
         const ingredientOnly = `
         <div class="w-50">
           <p class="mb-0_1">
@@ -109,9 +109,9 @@
           }
         } else {
           return ingredientOnly;
-        } 
+        }
       }).join(' ');
 
     return ingredientsDom;
- }
+  }
 }

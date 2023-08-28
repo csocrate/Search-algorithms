@@ -38,6 +38,11 @@ class RecipesApp {
     this.displayTags();
   }
 
+  /**
+   * Displays recipe cards
+   * and recipe counter
+   * @see displayRecipeCard
+   */
   handleRecipeCardsData() {
     this.recipesData
       .forEach(recipe => {
@@ -48,6 +53,10 @@ class RecipesApp {
     this.recipesPage.displayRecipesCounter(this.recipesData);
   }
 
+  /**
+   * Displays recipe cards with data
+   * @param {Object} data from array
+   */
   displayRecipeCard(data) {
 
     const recipeCard = new RecipeCard(data);
@@ -55,13 +64,17 @@ class RecipesApp {
     this.recipesPage.displayRecipeCard(card);
   }
 
+  /**
+   * Checks if user input is valid
+   * from main search bar
+   */
   isUserInputValidOnMainSearchBar() {
     const mainSearchBar = new MainSearchBar();
 
     this.$userMainInput.addEventListener('input', (e) => {
 
       const userInputValue = e.target.value;
-  
+
       mainSearchBar.inputValidation(userInputValue);
     });
   }
@@ -72,8 +85,12 @@ class RecipesApp {
   displayDropDownListOnSearchFilters() {
     this.dropdownList.displaySelectBoxesWithData(this.recipesData);
   }
-  
-  isUserInputValidOnAdvancedFilter() {    
+
+  /**
+   * Checks if user input is valid
+   * from filter search bars
+   */
+  isUserInputValidOnAdvancedFilter() {
     const advancedFilterSearchBar = new AdvancedFilterSearchBar();
 
     this.$searchFilterInputs.forEach(input => {
@@ -81,7 +98,7 @@ class RecipesApp {
       input.addEventListener('input', (e) => {
 
         const userInputValue = e.target.value;
-  
+
         advancedFilterSearchBar.IsUserInputValid(userInputValue, input);
       });
     });
@@ -100,6 +117,10 @@ class RecipesApp {
       });
   }
 
+  /**
+   * Items for tag templates
+   * @see displayActiveTags
+   */
   displayTags() {
     this.tags.push('item 1', 'item 2', 'item 3');
     const tags = this.tags;

@@ -6,9 +6,9 @@
 
 class DropdownList {
 
-  constructor() {    
+  constructor() {
     this.recipesPage = new RecipesPage();
-    
+
     //DOM
     this.$ingredientsCustomSelect = document.querySelector('#ingredients_list');
     this.$appliancesCustomSelect = document.querySelector('#appliances_list');

@@ -10,7 +10,7 @@ class MainSearchBar {
     this.$form = document.querySelector('#main_search');
     this.$input = document.querySelector('#recipes_search');
     this.$closeBtn = document.querySelector('#main_search .btn-close');
-    this.$errorMessage = document.querySelector(".error-message");
+    this.$errorMessage = document.querySelector('.error-message');
 
     // Regular expression
     this.inputRules = new RegExp(/^[\w+|\s]{3,30}$/, 'gmi');
@@ -35,7 +35,7 @@ class MainSearchBar {
       this.isCharacterErrorMessage();
     });
 
-    this.$form.querySelector('button').addEventListener("click", () => {
+    this.$form.querySelector('button').addEventListener('click', () => {
       this.closeBtn();
       this.removeInputValue();
     }, false);
@@ -119,7 +119,7 @@ class MainSearchBar {
       if (this.$closeBtn.classList.contains('d-inline-block')) {
         this.closeBtn();
       }
-      
+
       this.errorMessage('');
 
       if (this.$errorMessage.classList.contains('bg-secondary')) {

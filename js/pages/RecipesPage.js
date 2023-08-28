@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
- class RecipesPage {
+class RecipesPage {
   constructor() {
     this.$recipeCards = document.querySelector('.recipe-cards');
     this.$activeTags = document.querySelector('#active_tags');
@@ -58,4 +58,4 @@
     const recipesCounter = new RecipesCounter(cards);
     recipesCounter.addNumberOfRecipes();
   }
- }
+}
