@@ -28,10 +28,10 @@ class ActiveTag {
 
     li.innerHTML = `
         ${item}
-        <button 
-          type='button'
-          class='btn-close'
-          aria-label='Supprimer cet ingrédient'>
+        <button  
+          type="button" 
+          class="btn-close" 
+          aria-label="Supprimer cet ingrédient">
         </button>`;
 
     return li;

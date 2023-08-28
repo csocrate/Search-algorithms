@@ -29,7 +29,7 @@ class ItemDropdown {
     if (data !== undefined) {
 
       li.innerHTML = `
-        <a class='dropdown-item' role='option'>
+        <a class="dropdown-item" role="option">
           ${data}
         </a>`;
     }
