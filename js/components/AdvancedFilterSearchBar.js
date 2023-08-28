@@ -4,11 +4,12 @@
  * ------------------------------------------------------------
  */
 
- class AdvancedFilterSearchBar {
+class AdvancedFilterSearchBar {
   constructor() {
     // DOM
     this.$advancedFilters = document.querySelector('.advanced-filters');
     this.$closeBtn = document.querySelectorAll('.advanced-filters li .btn-close');
+    this.dropdownHeaders = this.$advancedFilters.querySelectorAll('button[aria-haspopup=listbox]');
 
     // Regular expression
     this.inputRules = new RegExp(/^[\D+|\s]{3,30}$/, 'gmi');
@@ -18,7 +19,11 @@
 
   init() {
     this.handleCloseBtn();
-    this.isAdvancedFilterExpanded();
+    this.HandleToggledArrowIcon();
+
+    document.addEventListener('keyup', e => {
+      this.onKeyUpAction(e);
+    });
   }
 
   handleCloseBtn() {
@@ -28,33 +33,90 @@
 
         this.closeBtn(btn);
         this.removeUserInputValue(e.target);
-        
+        btn.dataset.clicked = 'true';
+
       }, false);
     });
   }
 
   /**
    * Toggles arrow icon on dropdown header
+   * @see toggleArrow
+   * @see downArrowIcon
    */
-  isAdvancedFilterExpanded() {
-    const dropdownHeaders = this.$advancedFilters.querySelectorAll('button[aria-haspopup=listbox]');
+  HandleToggledArrowIcon() {
 
-    dropdownHeaders
+    this.dropdownHeaders
       .forEach(dropdownHeader => {
 
-        dropdownHeader.addEventListener('click', (e) => {
+        dropdownHeader.addEventListener('click', () =>
+          this.toggleArrowIcon(dropdownHeader), false);
 
-          const icon = dropdownHeader.querySelector('span.fa-solid');
+        dropdownHeader.addEventListener('blur', () =>
+          this.downArrowIcon(dropdownHeader), false);
+      });
+  }
 
-          if (dropdownHeader.getAttribute('aria-expanded') === 'true') {
+  /**
+   * Toggles up icon with down icon
+   * @param {HTMLElement} element 
+   */
+  toggleArrowIcon(element) {
 
-            icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+    const icon = element.querySelector('span.fa-solid');
 
-          } else {
-            icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+    if (element.getAttribute('aria-expanded') === 'true') {
+
+      icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+
+    } else {
+      icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+    }
+  }
+
+  /**
+   * Replaces up icon by down icon
+   * @param {HTMLElement} element 
+   */
+  downArrowIcon(element) {
+    const icon = element.querySelector('span.fa-solid');
+
+    if (icon.classList.contains('fa-chevron-up')) {
+
+      icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+    }
+  }
+
+  /**
+   * Replaces up icon by down icon
+   * for each dropdown header
+   * @see downArrowIcon
+   * @see FilterTags | displayFilterTagsByDropdownList
+   */
+  forceArrowIconDown() {
+
+    this.dropdownHeaders
+      .forEach(dropdownHeader => {
+
+        this.downArrowIcon(dropdownHeader);
+      });
+  }
+
+  /**
+   * Downs icon on key event
+   * @param {KeyboardEvent} e
+   * @see downArrowIcon
+   */
+  onKeyUpAction(e) {
+
+    this.dropdownHeaders
+      .forEach(dropdownHeader => {
+
+        if (dropdownHeader === document.activeElement) {
+          if (e.key === 'Escape') {
+            this.downArrowIcon(dropdownHeader);
           }
-
-        }, false);
+        }
       });
   }
 
@@ -70,28 +132,25 @@
 
     const isValid = inputValue.match(this.inputRules);
 
-    let result = true;
-
     if (inputValue && !isValid) {
-      result = false;
 
       currentInput.dataset.validInput = 'false';
 
       if (btn.classList.contains('d-inline-block')) {
         this.closeBtn(btn);
       }
+
+      return false;
     }
 
-    if (result === true) {
-
-      if (inputValue) {
-        this.launchBtn(btn);
-      }
-
-      currentInput.dataset.validInput = 'true';
+    if (inputValue) {
+      this.launchBtn(btn);
     }
 
-    return result;
+    btn.dataset.clicked = 'false';
+    currentInput.dataset.validInput = 'true';
+
+    return true;
   }
 
   /**
@@ -121,7 +180,7 @@
   }
 
   cleanEachSelectBoxes() {
-    
+
     const selectBoxes = this.$advancedFilters.querySelectorAll('select');
     const customSelectBoxes = this.$advancedFilters.querySelectorAll('ul');
 
@@ -144,20 +203,19 @@
    * Cleans select boxes and keeps search input on custom select
    * @see cleanCustomSelect
    */
-     cleanSelectBoxes(customSelect, select) {
-      this.cleanCustomSelect(customSelect);
-      select.innerHTML = '';
-    }
-  
-    /**
-     * 
-     * @param {HTMLElement} customSelect 
-     */
-    cleanCustomSelect(customSelect) {
-      const items = Array.from(customSelect.children).slice(1);
-  
-      items
-        .forEach(item => customSelect.removeChild(item));
-    }
-  
+  cleanSelectBoxes(customSelect, select) {
+    this.cleanCustomSelect(customSelect);
+    select.innerHTML = '';
+  }
+
+  /**
+   * 
+   * @param {HTMLElement} customSelect 
+   */
+  cleanCustomSelect(customSelect) {
+    const items = Array.from(customSelect.children).slice(1);
+
+    items
+      .forEach(item => customSelect.removeChild(item));
+  }
 }

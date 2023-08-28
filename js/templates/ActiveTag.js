@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
- class ActiveTag {
+class ActiveTag {
   /**
    * Creates li tag with close button
    * @param {string} item 
