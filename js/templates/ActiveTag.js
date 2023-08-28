@@ -31,7 +31,7 @@
 
     li.innerHTML = `
         ${item}
-        <button 
+        <button  
           type="button" 
           class="btn-close fs-0" 
           aria-label="Supprimer cet ingrédient">

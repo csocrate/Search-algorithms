@@ -34,7 +34,7 @@
       this.isCharacterErrorMessage();
     });
 
-    this.$form.querySelector('button').addEventListener("click", () => {
+    this.$form.querySelector('button').addEventListener('click', () => {
       this.closeBtn();
       this.removeInputValue();
       this.$form.querySelector('button').dataset.clicked = 'true';
@@ -133,7 +133,7 @@
       if (this.$closeBtn.classList.contains('d-inline-block')) {
         this.closeBtn();
       }
-      
+
       this.errorMessage('');
 
       result = false;

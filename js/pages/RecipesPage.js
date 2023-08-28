@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
- class RecipesPage {
+class RecipesPage {
   constructor() {
     this.$recipeCards = document.querySelector('.recipe-cards');
     this.$activeTags = document.querySelector('#filter_tags');

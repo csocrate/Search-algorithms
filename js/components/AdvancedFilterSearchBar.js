@@ -25,7 +25,7 @@
 
     this.$closeBtn.forEach(btn => {
       btn.addEventListener('click', (e) => {
-        
+
         this.closeBtn(btn);
         this.removeUserInputValue(e.target);
         
@@ -49,13 +49,13 @@
           if (dropdownHeader.getAttribute('aria-expanded') === 'true') {
 
             icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
-      
+
           } else {
             icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
           }
 
         }, false);
-    });
+      });
   }
 
   /**
@@ -87,7 +87,7 @@
       if (inputValue) {
         this.launchBtn(btn);
       }
-      
+
       currentInput.dataset.validInput = 'true';
     }
 
@@ -116,7 +116,7 @@
    */
   removeUserInputValue(eventTarget) {
     const dropdownMenu = eventTarget.closest('.dropdown-menu');
-    
+
     dropdownMenu.querySelector('input').value = '';
   }
 

@@ -134,6 +134,10 @@
     this.filtertags.displayFilterTagsByDropdownList();
   }
 
+  /**
+   * Displays recipe cards with data
+   * @param {Object} data from array
+   */
   displayRecipeCard(data) {
 
     const recipeCard = new RecipeCard(data);
