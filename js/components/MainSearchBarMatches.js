@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
- class MainSearchBarMatches extends MainSearchBar {
+class MainSearchBarMatches extends MainSearchBar {
   constructor() {
     super();
   }
@@ -17,9 +17,9 @@
    * @param {Object} mainArray Main data from API
    * @returns {Array} result - Result of matching data
    */
-   isDataSearchMatches(eventTargetValue, mainArray) {
-    
-    const result =  mainArray.filter(el => {
+  isDataSearchMatches(eventTargetValue, mainArray) {
+
+    const result = mainArray.filter(el => {
 
       const punctuation = /[\.,?!]/g;
       const accents = /[\u0300-\u036f]/g;

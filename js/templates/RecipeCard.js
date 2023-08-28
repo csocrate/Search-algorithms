@@ -71,7 +71,7 @@ class RecipeCard {
         const ingredient = el.ingredient;
         const quantity = el.quantity;
         const unit = el.unit;
-        
+
         const all = `
         <div class="w-50">
           <p class="mb-0_1">

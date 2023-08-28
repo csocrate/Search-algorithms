@@ -4,7 +4,7 @@
  * ------------------------------------------------------------
  */
 
- class DropdownList {
+class DropdownList {
 
   constructor() {
     this.recipesPage = new RecipesPage();
@@ -89,33 +89,33 @@
         undefined,
         undefined,
         eventTargetValue);
-  
+
       appliances = this.matchingDataOnDropdownMatchesEventTargetValue(
         recipesData[1],
         undefined,
         undefined,
         eventTargetValue);
-  
+
       ustensils = this.matchingDataOnDropdownMatchesEventTargetValue(
         recipesData[2],
         undefined,
         undefined,
-        eventTargetValue);        
+        eventTargetValue);
 
     } else {
 
       ingredients = this.matchingDataOnDropdownMatchesEventTargetValue(
         recipesData,
-        'ingredients',  
+        'ingredients',
         'ingredient',
         eventTargetValue);
-  
+
       appliances = this.matchingDataOnDropdownMatchesEventTargetValue(
         recipesData,
         'appliance',
         undefined,
         eventTargetValue);
-  
+
       ustensils = this.matchingDataOnDropdownMatchesEventTargetValue(
         recipesData,
         'ustensils',
@@ -133,7 +133,7 @@
    */
   displayMatchingDataOnAdvancedFilter(ingredients, appliances, ustensils) {
 
-    if (document.activeElement === document.querySelector("#search_ingredient")) {
+    if (document.activeElement === document.querySelector('#search_ingredient')) {
 
       this.displayMatchingDataInDropdown(
         ingredients,
@@ -156,7 +156,7 @@
         this.$ustensilsCustomSelect,
         this.$ustensilsSelect);
     }
-  } 
+  }
 
   /**
    * Returns list of matching data from Api
@@ -166,13 +166,13 @@
    * @param {Event & {eventTargetValue: HTMLInputElement}} eventTargetValue 
    * @returns  matchingData
    */
-   matchingDataOnDropdownMatchesEventTargetValue(recipesData, key,  value, eventTargetValue) {
+  matchingDataOnDropdownMatchesEventTargetValue(recipesData, key, value, eventTargetValue) {
 
-    const  matchingData = this.isUserValueMatches(
+    const matchingData = this.isUserValueMatches(
       eventTargetValue,
       this.getData(recipesData, key, value));
 
-    return  matchingData;
+    return matchingData;
   }
 
   /**
@@ -205,15 +205,15 @@
     if (!key && !value) {
       return recipesData
         .reduce((acc, el) => { // avoids duplicated item
-  
+
           let data;
-  
+
           data = el.charAt(0).toUpperCase() + el.toLowerCase().slice(1);
-  
+
           if (acc.indexOf(data) < 0) {
             acc.push(data);
           }
-          return acc;  
+          return acc;
         }, []);
     }
     else {
@@ -222,14 +222,14 @@
         .map(recipe => recipe[`${key}`])
         .flat()
         .reduce((acc, el) => { // avoids duplicated item
-          
+
           if (value) {
             data = el[`${value}`].charAt(0).toUpperCase() + el[`${value}`].toLowerCase().slice(1);
-  
+
           } else {
-            data = el.charAt(0).toUpperCase() + el.slice(1);  
+            data = el.charAt(0).toUpperCase() + el.slice(1);
           }
-  
+
           if (acc.indexOf(data) < 0) {
             acc.push(data);
           }
@@ -367,7 +367,7 @@
 
       }, []);
   }
-  
+
   /**
    * Returns an array of data
    * Matching with user input value

@@ -438,7 +438,7 @@ class RecipesApp {
   isTagMatchingWithRecipesData() {
 
     let dataTags = [];
-    const userMainInputValue = document.querySelector("#recipes_search").value;
+    const userMainInputValue = this.$userMainInput.value;
     const matchingDatas = this.getmatchingDatasInDropdowns(userMainInputValue);
 
     this.pushTagInArray(dataTags, userMainInputValue, matchingDatas);
@@ -521,7 +521,7 @@ class RecipesApp {
    */
   resetInterfaceByEndingTag() {
 
-    const userInputValue = document.querySelector("#recipes_search").value;
+    const userInputValue = this.$userMainInput.value;
 
     if (this.$tagsContainer.children.length == 0) {
 
@@ -594,7 +594,7 @@ class RecipesApp {
       this.$form.querySelector('label').classList.replace('btn-primary', 'btn-secondary');
       this.$form.querySelector('label svg').style.fill = '#fff';
 
-      document.querySelector(".recipe-cards").innerHTML = '';
+      document.querySelector('.recipe-cards').innerHTML = '';
 
       this.handleRecipeCardsData();
       this.displayInitialDropDownListOnAdvancedFilters();

@@ -149,7 +149,7 @@ class MainSearchBar {
       this.$form.querySelector('label svg').style.fill = '#000';
       this.$closeBtn.classList.replace('d-none', 'd-inline-block');
     }
-    
+
     const errorMessage = this.$form.nextElementSibling;
     errorMessage.innerHTML = '';
 

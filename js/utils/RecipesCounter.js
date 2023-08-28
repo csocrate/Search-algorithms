@@ -53,24 +53,24 @@ class RecipesCounter {
       this.errorMessage.classList.replace('bg-transparent', 'bg-secondary');
 
       this.recipesCounter.textContent = `${count} recette`;
-      
+
     } else {
       this.errorMessage.textContent = '';
 
       this.errorMessage.classList.replace('bg-secondary', 'bg-transparent');
-    
+
       if (count < 10) {
-  
+
         if (count == 1) {
 
           this.recipesCounter.textContent = `0${count} recette`;
         } else {
           this.recipesCounter.textContent = `0${count} recettes`;
         }
-  
+
       } else if (count >= 10) {
-  
-        this.recipesCounter.textContent = `${count} recettes`;  
+
+        this.recipesCounter.textContent = `${count} recettes`;
       }
     }
   }
@@ -85,19 +85,19 @@ class RecipesCounter {
       this.recipesCounter.textContent = `${count} recette`;
 
     } else {
-    
+
       if (count < 10) {
-  
+
         if (count == 1) {
 
           this.recipesCounter.textContent = `0${count} recette`;
         } else {
           this.recipesCounter.textContent = `0${count} recettes`;
         }
-  
+
       } else if (count >= 10) {
-  
-        this.recipesCounter.textContent = `${count} recettes`;  
+
+        this.recipesCounter.textContent = `${count} recettes`;
       }
     }
 
