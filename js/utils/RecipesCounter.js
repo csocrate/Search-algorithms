@@ -10,7 +10,7 @@ class RecipesCounter {
    */
   constructor(recipes) {
     this._recipes = recipes;
-  
+
     this.recipesCounter = document.querySelector('.recipes-counter');
     this.cards = document.querySelectorAll('.recipe-cards article');
     this.$userInput = document.querySelector('#recipes_search');
@@ -29,7 +29,7 @@ class RecipesCounter {
     this.recipesCounter.textContent = `${count} recettes`;
 
     return this.recipesCounter.textContent;
-    
+
   }
 
   addNumberOfMatchingRecipes() {

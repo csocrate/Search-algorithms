@@ -34,7 +34,7 @@ class MainSearchBar {
       this.isCharacterErrorMessage();
     });
 
-    this.$form.querySelector('button').addEventListener("click", () => {
+    this.$form.querySelector('button').addEventListener('click', () => {
       this.closeBtn();
       this.removeInputValue();
       this.$form.querySelector('button').dataset.clicked = 'true';
