@@ -28,9 +28,11 @@ class MainSearchBarMatches extends MainSearchBar {
     // Array of specific order
     const searchOrder = this.updateIndexesOrder(chunks);
 
-    // Searchs matching data inside each current chunk in specific order
-    for (let i = 0; i < chunks.length; i++) {
+    let i = 0;
+
+    while (i < chunks.length) {
       isMatches.push(this.searchMatchingData(chunks, i, searchOrder, eventTargetValue));
+      i++;
     }
 
     return isMatches.flat();
@@ -63,11 +65,13 @@ class MainSearchBarMatches extends MainSearchBar {
 
     let searchOrder = [];
 
-    for (let i = 0; i < chunks.length; i++) {
+    for (let element in chunks) {
 
-      const indexes = chunks.indexOf(chunks[i]);
+      const indexes = chunks.indexOf(chunks[element]);
 
-      searchOrder.push(indexes)
+      searchOrder.push(indexes);
+
+      element++;
     }
 
     searchOrder = this.moveSearchOrderIndex(searchOrder);
@@ -126,12 +130,16 @@ class MainSearchBarMatches extends MainSearchBar {
    */
   isChunkMatches(expression, array) {
 
-    const result = array.filter(el => {
+    let result = [];
 
-      const regExp = new RegExp(expression, 'gmi');
+    const regExp = new RegExp(expression, 'gmi');
 
-      return el.search.match(regExp);
-    });
+    for (let element of array) {
+
+      if (element.search.match(regExp)) {
+        result.push(element);
+      }
+    }
 
     return result;
   }

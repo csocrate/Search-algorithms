@@ -91,7 +91,6 @@ class AdvancedFilterSearchBar {
    * Replaces up icon by down icon
    * for each dropdown header
    * @see downArrowIcon
-   * @see FilterTags | displayFilterTagsByDropdownList
    */
   forceArrowIconDown() {
 
